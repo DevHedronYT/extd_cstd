@@ -39,30 +39,30 @@
     #define BGCPURPLE     "\x1b[45m"
     #define BACKCYAN      "\x1b[46m"
 
-    #define set_output_bg_color(x) printf(x)
+    #define std_set_output_bg_color(x) printf(x)
 
-    #define print_info(msg, ...) \
+    #define std_print_info(msg, ...) \
 	printf("%s", GREEN); \
 	printf("INFO: "); \
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
 
-    #define print_error(msg, ...) \
+    #define std_print_error(msg, ...) \
 	printf("%s", RED); \
 	printf("ERROR: "); \
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
 
-    #define print_warning(msg, ...) \
+    #define std_print_warning(msg, ...) \
 	printf("%s", YELLOW); \
 	printf("WARNING: "); \
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
 
-    #define print_fatal_error(msg, ...) \
+    #define std_print_fatal_error(msg, ...) \
 	printf("%s", BOLD); \
 	printf("%s", RED); \
 	printf("FATAL ERROR: "); \
@@ -70,7 +70,7 @@
 	printf("%s", DEFAULT); \
 	printf("\n"); 
 
-    #define print_important(msg, ...) \
+    #define std_print_important(msg, ...) \
 	printf("%s", UNDERLINE); \
 	printf("%s", BLUE); \
 	printf("IMPORTANT: "); \

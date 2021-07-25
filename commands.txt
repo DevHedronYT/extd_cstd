@@ -1,2 +1,0 @@
-make lib && gcc tests/test_ll.c -Iinclude -g build/output/linked_list.o 
-

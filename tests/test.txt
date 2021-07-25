@@ -1,1 +1,0 @@
-gcc test.c -Iinclude -g dynamic_list.o

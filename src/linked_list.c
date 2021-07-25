@@ -2,63 +2,48 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void init_node_t(node_t * node, void * data, node_t * next) {
+void init_std_ll_t_node_t(std_ll_t_node_t * node, void * data, std_ll_t_node_t * next, const char * type) {
     node -> m_data = data;
     node -> m_next = next;
+    node -> m_type = type;
 }
 
-void init_ll_t(ll_t * ll) {
+void init_std_ll_t(std_ll_t * ll) {
     ll -> m_head = NULL;
     ll -> m_last_node  = NULL;
     ll -> m_size = 1;
 }
 
-void ** ll_t_to_arr(ll_t * ll) {
-    void ** arr = malloc(sizeof(ll -> m_size) * sizeof(void *));
-
-    if (ll -> m_head == NULL) {
-	return arr;
-    }
-
-    node_t * node = ll -> m_head;
-    int index = 0;
-    while (node != NULL) {
-	arr[index] = node -> m_data;
-	node = node -> m_next;
-    }
-
-    return arr;
-}
-
-
-int ll_t_insert_at_beginning(ll_t * ll, node_t * node) {
+int std_ll_t_insert_at_beginning(std_ll_t * ll, std_ll_t_node_t * node) {
     if (ll -> m_head == NULL) {
 	ll -> m_head = node;
 	ll -> m_last_node = ll -> m_head;
-	return 0;
+	return 1;
     }
 
     ll -> m_head = node;
     ll -> m_size += 1;
+    return 0;
 }
 
-int ll_t_insert_at_end(ll_t * ll, node_t * node) {
+int std_ll_t_insert_at_end(std_ll_t * ll, std_ll_t_node_t * node) {
     if (ll -> m_head == NULL) {
-	ll_t_insert_at_beginning(ll, node);
-	return 0;
+	std_ll_t_insert_at_beginning(ll, node);
+	return 1;
     }
 
     ll -> m_last_node -> m_next = node;
     ll -> m_last_node = ll -> m_last_node -> m_next;
     ll -> m_size += 1;
+    return 0;
 }
 
-int ll_t_remove(ll_t * ll, node_t * remove_node) {
+int std_ll_t_remove(std_ll_t * ll, std_ll_t_node_t * remove_node) {
     if (ll -> m_head == NULL) {
 	return -1;
     }
 
-    node_t * node = ll -> m_head;
+    std_ll_t_node_t * node = ll -> m_head;
     int index = 0;
     while (index < ll -> m_size && node != NULL) {
 	if (remove_node -> m_data == node -> m_data && remove_node -> m_type == node -> m_type) {

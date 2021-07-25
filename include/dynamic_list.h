@@ -6,11 +6,11 @@
 	int  m_size;
 	void ** m_data;
 	int  m_r_size;
-    } dynamic_list_t;
+    } std_dynamic_list_t;
 
-    void init_dynamic_list(dynamic_list_t * list);
-    void add_elem_to_dynamic_list(dynamic_list_t * list, void * item);
-    void remove_elem_from_dynamic_list(dynamic_list_t * list, int index);
-    void uninit_dynamic_list(dynamic_list_t * list);
+    void init_std_dynamic_list_t(std_dynamic_list_t * list);
+    void add_elem_to_std_dynamic_list_t(std_dynamic_list_t * list, void * item);
+    void remove_elem_from_std_dynamic_list_t(std_dynamic_list_t * list, int index);
+    void uninit_std_dynamic_list_t(std_dynamic_list_t * list);
 
 #endif
