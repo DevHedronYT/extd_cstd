@@ -12,7 +12,7 @@ int main(void) {
     add_elem_to_std_dynamic_list_t(&list, (void *) n);
     
     for (int i = 0; i < list.m_r_size; i++) {
-	printf("elem: %lu\n", (unsigned long) list.m_data[i]);
+	printf("Element: %lu\n", (unsigned long) list.m_data[i]);
     }
 
 
@@ -22,7 +22,7 @@ int main(void) {
 
     add_elem_to_std_dynamic_list_t(&list, (void *) (n + 3));
     for (int i = 0; i < list.m_r_size; i++) {
-	printf("elem : %lu\n", (unsigned long) list.m_data[i]);
+	printf("Element: %lu\n", (unsigned long) list.m_data[i]);
     }
 
 

@@ -20,7 +20,7 @@ int main(void) {
     std_ll_t_node_t * node = ll.m_head;
 
     while (index < ll.m_size) {
-	printf("e: %d\n", (int) node -> m_data);
+	printf("Elements: %d\n", (int) node -> m_data);
 	node = node -> m_next;
 	index += 1;
     }
@@ -33,7 +33,7 @@ int main(void) {
     node = ll.m_head;
 
     while (index < ll.m_size) {
-	printf("e: %d\n", (int) node -> m_data);
+	printf("Elements After Removal: %d\n", (int) node -> m_data);
 	node = node -> m_next;
 	index += 1;
     }

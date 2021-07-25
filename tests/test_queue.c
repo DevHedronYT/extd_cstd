@@ -14,7 +14,7 @@ int main(void) {
 
 
 
-    printf("data: %d\n", (int) queue.m_size);
+    printf("Size Of Queue: %d\n", (int) queue.m_size);
 }
 
 

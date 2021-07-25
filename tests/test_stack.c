@@ -13,7 +13,7 @@ int main(void) {
     init_std_stack_t_node_t(&node_top_new, (void *) 43, NULL);
     add_to_std_stack_t(&stack, &node_top_new);
 
-    printf("%d\n", (int) stack.m_top -> m_data);
+    printf("Stack Top Before Pop: %d\n", (int) stack.m_top -> m_data);
     pop_from_std_stack_t(&stack);
-    printf("%d\n", (int) stack.m_top -> m_data);
+    printf("Stack Top After Pop: %d\n", (int) stack.m_top -> m_data);
 }
