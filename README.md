@@ -8,7 +8,8 @@ make lib
 ```
 This will output .o files stored in build/output, and you can compile the test you want, using:
 ```sh
-gcc tests/test_name.c -Iinclude -g build/output/name.o -Wall -o build/test_build/queue
+gcc tests/test_name.c -Iinclude -g build/output/name.o -Wall -o build/test_build/name
+build/test_build/name
 ```
 
 ## DSA Time Complexities
