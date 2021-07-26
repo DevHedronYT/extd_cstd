@@ -1,7 +1,7 @@
 
 all:
 	make lib
-	make test_file 
+	make test 
 
 lib:
 	cd build/output/ && gcc -c ../../src/*.c -I../../include -Wall

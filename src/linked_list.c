@@ -8,6 +8,16 @@ void init_std_ll_t_node_t(std_ll_t_node_t * node, void * data, std_ll_t_node_t *
     node -> m_type = type;
 }
 
+
+std_ll_t_node_t * create_std_ll_t_node_t(void * data, std_ll_t_node_t * next, const char * type) {
+    std_ll_t_node_t * node = NULL; 
+    node -> m_data = data;
+    node -> m_next = next;
+    node -> m_type = type; 
+
+    return node;
+}
+
 void init_std_ll_t(std_ll_t * ll) {
     ll -> m_head = NULL;
     ll -> m_last_node  = NULL;

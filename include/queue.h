@@ -13,6 +13,7 @@
     } std_queue_t;
     
     void init_std_queue_t_node_t(std_queue_t_node_t * node, void * data, std_queue_t_node_t * next);
+    std_queue_t_node_t * create_std_queue_t_node_t(void * data, std_queue_t_node_t * next); 
     void init_std_queue_t(std_queue_t * queue);
     std_queue_t_node_t peek_std_queue_t(std_queue_t * queue);
     void add_to_std_queue_t(std_queue_t * queue, std_queue_t_node_t * node);

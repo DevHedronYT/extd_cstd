@@ -6,6 +6,14 @@ void init_std_queue_t_node_t(std_queue_t_node_t * node, void * data, std_queue_t
     node -> m_next = next;
 }
 
+std_queue_t_node_t * create_std_queue_t_node_t(void * data, std_queue_t_node_t * next) {
+    std_queue_t_node_t * node = NULL;
+    node -> m_data = data;
+    node -> m_next = next;
+
+    return node;
+}
+
 void init_std_queue_t(std_queue_t * queue) {
     queue -> m_end = NULL;
     queue -> m_size = 0;

@@ -6,6 +6,14 @@ void init_std_stack_t_node_t(std_stack_t_node_t * node, void * data, std_stack_t
     node -> m_next = next;
 }
 
+std_stack_t_node_t * create_std_stack_t_node_t(void * data, std_stack_t_node_t * next) {
+    std_stack_t_node_t * node = NULL;
+    node -> m_data = data;
+    node -> m_next = next;
+
+    return node;
+}
+
 void init_std_stack_t(std_stack_t * stack) {
     stack -> m_top = NULL;
     stack -> m_size = 0;

@@ -7,24 +7,20 @@ int main(void) {
     std_dynamic_list_t list;
     init_std_dynamic_list_t(&list);
     
-    long n = 2;
 
-    add_elem_to_std_dynamic_list_t(&list, (void *) n);
+    add_elem_to_std_dynamic_list_t(&list, create_std_dynamic_list_t_node_t((void *) 3, "long"));
+    
+    add_elem_to_std_dynamic_list_t(&list, create_std_dynamic_list_t_node_t((void *) 2, "long"));
     
     for (int i = 0; i < list.m_r_size; i++) {
-	printf("Element: %lu\n", (unsigned long) list.m_data[i]);
+	printf("Element: %lu\n", (long) get_std_dynamic_list_t_node_t_data_value_at(&list, i));
     }
 
+    remove_elem_from_std_dynamic_list_t(&list, create_std_dynamic_list_t_node_t((void *) 2, "long"));
 
-    add_elem_to_std_dynamic_list_t(&list, (void *) (n + 2));
-
-    remove_elem_from_std_dynamic_list_t(&list, 1);
-
-    add_elem_to_std_dynamic_list_t(&list, (void *) (n + 3));
     for (int i = 0; i < list.m_r_size; i++) {
-	printf("Element: %lu\n", (unsigned long) list.m_data[i]);
+	printf("removedElement: %lu\n", (long) get_std_dynamic_list_t_node_t_data_value_at(&list, i));
     }
-
 
 }
 

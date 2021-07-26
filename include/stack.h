@@ -13,6 +13,7 @@
     } std_stack_t;
     
     void init_std_stack_t_node_t(std_stack_t_node_t * node, void * data, std_stack_t_node_t * next);
+    std_stack_t_node_t * create_std_stack_t_node_t(void * data, std_stack_t_node_t * next);
     void init_std_stack_t(std_stack_t * stack);
     std_stack_t_node_t peek_std_stack_t(std_stack_t * stack);
     void add_to_std_stack_t(std_stack_t * stack, std_stack_t_node_t * node);
