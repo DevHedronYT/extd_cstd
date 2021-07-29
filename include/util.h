@@ -1,6 +1,6 @@
-#ifndef _c_std_print 
+#ifndef _C_STD_UTIL
 
-    #define _c_std_print
+    #define _C_STD_UTIL
     #include <stdio.h>
 
     #define DEFAULT       "\x1b[0m"
@@ -77,5 +77,7 @@
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
+      
+    void swap(void * m_data, void * m_n_data);
 
 #endif 

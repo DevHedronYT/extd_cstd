@@ -1,0 +1,45 @@
+- hash tables
+- trees 
+- hash string
+- more linked list types
+- red black trees
+- exception handling
+- proper string parser (look at: calculator-c-parser)
+- math (look at: cglm)
+- conversion between other data types
+- memory management
+- common graph algorithms
+- searching algorithms
+- sorting algorithms
+- regex
+- hashing
+- better file io
+- chad string
+- generic print 
+- git comparison
+- opening and writing to non standard files like .png
+- json parsing
+- network files access
+- avl trees 
+- threading
+- containers for objects
+- bit maps
+- multi dim matrix
+- graphs
+- nice input
+- nice output
+- proper logging
+- timer
+- uri parser
+- datetime
+- threads
+- noise
+- lexer
+- mem leak checking
+- api interaction like requests lib in python 
+- compression
+- piping
+- reflection system
+- timers
+- add conway game of life example?
+

@@ -1,7 +1,10 @@
 #include <queue.h>
 #include <stdio.h>
+#include <time.h>
 
 int main(void) {
+    clock_t start_time = clock();
+    
     std_queue_t queue;
     init_std_queue_t(&queue);
     add_to_std_queue_t(&queue, 
@@ -15,6 +18,9 @@ int main(void) {
 
 
     printf("Size Of Queue: %d\n", (int) queue.m_size);
+
+    double elapsed_time = (double)(clock() - start_time) / CLOCKS_PER_SEC;
+    printf("Done in %f seconds\n", elapsed_time);
 }
 
 

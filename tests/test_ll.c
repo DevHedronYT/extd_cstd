@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <linked_list.h>
+#include <time.h>
 
 int main(void) {
+    clock_t start_time = clock();
+
     std_ll_t ll;
     init_std_ll_t(&ll);
 
@@ -39,6 +42,10 @@ int main(void) {
     }
 
     printf("%d\n", (int) ll.m_size);
+
+    double elapsed_time = (double)(clock() - start_time) / CLOCKS_PER_SEC;
+    printf("Done in %f seconds\n", elapsed_time);
+
 }
 
 

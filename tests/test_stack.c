@@ -1,7 +1,10 @@
 #include <stack.h>
 #include <stdio.h>
+#include <time.h>
 
 int main(void) {
+    clock_t start_time = clock();
+
     std_stack_t stack;
     
     std_stack_t_node_t node_top;
@@ -16,4 +19,8 @@ int main(void) {
     printf("Stack Top Before Pop: %d\n", (int) stack.m_top -> m_data);
     pop_from_std_stack_t(&stack);
     printf("Stack Top After Pop: %d\n", (int) stack.m_top -> m_data);
+
+    double elapsed_time = (double)(clock() - start_time) / CLOCKS_PER_SEC;
+    printf("Done in %f seconds\n", elapsed_time);
+
 }
