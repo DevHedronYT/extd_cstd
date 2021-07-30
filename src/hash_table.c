@@ -1,5 +1,6 @@
 #include <hash_table.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 int g_size = 1000;
 
@@ -61,7 +62,8 @@ void add_pair_to_std_hash_table_t(std_hash_table_t * table, std_hash_table_t_nod
 }
 
 void remove_elem_from_std_hash_table_t_at(std_hash_table_t * table, const char * key) {
-    table -> m_data[hash_hash_table_t_node_t(key)] = NULL;     
+    if (table -> m_data[hash_hash_table_t_node_t(key)])
+	table -> m_data[hash_hash_table_t_node_t(key)] = NULL;     
 }
 
 void uninit_std_hash_table_t(std_hash_table_t * table) {
@@ -70,6 +72,10 @@ void uninit_std_hash_table_t(std_hash_table_t * table) {
 
 
 void * get_std_hash_table_t_node_t_data_value_at(std_hash_table_t * table, const char * key) {
+    if (!table -> m_data[hash_hash_table_t_node_t(key)])
+	return 0x0;
+
+
     return table -> m_data[hash_hash_table_t_node_t(key)] -> m_data;
 }
 

@@ -1,6 +1,4 @@
-- hash tables
 - trees 
-- hash string
 - more linked list types
 - red black trees
 - exception handling
@@ -30,9 +28,6 @@
 - multi dim matrix
 - graphs
 - nice input
-- nice output
-- proper logging
-- timer
 - uri parser
 - datetime
 - threads
