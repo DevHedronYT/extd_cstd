@@ -85,3 +85,29 @@ build/test_build/name
 - ``void uninit_std_hash_table_t(std_hash_table_t * table);``:
     - Frees memory allocated for hash table
 
+### Linked List - ``linked_list.h``:
+- ``struct std_ll_t_node_t``:
+    - This is another node struct and this contains the data cast to ``void *`` and a pointer to the next node, the node also contains a string which contains the type just like a dynamic list node
+
+- ``struct std_ll_t``:
+    - This struct contains a pointer to the head of the linked list, and the last node of the linked list. It also contains the size of the linked list
+
+- ``void init_std_ll_t_node_t(std_ll_t_node_t * node, void * data, std_ll_t_node_t * next, const char * type);``:
+    - This function initializes a node just like the previous functions
+
+- ``std_ll_t_node_t * create_std_ll_t_node_t(void * data, std_ll_t_node_t * next, const char * type);``:
+    - This will create and return a linked list node
+
+- ``void init_std_ll_t(std_ll_t * ll);``:
+    - This will initialize a linked list
+
+- ``int std_ll_t_insert_at_beginning(std_ll_t * ll, std_ll_t_node_t * data);``:
+    - This inserts a ``std_ll_t_node_t`` node at the beginning of the linked list and returns status
+
+- ``int std_ll_t_insert_at_end(std_ll_t * ll, std_ll_t_node_t * data);``:
+    - This inserts a ``std_ll_t_node_t`` node at the end of the linked list and returns status
+
+- ``int std_ll_t_remove(std_ll_t * ll, std_ll_t_node_t * remove_node);``:
+    - This removes a `std_ll_t_node_t` node if it has the same type and data as the one supplied to the function
+
+
