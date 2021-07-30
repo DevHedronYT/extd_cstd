@@ -48,3 +48,40 @@ build/test_build/name
 - ``void uninit_std_dynamic_list_t(std_dynamic_list_t * list);``:
     - Frees memory allocated for dynamic list
 
+### File - ``file.h``:
+
+- ``char * std_load_text_file(const char * name);``:
+    - Loads text file
+
+### Hash Table - ``hash_table.h``:
+
+- ``struct std_hash_table_t_node_t``:
+    - This node struct contains data of the node cast to ``void *`` and the key in string form and the hash value. 
+
+- ``struct std_hash_table_t``:
+    - This hash table struct contains data as nodes and the size
+
+- ``int hash_hash_table_t_node_t(const char * key)``: 
+    - This function returns a value in int, it generates the value depending on the ascii character value of that letter
+
+- ``void init_std_hash_table_t_node_t(std_hash_table_t_node_t * node, void * data, char * key)``:
+    - This function initializes the node just like the dynamic list node function
+
+- ``std_hash_table_t_node_t * create_std_hash_table_t_node_t(void * data, char * key);``:
+    - This function creates a hash table node
+
+- ``void init_std_hash_table_t(std_hash_table_t * table);``:
+    - This will initialize a hash table, and allocates 1000 ``std_hash_table_t_node_t`` nodes
+
+- ``void add_pair_to_std_hash_table_t(std_hash_table_t * table, std_hash_table_t_node_t * node);``:
+    - This adds a `std_hash_table_t_node_t` node, to the hash table
+
+- ``void remove_elem_from_std_hash_table_t_at(std_hash_table_t * table, const char * key)``:
+    - This will remove an element from the hash table if it has the same key 
+
+- ``void * get_std_hash_table_t_node_t_data_value_at(std_hash_table_t * table, const char * key);``:
+    - Returns the value which has been cast to ``void *`` and has the same key
+
+- ``void uninit_std_hash_table_t(std_hash_table_t * table);``:
+    - Frees memory allocated for hash table
+
