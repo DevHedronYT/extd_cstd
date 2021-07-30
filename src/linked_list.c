@@ -1,6 +1,5 @@
 #include <linked_list.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 void init_std_ll_t_node_t(std_ll_t_node_t * node, void * data, std_ll_t_node_t * next, const char * type) {
     node -> m_data = data;

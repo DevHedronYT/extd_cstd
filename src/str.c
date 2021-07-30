@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <str.h>
-#include <util.h>
 
 int std_str_length(const str str_one) {
     int len;

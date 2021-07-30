@@ -1,7 +1,5 @@
 #include <hash_table.h>
-#include <str.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 int g_size = 1000;
 

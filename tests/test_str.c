@@ -1,9 +1,11 @@
 #include <str.h>
 #include <stdio.h>
-#include <time.h>
+#include <timer.h>
 
 int main(void) {
-    clock_t start_time = clock();
+    std_timer_t timer;
+    init_std_timer_t(&timer);
+    start(&timer);
 
     str string = "n";
     str string2 = "n";
@@ -28,7 +30,7 @@ int main(void) {
     str n = std_str_split(str6, ' ');
     printf("%s\n", n);
 
-    double elapsed_time = (double)(clock() - start_time) / CLOCKS_PER_SEC;
-    printf("Done in %f seconds\n", elapsed_time);
+    tick(&timer);
+    printf("[Time Took (s)]: %f\n", timer.m_time_passed);
 }
 

@@ -2,16 +2,32 @@
 #include <stdio.h>
 #include <setjmp.h>
 #include <signal.h>
-#include <string.h>
 #include <stdlib.h>
+#include <timer.h>
 
 sigjmp_buf point;
+
 
 static void handler(int sig, siginfo_t * dont_care, void * dont_care_either) {
    longjmp(point, 1);
 }
-
+void  *my_memset(void *b, int c, int len) {
+  int           i;
+  unsigned char *p = b;
+  i = 0;
+  while(len > 0)
+    {
+      *p = c;
+      p++;
+      len--;
+    }
+  return(b);
+}
 int main(void) {
+    std_timer_t timer;
+    init_std_timer_t(&timer);
+    start(&timer);
+
     std_hash_table_t_node_t node;
     std_hash_table_t_node_t node_two;
 
@@ -24,10 +40,10 @@ int main(void) {
     add_pair_to_std_hash_table_t(&table, &node);
     add_pair_to_std_hash_table_t(&table, &node_two);
     
-
     struct sigaction sa;
 
-    memset(&sa, 0, sizeof(sigaction));
+    my_memset(&sa, 0, sizeof(sigaction));
+
     sigemptyset(&sa.sa_mask);
 
     sa.sa_flags     = SA_NODEFER;
@@ -42,6 +58,9 @@ int main(void) {
 	printf("Rather unexpected error\n");
     }
 
+
+    tick(&timer);
+    printf("[Time Took (s)]: %f\n", timer.m_time_passed);
     return 0;
 }
 

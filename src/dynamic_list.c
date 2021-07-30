@@ -1,6 +1,5 @@
 #include <dynamic_list.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 void init_std_dynamic_list_t_node_t(std_dynamic_list_t_node_t * node, void * data, const char * type) {
     node -> m_data = data;

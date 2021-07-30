@@ -2,6 +2,11 @@
 
     #define _C_STD_UTIL
     #include <stdio.h>
+    #include <time.h>
+
+    time_t current_time;
+    struct tm * m_time; 
+
 
     #define DEFAULT       "\x1b[0m"
 
@@ -41,43 +46,67 @@
 
     #define std_set_output_bg_color(x) printf(x)
 
+    #define std_print_n(msg, ...) \
+	printf(msg, __VA_ARGS__); \
+	printf("\n"); 
+
+    #define std_print_t(msg, ...) \
+	time(&current_time); \
+	m_time = localtime(&current_time); \
+	printf("[%d/%d/%d -> %d:%d]: ", m_time -> tm_mday, m_time -> tm_mon, m_time -> tm_year + 1900, m_time -> tm_hour, m_time -> tm_min); \
+	printf(msg, __VA_ARGS__); \
+	printf("\n"); 
+
     #define std_print_info(msg, ...) \
+	time(&current_time); \
+	m_time = localtime(&current_time); \
 	printf("%s", GREEN); \
-	printf("INFO: "); \
+	printf("[%d/%d/%d -> %d:%d]", m_time -> tm_mday, m_time -> tm_mon, m_time -> tm_year + 1900, m_time -> tm_hour, m_time -> tm_min); \
+	printf("[INFO]: "); \
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
 
     #define std_print_error(msg, ...) \
+	time(&current_time); \
+	m_time = localtime(&current_time); \
 	printf("%s", RED); \
-	printf("ERROR: "); \
+	printf("[%d/%d/%d -> %d:%d]", m_time -> tm_mday, m_time -> tm_mon, m_time -> tm_year + 1900, m_time -> tm_hour, m_time -> tm_min); \
+	printf("[ERROR]: "); \
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
 
     #define std_print_warning(msg, ...) \
+	time(&current_time); \
+	m_time = localtime(&current_time); \
 	printf("%s", YELLOW); \
-	printf("WARNING: "); \
+	printf("[%d/%d/%d -> %d:%d]", m_time -> tm_mday, m_time -> tm_mon, m_time -> tm_year + 1900, m_time -> tm_hour, m_time -> tm_min); \
+	printf("[WARNING]: "); \
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
 
     #define std_print_fatal_error(msg, ...) \
+	time(&current_time); \
+	m_time = localtime(&current_time); \
 	printf("%s", BOLD); \
 	printf("%s", RED); \
-	printf("FATAL ERROR: "); \
+	printf("[%d/%d/%d -> %d:%d]", m_time -> tm_mday, m_time -> tm_mon, m_time -> tm_year + 1900, m_time -> tm_hour, m_time -> tm_min); \
+	printf("[FATAL ERROR]: "); \
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
 
     #define std_print_important(msg, ...) \
+	time(&current_time); \
+	m_time = localtime(&current_time); \
 	printf("%s", UNDERLINE); \
 	printf("%s", BLUE); \
-	printf("IMPORTANT: "); \
+	printf("[%d/%d/%d -> %d:%d]", m_time -> tm_mday, m_time -> tm_mon, m_time -> tm_year + 1900, m_time -> tm_hour, m_time -> tm_min); \
+	printf("[IMPORTANT]: "); \
 	printf(msg, __VA_ARGS__); \
 	printf("%s", DEFAULT); \
 	printf("\n"); 
-      
-    void swap(void * m_data, void * m_n_data);
 
 #endif 

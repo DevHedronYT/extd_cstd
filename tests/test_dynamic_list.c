@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dynamic_list.h>
-#include <time.h>
+#include <timer.h>
 
 int main(void) {
-    clock_t start_time = clock();
+    std_timer_t timer;
+    init_std_timer_t(&timer);
+    start(&timer);
 
     std_dynamic_list_t list;
     init_std_dynamic_list_t(&list);
@@ -25,8 +27,9 @@ int main(void) {
 	printf("removedElement: %lu\n", (long) get_std_dynamic_list_t_node_t_data_value_at(&list, i));
     }
 
-    double elapsed_time = (double)(clock() - start_time) / CLOCKS_PER_SEC;
-    printf("Done in %f seconds\n", elapsed_time);
+    tick(&timer);
+    printf("[Time Took (s)]: %f\n", timer.m_time_passed);
+
 }
 
 

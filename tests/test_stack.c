@@ -1,9 +1,11 @@
 #include <stack.h>
 #include <stdio.h>
-#include <time.h>
+#include <timer.h>
 
 int main(void) {
-    clock_t start_time = clock();
+    std_timer_t timer;
+    init_std_timer_t(&timer);
+    start(&timer);
 
     std_stack_t stack;
     
@@ -20,7 +22,8 @@ int main(void) {
     pop_from_std_stack_t(&stack);
     printf("Stack Top After Pop: %d\n", (int) stack.m_top -> m_data);
 
-    double elapsed_time = (double)(clock() - start_time) / CLOCKS_PER_SEC;
-    printf("Done in %f seconds\n", elapsed_time);
+
+    tick(&timer);
+    printf("[Time Took (s)]: %f\n", timer.m_time_passed);
 
 }
