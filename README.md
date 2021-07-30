@@ -25,4 +25,3 @@ build/test_build/name
     - ``std_dynamic_list_t_node_t * create_std_dynamic_list_t_node_t(void * data, const char * type);``: 
 	- Allocates memory and returns a dynamic list node and this is for faster node creation
 
-
