@@ -5,8 +5,8 @@
     #include <time.h>
 
     typedef struct {
-	double  m_time_passed;
-	clock_t m_last_time;
+        double  m_time_passed;
+        clock_t m_last_time;
     } std_timer_t;
     
     void init_std_timer_t(std_timer_t * timer);

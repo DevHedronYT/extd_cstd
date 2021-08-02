@@ -9,7 +9,7 @@ int main(void) {
     start(&timer);
 
     for (int i = 0; i < 10000; i++) {
-	tick(&timer);
+        tick(&timer);
     }
 
     std_print_n("%f\n", timer.m_time_passed);

@@ -3,14 +3,14 @@
     #define _C_STD_LIST
    
     typedef struct {
-	void * m_data;
-	const char * m_type;
+        void * m_data;
+        const char * m_type;
     } std_dynamic_list_t_node_t;
 
     typedef struct {
-	int  m_size;
-	void ** m_data;
-	int  m_r_size;
+        int  m_size;
+        void ** m_data;
+        int  m_r_size;
     } std_dynamic_list_t;
 
     void init_std_dynamic_list_t_node_t(std_dynamic_list_t_node_t * node, void * data, const char * type);

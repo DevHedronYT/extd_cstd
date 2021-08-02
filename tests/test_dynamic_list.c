@@ -18,13 +18,13 @@ int main(void) {
     add_elem_to_std_dynamic_list_t(&list, create_std_dynamic_list_t_node_t((void *) 2, "long"));
     
     for (int i = 0; i < list.m_r_size; i++) {
-	printf("Element: %lu\n", (long) get_std_dynamic_list_t_node_t_data_value_at(&list, i));
+        printf("Element: %lu\n", (long) get_std_dynamic_list_t_node_t_data_value_at(&list, i));
     }
 
     remove_elem_from_std_dynamic_list_t(&list, create_std_dynamic_list_t_node_t((void *) 2, "long"));
 
     for (int i = 0; i < list.m_r_size; i++) {
-	printf("removedElement: %lu\n", (long) get_std_dynamic_list_t_node_t_data_value_at(&list, i));
+        printf("removedElement: %lu\n", (long) get_std_dynamic_list_t_node_t_data_value_at(&list, i));
     }
 
     tick(&timer);

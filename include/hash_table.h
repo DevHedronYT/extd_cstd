@@ -2,15 +2,15 @@
 
     #define _C_STD_HASHT
    
-     typedef struct {
-	void *  m_data;
-	char *  m_key;
-	int     m_hash_val;
+    typedef struct {
+	    void *  m_data;
+        char *  m_key;
+        int     m_hash_val;
     } std_hash_table_t_node_t; 
 
     typedef struct {				
-	std_hash_table_t_node_t ** m_data;
-	int  			   m_size;
+        std_hash_table_t_node_t ** m_data;
+        int  			           m_size;
     } std_hash_table_t;
 
 

@@ -4,13 +4,13 @@
     
     typedef struct _std_bst_t_node_t {	
 	int m_data;
-	struct _std_bst_t_node_t * m_left;
-	struct _std_bst_t_node_t * m_right;
+        struct _std_bst_t_node_t * m_left;
+        struct _std_bst_t_node_t * m_right;
     } std_bst_t_node_t;
 
     typedef struct {	
-	std_bst_t_node_t * m_root;
-	int      	   m_size;
+        std_bst_t_node_t * m_root;
+        int      	   m_size;
     } std_bst_t;
 
     void init_std_bst_t_node_t(std_bst_t_node_t * node, int data, std_bst_t_node_t * left, std_bst_t_node_t * right);
