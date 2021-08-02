@@ -58,8 +58,8 @@ int std_ll_t_remove(std_ll_t * ll, std_ll_t_node_t * remove_node) {
         if (remove_node -> m_data == node -> m_data && remove_node -> m_type == node -> m_type) {
         
             for (int i = index; i < ll -> m_size - 1; i++) {
-            node -> m_data = node -> m_next -> m_data;
-            node = node -> m_next; 
+                node -> m_data = node -> m_next -> m_data;
+                node = node -> m_next; 
             }
             ll -> m_size -= 1;
 
