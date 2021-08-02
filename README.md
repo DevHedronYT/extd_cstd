@@ -110,4 +110,56 @@ build/test_build/name
 - ``int std_ll_t_remove(std_ll_t * ll, std_ll_t_node_t * remove_node);``:
     - This removes a `std_ll_t_node_t` node if it has the same type and data as the one supplied to the function
 
+### Queue - ``queue.h``:
+
+- ``struct std_queue_t_node_t``:
+    - Another node structure for queues, contains data & pointer to next node
+
+- ``struct std_queue_t``:
+    - Structure for queue, contains the last node and the size of the queue
+
+- ``void init_std_queue_t_node_t(std_queue_t_node_t * node, void * data, std_queue_t_node_t * next);``:
+    - This function initializes a node for the queue and it takes in the address of the node you want to assign to and then takes in the data cast to ``void *`` and the pointer to the next node which can also be ``NULL``
+
+- ``std_queue_t_node_t * create_std_queue_t_node_t(void * data, std_queue_t_node_t * next);``:
+    - This function returns a pointer to a ``std_queue_t_node_t`` and this function is for fast node creation and it creates the node through dynamic memory allocation using ``malloc`` as do the other ``create_std_***_t_node_t`` functions
+
+- ``void init_std_queue_t(std_queue_t * queue);``:
+    - This function takes in a pointer to a ``std_queue_t`` and then initializes its values, ``m_end`` which is a pointer to a ``std_queue_t_node_t`` and ``m_size`` which is an ``int`` to NULL (the ``int`` is intialized to ``0``)
+
+- ``std_queue_t_node_t peek_std_queue_t(std_queue_t * queue);``:
+    - This function returns a ``std_queue_t_node_t``, it returns the node at the end of the queue
+
+- ``void add_to_std_queue_t(std_queue_t * queue, std_queue_t_node_t * node);``:
+    - This adds a node to the end of the queue
+
+- ``int pop_from_std_queue_t(std_queue_t * queue);``:
+    - Removes the node at the end of the queue and the node the end node was pointing to, becomes the end node
+
+### Stack - ``stack.h``:
+
+- ``struct std_stack_t_node_t``:
+    - This node struct contains the data cast to ``void *`` and a pointer to another ``std_stack_t_node_t``
+
+- ``struct std_stack_t``:
+    - This stack struct contains the a pointer to the topmost ``std_stack_t_node_t`` node and the size of the stack
+
+- ``void init_std_stack_t_node_t(std_stack_t_node_t * node, void * data, std_stack_t_node_t * next);``:
+    - This function initializes a stack node by taking in a pointer to it, then the data cast to ``void *`` and then a pointer to the next node
+
+- ``std_stack_t_node_t * create_std_stack_t_node_t(void * data, std_stack_t_node_t * next);``:
+    - This function will create and return a stack node
+
+- ``void init_std_stack_t(std_stack_t * stack);``:
+    - This function initializes a stack and its members by taking in a pointer to the stack
+
+- ``std_stack_t_node_t peek_std_stack_t(std_stack_t * stack);``:
+    - This function returns the topmost node of the stack
+
+- ``void add_to_std_stack_t(std_stack_t * stack, std_stack_t_node_t * node);``:
+    - Adds a pointer to a ``std_stack_t_node_t`` to the stack to the top
+
+- ``int pop_from_std_stack_t(std_stack_t * stack);``:
+    - Removes the topmost node and the node the topmost node was pointing to becomes the topmost node 
+
 

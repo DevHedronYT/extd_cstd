@@ -1,42 +1,39 @@
-- trees 
-- more linked list types
-- red black trees
-- exception handling
-- proper string parser (look at: calculator-c-parser)
-- math (look at: cglm)
-- conversion between other data types
-- memory allocator
-- garbage collector
-- memory management
-- recraft sizeof()?
-- common graph algorithms
-- searching algorithms
-- sorting algorithms
-- regex
-- hashing
-- better file io
-- chad string
-- generic print 
-- git comparison
-- opening and writing to non standard files like .png
-- json parsing
-- network files access
-- avl trees 
-- threading
-- containers for objects
-- bit maps
-- multi dim matrix
-- graphs
-- nice input
-- uri parser
-- datetime
-- threads
-- noise
-- lexer
-- mem leak checking
-- api interaction like requests lib in python 
-- compression
-- piping
-- reflection system
-- timers
-- add conway game of life example?
+Library is mostly complete but these things could be 
+implemented and added:
+
+> must add docs
+
+file:
+    - function declarations and stuff should be in same order
+
+structures:
+    - heaps
+    - tries
+    - suffix arrays
+    - sets
+    - segment trees
+    - decision trees
+    - matrices
+    - more linked list types
+    - red black trees
+    - avl trees 
+    - bitmaps
+    - graphs
+    - chad string
+
+functions & algorithms:
+    - math
+    - common graph algorithms
+    - searching algorithms
+    - sorting algorithms
+    - string parsing
+    - reg ex
+    - file io
+    - json parsing
+    - network file access
+    - coroutines
+    - threads
+    - nice input
+    - datetime
+    - api interaction like requests lib from python
+    - piping
