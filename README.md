@@ -278,3 +278,42 @@ build/test_build/name
 
 - ``int std_bst_t_search_for(std_bst_t * bst, std_bst_t_node_t * node)``:
     - This function searches for a node in the binary search tree by taking in a pointer to the binary search tree and a pointer to the node you want to search for 
+
+
+### Types - ``types.h``:
+
+> This file is to be included for using types
+
+- ``#define i08  int8_t``:
+    - 8-bit integer
+
+- ``#define i16  int16_t``:
+    - 16-bit integer
+
+- ``#define i32 int32_t``:
+    - 32-bit integer
+
+- ``#define i64  int64_t``:
+    - 64-bit integer
+
+- ``#define f32 float``:
+    - 32-bit float
+
+- ``#define f64 double``:
+    - 64-bit float
+
+- ``#define u08 uint8_t``:
+    - 8-bit unsigned integer
+
+- ``#define u16 uint16_t``:
+    - 16-bit unsigned integer
+
+- ``#define u32 uint32_t``:
+    - 32-bit unsigned integer
+
+- ``#define u64 uint64_t``:
+    - 64-bit unsigned integer
+
+- ``#define str char *``:
+    - String
+
