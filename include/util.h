@@ -42,7 +42,7 @@
     #define BGCGREEN      "\x1b[42m"
     #define BGCYELLOW     "\x1b[43m"
     #define BGCPURPLE     "\x1b[45m"
-    #define BACKCYAN      "\x1b[46m"
+    #define BGCCYAN      "\x1b[46m"
 
     #define std_set_output_bg_color(x) printf(x)
 

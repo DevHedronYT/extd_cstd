@@ -4,7 +4,7 @@
 int std_str_length(const str str_one) {
     int len;
     for (len = 0; str_one[len] != '\0'; len++);
-        return len;
+    return len;
 }
 
 int std_str_compare(const str str_one, const str str_two) {
