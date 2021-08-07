@@ -2,6 +2,8 @@
 
     #define _C_STD_FILE
 
-    char * std_load_text_file(const char * name);
+    #include <types.h>
+
+    str std_load_text_file(const str path);
 
 #endif

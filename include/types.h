@@ -14,9 +14,10 @@
     #define u16  uint16_t
     #define u32  uint32_t
     #define u64  uint64_t
+    #define emp  void
+    #define ret  void *
     
-    #ifndef _C_STD_STR
-        #define str char *
-    #endif
+    #define str char *
+    #define chr char
 
 #endif

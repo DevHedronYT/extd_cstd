@@ -20,6 +20,13 @@ structures:
     - bitmaps
     - graphs
     - chad string
+    - sqrt decomposition
+    - bitset
+    - pairs
+    - priority queues
+    - bitmasks
+    - binary tree
+    - fenwick/binary indexed tree
 
 functions & algorithms:
     - math
@@ -37,3 +44,4 @@ functions & algorithms:
     - datetime
     - api interaction like requests lib from python
     - piping
+    - memory

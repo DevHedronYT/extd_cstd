@@ -1,23 +1,25 @@
 #ifndef _C_STD_BST
 
     #define _C_STD_BST
-    
+   
+    #include <types.h>
+
     typedef struct _std_bst_t_node_t {	
-	    int m_data;
+	    i32                        m_data;
         struct _std_bst_t_node_t * m_left;
         struct _std_bst_t_node_t * m_right;
     } std_bst_t_node_t;
 
     typedef struct {	
         std_bst_t_node_t * m_root;
-        int      	   m_size;
+        i32         	   m_size;
     } std_bst_t;
 
-    void init_std_bst_t_node_t(std_bst_t_node_t * node, int data, std_bst_t_node_t * left, std_bst_t_node_t * right);
-    std_bst_t_node_t * create_std_bst_t_node_t(int data, std_bst_t_node_t * left, std_bst_t_node_t * right); 
-    void init_std_bst_t(std_bst_t * bst);
-    void std_bst_t_insert(std_bst_t * bst, std_bst_t_node_t * node);
-    int std_bst_t_search_for(std_bst_t * bst, std_bst_t_node_t * node);
-
+    emp init_std_bst_t_node_t(std_bst_t_node_t * node, i32 data, std_bst_t_node_t * left, std_bst_t_node_t * right);
+    emp init_std_bst_t       (std_bst_t * bst);
+    emp std_bst_t_insert     (std_bst_t * bst, std_bst_t_node_t * node);
+    
+    std_bst_t_node_t * create_std_bst_t_node_t(i32 data, std_bst_t_node_t * left, std_bst_t_node_t * right); 
+    i32 std_bst_t_search_for                  (std_bst_t * bst, std_bst_t_node_t * node);
 
 #endif

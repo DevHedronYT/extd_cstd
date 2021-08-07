@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <file.h>
 
-char * load_text_file(const char * name) {
-    char * buffer = 0;
-    long length;
+str load_text_file(const str name) {
+    str buffer = 0;
+    i32 length;
     FILE * f = fopen(name, "rb");
 
     if (f) {

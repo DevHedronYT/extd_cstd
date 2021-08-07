@@ -314,6 +314,14 @@ build/test_build/name
 - ``#define u64 uint64_t``:
     - 64-bit unsigned integer
 
+- ``#define emp void``:
+    - Void
+
+- ``#define ret void *``:
+    - Void Pointer
+
 - ``#define str char *``:
     - String
 
+- ``#define chr char``:
+    - Char
