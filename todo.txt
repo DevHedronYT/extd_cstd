@@ -19,8 +19,6 @@ structures:
     - avl trees 
     - bitmaps
     - graphs
-    - chad string
-    - sqrt decomposition
     - bitset
     - pairs
     - priority queues
@@ -33,7 +31,6 @@ functions & algorithms:
     - common graph algorithms
     - searching algorithms
     - sorting algorithms
-    - string parsing
     - reg ex
     - file io
     - json parsing
@@ -44,4 +41,3 @@ functions & algorithms:
     - datetime
     - api interaction like requests lib from python
     - piping
-    - memory

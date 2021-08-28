@@ -1,5 +1,17 @@
 # c_std_lib
-Implementations Of DSA And More
+Implementations Of DSA And More. Have fun looking at the code, currently implemented:
+    - Binary Search Trees
+    - Dynamic Lists
+    - File Loading
+    - Hash Tables
+    - Linked Lists
+    - Maths Engine (Very Incomplete)
+    - Queues
+    - Stacks
+    - Strings
+    - Timers
+    - Types
+    - Utils
 
 ## Building
 Build the library using Make: 
