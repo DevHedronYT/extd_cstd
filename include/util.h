@@ -44,20 +44,20 @@
     #define BGCPURPLE     "\x1b[45m"
     #define BGCCYAN      "\x1b[46m"
 
-    #define std_set_output_bg_color(x) printf(x)
+    #define set_output_bg_color(x) printf(x)
 
-    #define std_print_n(msg, ...) \
+    #define print_n(msg, ...) \
         printf(msg, __VA_ARGS__); \
         printf("\n"); 
 
-    #define std_print_t(msg, ...) \
+    #define print_t(msg, ...) \
         time(&current_time); \
         m_time = localtime(&current_time); \
         printf("[%d/%d/%d -> %d:%d]: ", m_time -> tm_mday, m_time -> tm_mon, m_time -> tm_year + 1900, m_time -> tm_hour, m_time -> tm_min); \
         printf(msg, __VA_ARGS__); \
         printf("\n"); 
 
-    #define std_print_info(msg, ...) \
+    #define print_info(msg, ...) \
         time(&current_time); \
         m_time = localtime(&current_time); \
         printf("%s", GREEN); \
@@ -67,7 +67,7 @@
         printf("%s", DEFAULT); \
         printf("\n"); 
 
-    #define std_print_error(msg, ...) \
+    #define print_error(msg, ...) \
         time(&current_time); \
         m_time = localtime(&current_time); \
         printf("%s", RED); \
@@ -77,7 +77,7 @@
         printf("%s", DEFAULT); \
         printf("\n"); 
 
-    #define std_print_warning(msg, ...) \
+    #define print_warning(msg, ...) \
         time(&current_time); \
         m_time = localtime(&current_time); \
         printf("%s", YELLOW); \
@@ -87,7 +87,7 @@
         printf("%s", DEFAULT); \
         printf("\n"); 
 
-    #define std_print_fatal_error(msg, ...) \
+    #define print_fatal_error(msg, ...) \
         time(&current_time); \
         m_time = localtime(&current_time); \
         printf("%s", BOLD); \
@@ -98,7 +98,7 @@
         printf("%s", DEFAULT); \
         printf("\n"); 
 
-    #define std_print_important(msg, ...) \
+    #define print_important(msg, ...) \
         time(&current_time); \
         m_time = localtime(&current_time); \
         printf("%s", UNDERLINE); \
