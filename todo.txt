@@ -41,3 +41,7 @@ functions & algorithms:
     - datetime
     - api interaction like requests lib from python
     - piping
+
+specific types instead of i32_t for all, use 
+specific types
+

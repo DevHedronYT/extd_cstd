@@ -2,26 +2,30 @@
 #include <stdlib.h>
 #include <file.h>
 
-str load_text_file(const str name) {
-    str buffer = 0;
-    i32 length;
-    FILE * f = fopen(name, "rb");
+file_t le_load_file(str_t path) {
+    FILE * f = fopen(path, "r");
+        
+    file_t file_final;
 
     if (f) {
         fseek(f, 0, SEEK_END);
-        length = ftell(f);
-        fseek(f, 0, SEEK_SET);
-        buffer = malloc(length);
-        
-        if (buffer){
-            fread(buffer, 1, length, f);
-        }
-        
+        file_final.len = ftell(f);
+        file_final.content = (str_t) malloc(file_final.len * sizeof(str_t));
+        rewind(f);
+        fread(file_final.content, sizeof(chr_t), file_final.len, f);
+        file_final.content[file_final.len] = '\0';
         fclose(f);
 
+        file_final.path = path;
+
+        return file_final;
     }
 
-    return buffer;
+    else {
+        return (file_t){"NULL", path, -1};
+    }
 }
+
+
 
 

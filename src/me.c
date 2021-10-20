@@ -1,109 +1,104 @@
 #include <me.h>
 #include <math.h>
 
-f64 std_dist_2d(f64 x1, f64 y1, f64 x2, f64 y2) {
-    return sqrt(std_sqr(std_dist_1d(x1, x2)) + std_sqr(std_dist_1d(y1, y2)));
+f64_t dist2D(f64_t x1, f64_t y1, f64_t x2, f64_t y2) {
+    return sqrt(sqr(dist1D(x1, x2)) + sqr(dist1D(y1, y2)));
 }
 
-f64 std_dir_2d(f64 x1, f64 y1, f64 x2, f64 y2) {
+f64_t dir2D(f64_t x1, f64_t y1, f64_t x2, f64_t y2) {
     return atan2(y2 - y1, x2 - x1);  
 }
 
-f64 std_inv_sqrt(f64 num) {
-    i64 i;
-    f64 x2, y;
+f64_t inv_sqrt(f64_t num) {
+    i64_t i;
+    f64_t x2, y;
 
     x2 = num * 0.5f;
     y = num;
-    i = * (i64 *) &y;
+    i = * (i64_t *) &y;
     i = 0x5f3759df - (i >> 1);
-    y = * (f64 *) &i;
-    y = y * (1.5f - (x2 * std_sqr(y)));
+    y = * (f64_t *) &i;
+    y = y * (1.5f - (x2 * sqr(y)));
 
     return y; 
 }
 
-f64 std_lerp_f(f64 start, f64 stop, f64 amt) {
+f64_t lerp_f(f64_t start, f64_t stop, f64_t amt) {
     return start + (stop - start) * amt; 
 }
 
-emp init_std_vec2_t(std_vec2_t * v, f64 x, f64 y) {
-    v -> x = x;
-    v -> y = y;
-}
 
-emp add_std_vec2_t(std_vec2_t * v1, std_vec2_t * v2) {
+emp_t add_v2(v2_t * v1, v2_t * v2) {
     v1 -> x += v2 -> x;
     v1 -> y += v2 -> y;
 }
 
-emp sub_std_vec2_t(std_vec2_t * v1, std_vec2_t * v2) {
+emp_t sub_v2(v2_t * v1, v2_t * v2) {
     v1 -> x = v2 -> x - v1 -> x;
     v1 -> y = v2 -> y - v1 -> y;
 }
 
-emp lerp_std_vec2_t(std_vec2_t * v1, std_vec2_t * v2, f64 amt) {
-    v1 -> x = std_lerp_f(v1 -> x, v2 -> x, amt);
-    v1 -> y = std_lerp_f(v1 -> y, v2 -> y, amt);
+emp_t lerp_v2(v2_t * v1, v2_t * v2, f64_t amt) {
+    v1 -> x = lerp_f(v1 -> x, v2 -> x, amt);
+    v1 -> y = lerp_f(v1 -> y, v2 -> y, amt);
 }
-
-emp limit_std_vec2_t(std_vec2_t * v, f64 scalar) {
-    f64 len = v -> x * v -> x + v -> y * v -> y;
-    f64 len_t = scalar * scalar;
+emp_t limit_v2(v2_t * v, f64_t scalar) {
+    f64_t len = v -> x * v -> x + v -> y * v -> y;
+    f64_t len_t = scalar * scalar;
     if (len > len_t) {
-        normal_std_vec2_t(v);
-        scale_std_vec2_t(v, scalar);
+        normal_v2(v);
+        scale_v2(v, scalar);
     }        
 }
 
-emp scale_std_vec2_t(std_vec2_t * v, f64 scalar) {
+emp_t scale_v2(v2_t * v, f64_t scalar) {
     v -> x *= scalar;
     v -> y *= scalar;
 }
 
-emp normal_std_vec2_t(std_vec2_t * v) {
-    f64 mag = get_std_vec2_t_mag(v);
+emp_t normal_v2(v2_t * v) {
+    f64_t mag = v2_mag(v);
     v -> x = v -> x / mag;
     v -> y = v -> y / mag;   
 }
 
-emp rotate_std_vec2_t (std_vec2_t * v, f64 theta) {
-    f64 temp = v -> x;
+emp_t rotate_v2(v2_t * v, f64_t theta) {
+    f64_t temp = v -> x;
     v -> x = v -> x * cos(theta) - v -> y * sin(theta);
     v -> y = temp * sin(theta) + v -> y * cos(theta);
 }
 
-emp set_std_vec2_t_mag(std_vec2_t * v, f64 scalar) {
-    normal_std_vec2_t(v);
-    scale_std_vec2_t(v, scalar);
+emp_t set_v2_mag(v2_t * v, f64_t scalar) {
+    normal_v2(v);
+    scale_v2(v, scalar);
 }
 
-f64 get_std_vec2_t_mag(std_vec2_t * v) {
+f64_t v2_mag(v2_t * v) {
     return (sqrt(v -> x * v -> x + v -> y * v -> y)); 
 }
 
-f64 get_angle_std_vec2_t(std_vec2_t * v) {
+f64_t v2_angle(v2_t * v) {
     return atan2(v -> y, v -> x);
 }
 
-f64 get_dot_prod_std_vec2_t(std_vec2_t * v1, std_vec2_t * v2) {
+f64_t v2_dot_prod(v2_t * v1, v2_t * v2) {
     return v1 -> x * v2 -> x + v1 -> y * v2 -> y; 
 }
 
-f64 get_dist_between_std_vec2_t(std_vec2_t * v1, std_vec2_t * v2) {
-    f64 dx = v1 -> x - v2 -> x;
-    f64 dy = v1 -> y - v2 -> y;
+f64_t dist_between_v2(v2_t * v1, v2_t * v2) {
+    f64_t dx = v1 -> x - v2 -> x;
+    f64_t dy = v1 -> y - v2 -> y;
     return sqrt(dx * dx + dy * dy);
 }
 
-f64 get_angle_of_two_std_vec2_t(std_vec2_t * v1, std_vec2_t * v2) {
+f64_t angle_between_v2(v2_t * v1, v2_t * v2) {
     if (v1 -> x == 0 && v1 -> y == 0) return 0.0f;
     if (v2 -> x == 0 && v2 -> y == 0) return 0.0f;
 
-    f64 dot = get_dot_prod_std_vec2_t(v1, v2);
-    f64 v1mag = get_std_vec2_t_mag(v1);
-    f64 v2mag = get_std_vec2_t_mag(v2);
-    f64 amt = dot / (v1mag * v2mag);
+    f64_t dot = v2_dot_prod(v1, v2);
+    f64_t v1mag = v2_mag(v1);
+    f64_t v2mag = v2_mag(v2);
+    f64_t amt = dot / (v1mag * v2mag);
 
     if (amt <= -1) {
         return M_PI;
@@ -113,84 +108,78 @@ f64 get_angle_of_two_std_vec2_t(std_vec2_t * v1, std_vec2_t * v2) {
     return acos(amt);
 }
 
-std_vec2_t project_on_std_vec2_t(std_vec2_t * v1, std_vec2_t * v2) {
-    f64 dot = get_dot_prod_std_vec2_t(v1, v2);
-    f64 len = get_dot_prod_std_vec2_t(v2, v2);
+v2_t v2_projection(v2_t * v1, v2_t * v2) {
+    f64_t dot = v2_dot_prod(v1, v2);
+    f64_t len = v2_dot_prod(v2, v2);
     if (len == 0.0f) return *v2;
 
-    std_vec2_t return_val = *v2;
-    scale_std_vec2_t(&return_val, dot / len);
+    v2_t return_val = *v2;
+    scale_v2(&return_val, dot / len);
     return return_val;
 }
 
-emp init_std_vec3_t(std_vec3_t * v, f64 x, f64 y, f64 z) {
-    v -> x = x;
-    v -> y = y;
-    v -> z = z;
-}
-
-emp add_std_vec3_t(std_vec3_t * v1, std_vec3_t * v2) {
+emp_t add_v3(v3_t * v1, v3_t * v2) {
     v1 -> x += v2 -> x;
     v1 -> y += v2 -> y;
     v1 -> z += v2 -> z;
 }
 
-emp sub_std_vec3_t(std_vec3_t * v1, std_vec3_t * v2) {
+emp_t sub_v3(v3_t * v1, v3_t * v2) {
     v1 -> x = v2 -> x - v1 -> x;
     v1 -> y = v2 -> y - v2 -> y;
     v1 -> z = v2 -> z - v2 -> z;
 }
 
-emp lerp_std_vec3_t(std_vec3_t * v1, std_vec3_t * v2, f64 amt) {
-    v1 -> x = std_lerp_f(v1 -> x, v2 -> x, amt);
-    v1 -> y = std_lerp_f(v1 -> y, v2 -> y, amt);   
-    v1 -> z = std_lerp_f(v1 -> z, v2 -> z, amt);
+emp_t lerp_v3(v3_t * v1, v3_t * v2, f64_t amt) {
+    v1 -> x = lerp_f(v1 -> x, v2 -> x, amt);
+    v1 -> y = lerp_f(v1 -> y, v2 -> y, amt);   
+    v1 -> z = lerp_f(v1 -> z, v2 -> z, amt);
 }
 
-emp limit_std_vec3_t(std_vec3_t * v, f64 scalar) {
-    f64 len = v -> x * v -> x + v -> y * v -> y;
-    f64 len_t = scalar * scalar;
+emp_t limit_v3(v3_t * v, f64_t scalar) {
+    f64_t len = v -> x * v -> x + v -> y * v -> y;
+    f64_t len_t = scalar * scalar;
     if (len > len_t) {
-        normal_std_vec3_t(v);
-        scale_std_vec3_t(v, scalar);
+        normal_v3(v);
+        scale_v3(v, scalar);
     }   
 }
 
-emp scale_std_vec3_t(std_vec3_t * v, f64 scalar) {
+emp_t scale_v3(v3_t * v, f64_t scalar) {
     v -> x *= scalar;
     v -> y *= scalar;
     v -> z *= scalar;
 }
 
-emp normal_std_vec3_t(std_vec3_t * v) {
-    f64 mag = get_std_vec3_t_mag(v);
+emp_t normal_v3(v3_t * v) {
+    f64_t mag = v3_mag(v);
     v -> x = v -> x / mag;
     v -> y = v -> y / mag;
     v -> z = v -> z / mag;
 }
 
-emp set_std_vec3_t_mag(std_vec3_t * v, f64 scalar) {
-    normal_std_vec3_t(v);
-    scale_std_vec3_t(v, scalar);
+emp_t set_v3_mag(v3_t * v, f64_t scalar) {
+    normal_v3(v);
+    scale_v3(v, scalar);
 }
 
-f64 get_std_vec3_t_mag(std_vec3_t * v) {
+f64_t v3_mag(v3_t * v) {
     return (sqrt(v -> x * v -> x + v -> y * v -> y + v -> z * v -> z)); 
 }
 
-f64 get_dot_prod_std_vec3_t(std_vec3_t * v1, std_vec3_t * v2) {
+f64_t v3_dot_prod(v3_t * v1, v3_t * v2) {
     return v1 -> x * v2 -> x + v1 -> y * v2 -> y + v1 -> z * v2 -> z;  
 }
 
-f64 get_dist_between_std_vec3_t(std_vec3_t * v1, std_vec3_t * v2) {
-    f64 dx = v2 -> x - v1 -> x;
-    f64 dy = v2 -> y - v1 -> y;
-    f64 dz = v2 -> z - v1 -> z;
+f64_t dist_between_v3(v3_t * v1, v3_t * v2) {
+    f64_t dx = v2 -> x - v1 -> x;
+    f64_t dy = v2 -> y - v1 -> y;
+    f64_t dz = v2 -> z - v1 -> z;
     return sqrt(dx * dx + dy * dy + dz * dz); 
 }
 
-std_vec3_t get_cross_prod_std_vec3_t(std_vec3_t * v1, std_vec3_t * v2) {
-    std_vec3_t v_o;
+v3_t v3_cross_prod(v3_t * v1, v3_t * v2) {
+    v3_t v_o;
     v_o.x = v1 -> y * v2 -> z - v1 -> z * v2 -> y;
     v_o.y = v1 -> z * v2 -> x - v1 -> z * v2 -> z;
     v_o.z = v1 -> x * v2 -> y - v1 -> y * v2 -> x;
@@ -198,100 +187,93 @@ std_vec3_t get_cross_prod_std_vec3_t(std_vec3_t * v1, std_vec3_t * v2) {
 }
 
 
-std_vec3_t project_on_std_vec3_t(std_vec3_t * v1, std_vec3_t * v2) {
-    f64 dot = get_dot_prod_std_vec3_t(v1, v2);
-    f64 len = get_dot_prod_std_vec3_t(v2, v2);
+v3_t v3_projection(v3_t * v1, v3_t * v2) {
+    f64_t dot = v3_dot_prod(v1, v2);
+    f64_t len = v3_dot_prod(v2, v2);
     if (len == 0.0f) return *v2;
 
-    std_vec3_t return_val = *v2;
-    scale_std_vec3_t(&return_val, dot / len);
+    v3_t return_val = *v2;
+    scale_v3(&return_val, dot / len);
     return return_val;   
 }
 
-
-emp init_std_vec4_t(std_vec4_t * v, f64 x, f64 y, f64 z, f64 w) {
-    v -> x = x;
-    v -> y = y;
-    v -> z = z;
-    v -> w = w;
-}
-
-emp add_std_vec4_t(std_vec4_t * v1, std_vec4_t * v2) {
+emp_t add_v4(v4_t * v1, v4_t * v2) {
     v1 -> x += v2 -> x;    
     v1 -> y += v2 -> y;
     v1 -> z += v2 -> z;
     v1 -> w += v2 -> w;
 }
 
-emp sub_std_vec4_t(std_vec4_t * v1, std_vec4_t * v2) {
+emp_t sub_v4(v4_t * v1, v4_t * v2) {
     v1 -> x = v2 -> x - v1 -> x;
     v1 -> y = v2 -> y - v1 -> y;
     v1 -> z = v2 -> z - v2 -> z;
     v1 -> w = v2 -> w - v2 -> w;
 }
 
-emp lerp_std_vec4_t(std_vec4_t * v1, std_vec4_t * v2, f64 amt) {
-    v1 -> x = std_lerp_f(v1 -> x, v2 -> x, amt);
-    v1 -> y = std_lerp_f(v1 -> y, v2 -> y, amt);   
-    v1 -> z = std_lerp_f(v1 -> z, v2 -> z, amt);
-    v1 -> w = std_lerp_f(v1 -> w, v2 -> w, amt);
+emp_t lerp_v4(v4_t * v1, v4_t * v2, f64_t amt) {
+    v1 -> x = lerp_f(v1 -> x, v2 -> x, amt);
+    v1 -> y = lerp_f(v1 -> y, v2 -> y, amt);   
+    v1 -> z = lerp_f(v1 -> z, v2 -> z, amt);
+    v1 -> w = lerp_f(v1 -> w, v2 -> w, amt);
 }
 
-emp limit_std_vec4_t(std_vec4_t * v, f64 scalar) {
-    f64 len = v -> x * v -> x + v -> y * v -> y;
-    f64 len_t = scalar * scalar;
+emp_t limit_v4(v4_t * v, f64_t scalar) {
+    f64_t len = v -> x * v -> x + v -> y * v -> y;
+    f64_t len_t = scalar * scalar;
     if (len > len_t) {
-        normal_std_vec4_t(v);
-        scale_std_vec4_t(v, scalar);
+        normal_v4(v);
+        scale_v4(v, scalar);
     }        
 }
 
-emp scale_std_vec4_t(std_vec4_t * v, f64 scalar) {
+emp_t scale_v4(v4_t * v, f64_t scalar) {
     v -> x *= scalar;
     v -> y *= scalar;  
     v -> z *= scalar;
     v -> w *= scalar;
 }
 
-emp normal_std_vec4_t(std_vec4_t * v) {
-    f64 mag = get_std_vec4_t_mag(v);
+emp_t normal_v4(v4_t * v) {
+    f64_t mag = v4_mag(v);
     v -> x = v -> x / mag;
     v -> y = v -> y / mag;
     v -> z = v -> z / mag;
     v -> w = v -> w / mag;
 }
 
-emp set_std_vec4_t_mag(std_vec4_t * v, f64 scalar) {
-    normal_std_vec4_t(v);
-    scale_std_vec4_t(v, scalar); 
+emp_t set_v4_mag(v4_t * v, f64_t scalar) {
+    normal_v4(v);
+    scale_v4(v, scalar); 
 }
 
-f64 get_std_vec4_t_mag(std_vec4_t * v) {
+f64_t v4_mag(v4_t * v) {
     return (sqrt(v -> x * v -> x + v -> y * v -> y + v -> z * v -> z + v -> w * v -> w)); 
 }
 
-f64 get_dot_prod_std_vec4_t(std_vec4_t * v1, std_vec4_t * v2) {
+f64_t v4_dot_prod(v4_t * v1, v4_t * v2) {
     return v1 -> x * v2 -> x + v1 -> y * v2 -> y + v1 -> z * v2 -> z + v1 -> w * v2 -> w;  
 }
 
-f64 get_dist_between_std_vec4_t(std_vec4_t * v1, std_vec4_t * v2) {
-    f64 dx = v2 -> x - v1 -> x;
-    f64 dy = v2 -> y - v1 -> y;
-    f64 dz = v2 -> z - v1 -> z;
-    f64 dw = v2 -> w - v1 -> w;
+f64_t dist_between_v4(v4_t * v1, v4_t * v2) {
+    f64_t dx = v2 -> x - v1 -> x;
+    f64_t dy = v2 -> y - v1 -> y;
+    f64_t dz = v2 -> z - v1 -> z;
+    f64_t dw = v2 -> w - v1 -> w;
     return sqrt(dx * dx + dy * dy + dz * dz + dw * dw); 
 }
 
 // projects v1 on v2
-std_vec4_t project_on_std_vec4_t(std_vec4_t * v1, std_vec4_t * v2) {
-    f64 dot = get_dot_prod_std_vec4_t(v1, v2);
-    f64 len = get_dot_prod_std_vec4_t(v2, v2);
+v4_t v4_projection(v4_t * v1, v4_t * v2) {
+    f64_t dot = v4_dot_prod(v1, v2);
+    f64_t len = v4_dot_prod(v2, v2);
     if (len == 0.0f) return *v2;
 
-    std_vec4_t return_val = *v2;
-    scale_std_vec4_t(&return_val, dot / len);
+    v4_t return_val = *v2;
+    scale_v4(&return_val, dot / len);
     return return_val;   
 }
+
 // 
 // vec: reflect, refract, negate, vector mult, vector div, orthonormalize 
 //      for vec3, transform by matrix, quat rotation, return min value,

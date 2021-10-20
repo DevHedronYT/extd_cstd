@@ -33,7 +33,6 @@ i32_t str_compare(const str_t str_one, const str_t str_two) {
         return 0;
     }
 } 
-
 str_t str_concat(const str_t str_one, const str_t str_two) {    
     i32_t size_str_one = str_length(str_one);
     i32_t size_str_two = str_length(str_two);
@@ -49,7 +48,6 @@ str_t str_concat(const str_t str_one, const str_t str_two) {
 
     return new_char;
 }
-
 i32_t str_starts_with(const str_t str_one, const str_t str_two) {
     i32_t len = str_length(str_two);
     i32_t flag = 0;
@@ -64,7 +62,6 @@ i32_t str_starts_with(const str_t str_one, const str_t str_two) {
     if (flag == 0) return 1;
     return 0;
 }
-
 str_t str_reverse(str_t str_one) {
     i32_t len = str_length(str_one) - 1;
     str_t new_char = (str_t) malloc(len + 1); 
@@ -75,14 +72,12 @@ str_t str_reverse(str_t str_one) {
 
     return new_char;
 }
-
 i32_t str_ends_with(str_t str_one, str_t str_two) {
     str_t new_str = str_reverse(str_one);
     str_t new_str_o = str_reverse(str_two);
 
     return str_starts_with(new_str, new_str_o);
 }
-
 i32_t str_substring(const str_t str_one, const str_t str_two) {
     i32_t i = 0;
     i32_t j = 0;
@@ -107,7 +102,6 @@ i32_t str_substring(const str_t str_one, const str_t str_two) {
         return 0;
     }
 }
-
 str_t str_split(const str_t str_one, chr_t c) {
     str_t new_char = (str_t) malloc(str_length(str_one));
 
@@ -121,14 +115,12 @@ str_t str_split(const str_t str_one, chr_t c) {
 
     return new_char;
 }
-
 str_t i32_to_str(i32_t num) {
     str_t string = (str_t) malloc(41); 
     snprintf(string, 39, "%d", num); 
     string[40] = '\0';
     return string;
 }
-
 // From: https://github.com/TheAlgorithms/C
 i32_t str_to_i32(str_t string) {
     int i;
@@ -165,7 +157,6 @@ i32_t str_to_i32(str_t string) {
     }
     return (value); 
 }
-
 str_t f64_to_str(f64_t num) {
     str_t string = (str_t) malloc(40); 
     snprintf(string, 39, "%f", num); 
