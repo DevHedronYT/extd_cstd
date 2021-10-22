@@ -9,7 +9,7 @@ list_t create_list(u32_t capacity) {
     return list;
 }
 
-emp_t push_to_list(list_t * list, ret_t data) {
+emp_t __push_to_list(list_t * list, ret_t data) {
     if (list -> idx + 1 > list -> len) {   
         list -> len += 10;
         list -> data = (ret_t*) realloc(list -> data, list -> len);
@@ -27,7 +27,7 @@ emp_t remove_from_list_at(list_t * list, u32_t idx) {
     }      
 }
 
-emp_t remove_from_list(list_t * list, ret_t data,
+emp_t __remove_from_list(list_t * list, ret_t data,
                       i08_t (* compare_func)(ret_t x, ret_t y)) {
     u32_t idx = __get_in_list_t(list, data, compare_func);
     remove_from_list_at(list, idx);

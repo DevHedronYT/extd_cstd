@@ -104,90 +104,6 @@ build/test_build/name
 - ``void uninit_std_hash_table_t(std_hash_table_t * table);``:
     - Frees memory allocated for hash table
 
-### Linked List - ``linked_list.h``:
-
-> This file is to be included for the linked list data structure and operations on it
-
-- ``struct std_ll_t_node_t``:
-    - This is another node struct and this contains the data cast to ``void *`` and a pointer to the next node, the node also contains a string which contains the type just like a dynamic list node
-
-- ``struct std_ll_t``:
-    - This struct contains a pointer to the head of the linked list, and the last node of the linked list. It also contains the size of the linked list
-
-- ``void init_std_ll_t_node_t(std_ll_t_node_t * node, void * data, std_ll_t_node_t * next, const char * type);``:
-    - This function initializes a node just like the previous functions
-
-- ``std_ll_t_node_t * create_std_ll_t_node_t(void * data, std_ll_t_node_t * next, const char * type);``:
-    - This will create and return a linked list node
-
-- ``void init_std_ll_t(std_ll_t * ll);``:
-    - This will initialize a linked list
-
-- ``int std_ll_t_insert_at_beginning(std_ll_t * ll, std_ll_t_node_t * data);``:
-    - This inserts a ``std_ll_t_node_t`` node at the beginning of the linked list and returns status
-
-- ``int std_ll_t_insert_at_end(std_ll_t * ll, std_ll_t_node_t * data);``:
-    - This inserts a ``std_ll_t_node_t`` node at the end of the linked list and returns status
-
-- ``int std_ll_t_remove(std_ll_t * ll, std_ll_t_node_t * remove_node);``:
-    - This removes a `std_ll_t_node_t` node if it has the same type and data as the one supplied to the function
-
-### Queue - ``queue.h``:
-
-> This file is to be included for the queue data structure and operations on it
-
-- ``struct std_queue_t_node_t``:
-    - Another node structure for queues, contains data & pointer to next node
-
-- ``struct std_queue_t``:
-    - Structure for queue, contains the last node and the size of the queue
-
-- ``void init_std_queue_t_node_t(std_queue_t_node_t * node, void * data, std_queue_t_node_t * next);``:
-    - This function initializes a node for the queue and it takes in the address of the node you want to assign to and then takes in the data cast to ``void *`` and the pointer to the next node which can also be ``NULL``
-
-- ``std_queue_t_node_t * create_std_queue_t_node_t(void * data, std_queue_t_node_t * next);``:
-    - This function returns a pointer to a ``std_queue_t_node_t`` and this function is for fast node creation and it creates the node through dynamic memory allocation using ``malloc`` as do the other ``create_std_***_t_node_t`` functions
-
-- ``void init_std_queue_t(std_queue_t * queue);``:
-    - This function takes in a pointer to a ``std_queue_t`` and then initializes its values, ``m_end`` which is a pointer to a ``std_queue_t_node_t`` and ``m_size`` which is an ``int`` to NULL (the ``int`` is intialized to ``0``)
-
-- ``std_queue_t_node_t peek_std_queue_t(std_queue_t * queue);``:
-    - This function returns a ``std_queue_t_node_t``, it returns the node at the end of the queue
-
-- ``void add_to_std_queue_t(std_queue_t * queue, std_queue_t_node_t * node);``:
-    - This adds a node to the end of the queue
-
-- ``int pop_from_std_queue_t(std_queue_t * queue);``:
-    - Removes the node at the end of the queue and the node the end node was pointing to, becomes the end node
-
-### Stack - ``stack.h``:
-
-> This file is to be included for the stack data structure and operations on it
-
-- ``struct std_stack_t_node_t``:
-    - This node struct contains the data cast to ``void *`` and a pointer to another ``std_stack_t_node_t``
-
-- ``struct std_stack_t``:
-    - This stack struct contains the a pointer to the topmost ``std_stack_t_node_t`` node and the size of the stack
-
-- ``void init_std_stack_t_node_t(std_stack_t_node_t * node, void * data, std_stack_t_node_t * next);``:
-    - This function initializes a stack node by taking in a pointer to it, then the data cast to ``void *`` and then a pointer to the next node
-
-- ``std_stack_t_node_t * create_std_stack_t_node_t(void * data, std_stack_t_node_t * next);``:
-    - This function will create and return a stack node
-
-- ``void init_std_stack_t(std_stack_t * stack);``:
-    - This function initializes a stack and its members by taking in a pointer to the stack
-
-- ``std_stack_t_node_t peek_std_stack_t(std_stack_t * stack);``:
-    - This function returns the topmost node of the stack
-
-- ``void add_to_std_stack_t(std_stack_t * stack, std_stack_t_node_t * node);``:
-    - Adds a pointer to a ``std_stack_t_node_t`` to the stack to the top
-
-- ``int pop_from_std_stack_t(std_stack_t * stack);``:
-    - Removes the topmost node and the node the topmost node was pointing to becomes the topmost node 
-
 ### Strings - ``str.h``:
 
 > This file is to be included for string functions
@@ -266,74 +182,49 @@ build/test_build/name
 - ``#define std_print_important(msg, ...);``:
     - Prints text supplied to it blue color with current time and ``[IMPORTANT]`` and also adds underline to the text 
 
-### Binary Search Tree - ``bst.h``:
-
-> This file is to be included for the binary search tree data structure and oprations on it
-
-- ``struct std_bst_t_node_t``:
-    - This struct contains the data, which is an ``int`` as a binary search tree is a sorted or ordered tree containing numbers. The struct also contains the a pointer to the left and right nodes of the current node
-
-- ``struct std_bst_t``:
-    - This struct for the binary search tree contains a pointer the root node and the size of the binary search tree
-
-- ``void init_std_bst_t_node_t(std_bst_t * node, int data, std_bst_t_node_t * left, std_bst_t_node_t * right);``:
-    - This function takes in a ``std_bst_t_node_t`` pointer to the node you are initializing, the ``int`` data, and a pointer to the left ``std_bst_t_node_t`` and right ``std_bst_t_node_t`` nodes
-
-- ``std_bst_t_node_t * create_std_bst_t_node_t(int data, std_bst_t_node_t * left, std_bst_t_node_t * right);``:
-    - This function returns a pointer to a ``std_bst_t_node_t`` and this is created through memory allocated for the ``std_bst_t_node_t`` dynamically and this function takes in an ``int`` for the data, a pointer to ``std_bst_t_node_t`` for the left node and a pointer to ``std_bst_t_node_t`` for the right node 
-
-- ``init_std_bst_t(std_bst_t * bst);``:
-    - This function takes in a pointer to ``std_bst_t`` and then intializes it root node to ``NULL`` and the size to ``0``
-
-- ``void std_bst_t_insert(std_bst_t * bst std_bst_t_node_t * node);``:
-    - This function is used for inserting nodes to the binary search tree, it takes in a pointer to the binary search tree and a pointer to the node you are inserting
-
-- ``int std_bst_t_search_for(std_bst_t * bst, std_bst_t_node_t * node)``:
-    - This function searches for a node in the binary search tree by taking in a pointer to the binary search tree and a pointer to the node you want to search for 
-
 
 ### Types - ``types.h``:
 
 > This file is to be included for using types
 
-- ``#define i08  int8_t``:
+- ``#define i08_t  int8_t``:
     - 8-bit integer
 
-- ``#define i16  int16_t``:
+- ``#define i16_t  int16_t``:
     - 16-bit integer
 
-- ``#define i32 int32_t``:
+- ``#define i32_t int32_t``:
     - 32-bit integer
 
-- ``#define i64  int64_t``:
+- ``#define i64_t  int64_t``:
     - 64-bit integer
 
-- ``#define f32 float``:
+- ``#define f32_t float``:
     - 32-bit float
 
-- ``#define f64 double``:
+- ``#define f64_t double``:
     - 64-bit float
 
-- ``#define u08 uint8_t``:
+- ``#define u08_t uint8_t``:
     - 8-bit unsigned integer
 
-- ``#define u16 uint16_t``:
+- ``#define u16_t uint16_t``:
     - 16-bit unsigned integer
 
-- ``#define u32 uint32_t``:
+- ``#define u32_t uint32_t``:
     - 32-bit unsigned integer
 
-- ``#define u64 uint64_t``:
+- ``#define u64_t uint64_t``:
     - 64-bit unsigned integer
 
-- ``#define emp void``:
+- ``#define emp_t void``:
     - Void
 
-- ``#define ret void *``:
+- ``#define ret_t void *``:
     - Void Pointer
 
-- ``#define str char *``:
+- ``#define str_t char *``:
     - String
 
-- ``#define chr char``:
+- ``#define chr_t char``:
     - Char

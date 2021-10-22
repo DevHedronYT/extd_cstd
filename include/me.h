@@ -8,17 +8,21 @@
     // Just a little context, f64 is a 64-bit float, aka double while f32 which you barely see is the normal form of floats in C
 
     #define pi 3.14159265358979
-    #define deg_to_rad(deg) deg * (std_pi / 180)
-    #define rad_to_deg(rad) rad * (180 / std_pi)
+    #define deg_to_rad(deg) deg * (pi / 180)
+    #define rad_to_deg(rad) rad * (180 / pi)
     #define sqr(e) e * e
     #define dist1D(c1, c2) c2 - c1
-
    
     f64_t dist2D  (f64_t x1, f64_t y1, f64_t x2, f64_t y2);
     f64_t dir2D   (f64_t x1, f64_t y1, f64_t x2, f64_t y2);
     f64_t inv_sqrt(f64_t num);
-    f64_t lerp_f  (f64_t start, f64_t stop, f64_t amt);
+    f64_t ilerp   (f64_t start, f64_t stop, f64_t amt);
    
+    i64_t randnum_gen(i64_t lower, i64_t upper);
+
+    // Note projection functions 
+    // project v1 onto v2
+
     typedef struct {
         f64_t x;
         f64_t y;
@@ -26,7 +30,7 @@
 
     #define mk_v2_zero() (v2_t) { .x = 0.0f, .y = 0.0f };
     #define mk_v2_one () (v2_t) { .x = 1.0f, .y = 1.0f };
-    #define mk_v2(_x, _y) (v2_t) { .x = _x, .y = _y };
+    #define mk_v2(_x, _y) (v2_t) { _x, _y };
 
     emp_t add_v2    (v2_t * v1, v2_t * v2);
     emp_t sub_v2    (v2_t * v1, v2_t * v2);
@@ -36,6 +40,7 @@
     emp_t normal_v2 (v2_t * v);
     emp_t rotate_v2 (v2_t * v, f64_t theta);
     emp_t set_v2_mag(v2_t * v, f64_t scalar);
+    emp_t negate_v2 (v2_t * v);
 
     f64_t v2_mag         (v2_t * v);
     f64_t v2_angle       (v2_t * v);
@@ -53,7 +58,7 @@
 
     #define mk_v3_zero() (v3_t) { .x = 0.0f, .y = 0.0f, .z = 0.0f };
     #define mk_v3_one () (v3_t) { .x = 1.0f, .y = 1.0f, .z = 1.0f };
-    #define mk_v3(_x, _y, _z) (v3_t) { .x = _x, .y = _y, .z = _z };
+    #define mk_v3(_x, _y, _z) (v3_t) { _x, _y, _z };
 
     emp_t add_v3    (v3_t * v1, v3_t * v2);
     emp_t sub_v3    (v3_t * v1, v3_t * v2);
@@ -62,12 +67,12 @@
     emp_t scale_v3  (v3_t * v, f64_t scalar);
     emp_t normal_v3 (v3_t * v);
     emp_t set_v3_mag(v3_t * v, f64_t scalar);
+    emp_t negate_v3 (v3_t * v);
     
     f64_t v3_mag         (v3_t * v);
     f64_t v3_dot_prod    (v3_t * v1, v3_t * v2);
     f64_t dist_between_v3(v3_t * v1, v3_t * v2); 
     v3_t  v3_cross_prod  (v3_t * v1, v3_t * v2);
-    // projects v1 on v2
     v3_t v3_projection   (v3_t * v1, v3_t * v2);
 
     typedef struct {
@@ -79,7 +84,7 @@
 
     #define mk_v4_zero() (v4_t) { .x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f };
     #define mk_v4_one () (v4_t){ .x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 1.0f };
-    #define mk_v4(x, y, z, w) (v4_t) { .x = x, .y = y, .z = z, .w = w };
+    #define mk_v4(_x, _y, _z, _w) (v4_t) { _x, _y, _z, _w };
 
     emp_t add_v4    (v4_t * v1, v4_t * v2);
     emp_t sub_v4    (v4_t * v1, v4_t * v2);
@@ -88,13 +93,58 @@
     emp_t scale_v4  (v4_t * v, f64_t scalar);
     emp_t normal_v4 (v4_t * v);
     emp_t set_v4_mag(v4_t * v, f64_t scalar);
+    emp_t negate_v4 (v4_t * v);
     
     f64_t v4_mag         (v4_t * vec);
     f64_t v4_dot_prod    (v4_t * v1, v4_t * v2);
     f64_t dist_between_v4(v4_t * v1, v4_t * v2); 
 
-    // projects v1 on v2
     v4_t v4_projection(v4_t * v1, v4_t * v2);
+
+    v3_t v2_to_v3(const v2_t v);
+    v4_t v3_to_v4(const v3_t v);
+    v3_t v4_to_v3(const v4_t v);
+    v2_t v3_to_v2(const v3_t v);
+
+    typedef struct {
+        f64_t mat[16]; 
+        f32_t matrix[4][4];
+    } m4x4_t;
+
+    m4x4_t mk_m4x4(f64_t m01, f64_t m02, f64_t m03, f64_t m04, 
+                   f64_t m05, f64_t m06, f64_t m07, f64_t m08,
+                   f64_t m09, f64_t m10, f64_t m11, f64_t m12, 
+                   f64_t m13, f64_t m14, f64_t m15, f64_t m16); 
+
+
+    // Some of the code has been took from
+    // https://github.com/MrFrenik/gunslinger/blob/v0.02-alpha/include/math/gs_math.h
+    // learnopengl.com/Getting-started/Transformations
+    m4x4_t zero_m4x4();
+    m4x4_t identity_m4x4();
+    m4x4_t diag_m4x4(f64_t val);
+
+    emp_t m4x4_add(m4x4_t * m1, m4x4_t * m2); 
+    // Subtracts m1 from m2
+    emp_t m4x4_sub(m4x4_t * m1, m4x4_t * m2); 
+    m4x4_t m4x4_mult(m4x4_t m1, m4x4_t m2); 
+    emp_t scale_m4x4_by_v3(m4x4_t * mat, const v3_t vector);
+    m4x4_t m4x4_rotate(f32_t degrees, v3_t axis);
+    m4x4_t translate_m4x4(m4x4_t mat, const v3_t vector);
+    emp_t get_gl_matrix(m4x4_t * m);
+    m4x4_t mk_ortho_projection_m4x4(f32_t l, f32_t r, f32_t b, f32_t t, f32_t n, f32_t f);
+
+    // Add:
+    //  Converting vectors {v4 -> fdksjfljaf -> v3}
+    //  m4x4_t
+        //  transpose
+        //  inverse 
+        //  perspective
+        //  lookat
+        //  mul by vectors
+        //  fix rotation
+    //  quternions
+        //  
 
 
 #endif

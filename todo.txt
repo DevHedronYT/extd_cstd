@@ -4,6 +4,7 @@ implemented and added:
 > must add docs
 
 file:
+    - better printing using util.h
     - function declarations and stuff should be in same order
 
 structures:
