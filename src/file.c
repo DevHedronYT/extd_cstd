@@ -1,10 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <file.h>
+#include <str.h>
 
-file_t le_load_file(str_t path) {
+i08_t file_exists(str_t path) {
     FILE * f = fopen(path, "r");
-        
+    if (f) {
+        return 1;
+    }
+    return 0;
+}
+
+file_t load_file(str_t path) {
+    FILE * f = fopen(path, "r");
     file_t file_final;
 
     if (f) {
@@ -24,6 +32,16 @@ file_t le_load_file(str_t path) {
     else {
         return (file_t){"NULL", path, -1};
     }
+}
+
+i08_t write_file(str_t content, str_t path) { 
+    FILE * f = fopen(path, "wb");
+    
+    if (!f) { return 0;  }
+    i32_t len = str_length(content);
+    fwrite(content, sizeof(chr_t), len, f);
+    fclose(f);
+    return 1;
 }
 
 

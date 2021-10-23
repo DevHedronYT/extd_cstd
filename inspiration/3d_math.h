@@ -87,35 +87,6 @@ v1.0  2016-02-15  Initial release
 
 
 //
-// 3D vectors
-// 
-// Use the `vec3()` function to create vectors. All other vector functions start
-// with the `v3_` prefix.
-// 
-// The binary layout is the same as in GLSL and everything else (just 3 floats).
-// So you can just upload the vectors into shaders as they are.
-//
-
-typedef struct { float x, y, z; } vec3_t;
-static inline vec3_t vec3(float x, float y, float z)        { return (vec3_t){ x, y, z }; }
-
-static inline vec3_t v3_add   (vec3_t a, vec3_t b)          { return (vec3_t){ a.x + b.x, a.y + b.y, a.z + b.z }; }
-static inline vec3_t v3_adds  (vec3_t a, float s)           { return (vec3_t){ a.x + s,   a.y + s,   a.z + s   }; }
-static inline vec3_t v3_sub   (vec3_t a, vec3_t b)          { return (vec3_t){ a.x - b.x, a.y - b.y, a.z - b.z }; }
-static inline vec3_t v3_subs  (vec3_t a, float s)           { return (vec3_t){ a.x - s,   a.y - s,   a.z - s   }; }
-static inline vec3_t v3_mul   (vec3_t a, vec3_t b)          { return (vec3_t){ a.x * b.x, a.y * b.y, a.z * b.z }; }
-static inline vec3_t v3_muls  (vec3_t a, float s)           { return (vec3_t){ a.x * s,   a.y * s,   a.z * s   }; }
-static inline vec3_t v3_div   (vec3_t a, vec3_t b)          { return (vec3_t){ a.x / b.x, a.y / b.y, a.z / b.z }; }
-static inline vec3_t v3_divs  (vec3_t a, float s)           { return (vec3_t){ a.x / s,   a.y / s,   a.z / s   }; }
-static inline float  v3_length(vec3_t v)                    { return sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);          }
-static inline vec3_t v3_norm  (vec3_t v);
-static inline float  v3_dot   (vec3_t a, vec3_t b)          { return a.x*b.x + a.y*b.y + a.z*b.z;                 }
-static inline vec3_t v3_proj  (vec3_t v, vec3_t onto);
-static inline vec3_t v3_cross (vec3_t a, vec3_t b);
-static inline float  v3_angle_between(vec3_t a, vec3_t b);
-
-
-//
 // 4x4 matrices
 //
 // Use the `mat4()` function to create a matrix. You can write the matrix
@@ -174,9 +145,6 @@ static inline mat4_t mat4(
 	float m03, float m13, float m23, float m33
 );
 
-static inline mat4_t m4_identity     ();
-static inline mat4_t m4_translation  (vec3_t offset);
-static inline mat4_t m4_scaling      (vec3_t scale);
 static inline mat4_t m4_rotation_x   (float angle_in_rad);
 static inline mat4_t m4_rotation_y   (float angle_in_rad);
 static inline mat4_t m4_rotation_z   (float angle_in_rad);
@@ -197,35 +165,6 @@ static inline mat4_t m4_mul          (mat4_t a, mat4_t b);
               void   m4_fprint       (FILE* stream, mat4_t matrix);
               void   m4_fprintp      (FILE* stream, mat4_t matrix, int width, int precision);
 
-
-
-//
-// 3D vector functions header implementation
-//
-
-static inline vec3_t v3_norm(vec3_t v) {
-	float len = v3_length(v);
-	if (len > 0)
-		return (vec3_t){ v.x / len, v.y / len, v.z / len };
-	else
-		return (vec3_t){ 0, 0, 0};
-}
-
-static inline vec3_t v3_proj(vec3_t v, vec3_t onto) {
-	return v3_muls(onto, v3_dot(v, onto) / v3_dot(onto, onto));
-}
-
-static inline vec3_t v3_cross(vec3_t a, vec3_t b) {
-	return (vec3_t){
-		a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z,
-		a.x * b.y - a.y * b.x
-	};
-}
-
-static inline float v3_angle_between(vec3_t a, vec3_t b) {
-	return acosf( v3_dot(a, b) / (v3_length(a) * v3_length(b)) );
-}
 
 
 //
@@ -255,24 +194,6 @@ static inline mat4_t m4_identity() {
 	);
 }
 
-static inline mat4_t m4_translation(vec3_t offset) {
-	return mat4(
-		 1,  0,  0,  offset.x,
-		 0,  1,  0,  offset.y,
-		 0,  0,  1,  offset.z,
-		 0,  0,  0,  1
-	);
-}
-
-static inline mat4_t m4_scaling(vec3_t scale) {
-	float x = scale.x, y = scale.y, z = scale.z;
-	return mat4(
-		 x,  0,  0,  0,
-		 0,  y,  0,  0,
-		 0,  0,  z,  0,
-		 0,  0,  0,  1
-	);
-}
 
 static inline mat4_t m4_rotation_x(float angle_in_rad) {
 	float s = sinf(angle_in_rad), c = cosf(angle_in_rad);
@@ -364,46 +285,6 @@ mat4_t m4_rotation(float angle_in_rad, vec3_t axis) {
 	);
 }
 
-
-/**
- * Creates an orthographic projection matrix. It maps the right handed cube
- * defined by left, right, bottom, top, back and front onto the screen and
- * z-buffer. You can think of it as a cube you move through world or camera
- * space and everything inside is visible.
- * 
- * This is slightly different from the traditional glOrtho() and from the linked
- * sources. These functions require the user to negate the last two arguments
- * (creating a left-handed coordinate system). We avoid that here so you can
- * think of this function as moving a right-handed cube through world space.
- * 
- * The arguments are ordered in a way that for each axis you specify the minimum
- * followed by the maximum. Thats why it's bottom to top and back to front.
- * 
- * Implementation details:
- * 
- * To be more exact the right-handed cube is mapped into normalized device
- * coordinates, a left-handed cube where (-1 -1) is the lower left corner,
- * (1, 1) the upper right corner and a z-value of -1 is the nearest point and
- * 1 the furthest point. OpenGL takes it from there and puts it on the screen
- * and into the z-buffer.
- * 
- * Sources:
- * 
- * https://msdn.microsoft.com/en-us/library/windows/desktop/dd373965(v=vs.85).aspx
- * https://unspecified.wordpress.com/2012/06/21/calculating-the-gluperspective-matrix-and-other-opengl-matrix-maths/
- */
-mat4_t m4_ortho(float left, float right, float bottom, float top, float back, float front) {
-	float l = left, r = right, b = bottom, t = top, n = front, f = back;
-	float tx = -(r + l) / (r - l);
-	float ty = -(t + b) / (t - b);
-	float tz = -(f + n) / (f - n);
-	return mat4(
-		 2 / (r - l),  0,            0,            tx,
-		 0,            2 / (t - b),  0,            ty,
-		 0,            0,            2 / (f - n),  tz,
-		 0,            0,            0,            1
-	);
-}
 
 /**
  * Creates a perspective projection matrix for a camera.

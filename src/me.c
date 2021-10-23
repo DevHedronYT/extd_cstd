@@ -1,4 +1,5 @@
 #include <me.h>
+#include <stdarg.h>
 #include <math.h>
 #include <stdlib.h>
 
@@ -39,8 +40,8 @@ emp_t add_v2(v2_t * v1, v2_t * v2) {
 }
 
 emp_t sub_v2(v2_t * v1, v2_t * v2) {
-    v1 -> x = v2 -> x - v1 -> x;
-    v1 -> y = v2 -> y - v1 -> y;
+    v1 -> x -= v2 -> x;
+    v1 -> y -= v2 -> y;
 }
 
 emp_t lerp_v2(v2_t * v1, v2_t * v2, f64_t amt) {
@@ -139,9 +140,9 @@ emp_t add_v3(v3_t * v1, v3_t * v2) {
 }
 
 emp_t sub_v3(v3_t * v1, v3_t * v2) {
-    v1 -> x = v2 -> x - v1 -> x;
-    v1 -> y = v2 -> y - v2 -> y;
-    v1 -> z = v2 -> z - v2 -> z;
+    v1 -> x -= v2 -> x;
+    v1 -> y -= v2 -> y;
+    v1 -> z -= v2 -> z;
 }
 
 emp_t lerp_v3(v3_t * v1, v3_t * v2, f64_t amt) {
@@ -222,6 +223,24 @@ v3_t v3_projection(v3_t * v1, v3_t * v2) {
     return return_val;   
 }
 
+f64_t angle_between_v3(v3_t * v1, v3_t * v2) {
+    if (v1 -> x == 0 && v1 -> y == 0) return 0.0f;
+    if (v2 -> x == 0 && v2 -> y == 0) return 0.0f;
+    if (v2 -> z == 0 && v2 -> z == 0) return 0.0f;
+
+    f64_t dot = v3_dot_prod(v1, v2);
+    f64_t v1mag = v3_mag(v1);
+    f64_t v2mag = v3_mag(v2);
+    f64_t amt = dot / (v1mag * v2mag);
+
+    if (amt <= -1) {
+        return M_PI;
+    } else if (amt >= 1) {
+        return 0;
+    }
+    return acos(amt);   
+}
+
 emp_t add_v4(v4_t * v1, v4_t * v2) {
     v1 -> x += v2 -> x;    
     v1 -> y += v2 -> y;
@@ -230,10 +249,10 @@ emp_t add_v4(v4_t * v1, v4_t * v2) {
 }
 
 emp_t sub_v4(v4_t * v1, v4_t * v2) {
-    v1 -> x = v2 -> x - v1 -> x;
-    v1 -> y = v2 -> y - v1 -> y;
-    v1 -> z = v2 -> z - v2 -> z;
-    v1 -> w = v2 -> w - v2 -> w;
+    v1 -> x -= v2 -> x;
+    v1 -> y -= v2 -> y;
+    v1 -> z -= v2 -> z;
+    v1 -> w -= v2 -> w;
 }
 
 emp_t lerp_v4(v4_t * v1, v4_t * v2, f64_t amt) {
@@ -327,31 +346,17 @@ v2_t v3_to_v2(const v3_t v) {
     return mk_v2(v.x, v.y);
 }
 
-m4x4_t mk_m4x4(f64_t m01, f64_t m02, f64_t m03, f64_t m04, 
-               f64_t m05, f64_t m06, f64_t m07, f64_t m08,
-               f64_t m09, f64_t m10, f64_t m11, f64_t m12, 
-               f64_t m13, f64_t m14, f64_t m15, f64_t m16) {
-    m4x4_t mat;
 
-    mat.mat[0] = m01;
-    mat.mat[1] = m02;
-    mat.mat[2] = m03; 
-    mat.mat[3] = m04;
-
-    mat.mat[4] = m05;
-    mat.mat[5] = m06;
-    mat.mat[6] = m07;
-    mat.mat[7] = m08;
-
-    mat.mat[8] = m09;
-    mat.mat[9] = m10;
-    mat.mat[10] = m11;
-    mat.mat[11] = m12;
-
-    mat.mat[12] = m13;
-    mat.mat[13] = m14;
-    mat.mat[14] = m15;
-    mat.mat[15] = m16;
+m4x4_t mk_m4x4(f32_t m00, f32_t m01, f32_t m02, f32_t m03,
+               f32_t m04, f32_t m05, f32_t m06, f32_t m07,
+               f32_t m08, f32_t m09, f32_t m10, f32_t m11,
+               f32_t m12, f32_t m13, f32_t m14, f32_t m15) { 
+    m4x4_t mat = {{
+        {m00, m01, m02, m03},
+        {m04, m05, m06, m07},
+        {m08, m09, m10, m11},
+        {m12, m13, m14, m15}
+    }};
 
     return mat;
 }
@@ -376,88 +381,118 @@ m4x4_t identity_m4x4() {
 }
 
 m4x4_t diag_m4x4(f64_t val) {
-	m4x4_t mat = {0};
-	mat.mat[0 + 0 * 4] = val;
-	mat.mat[1 + 1 * 4] = val;
-	mat.mat[2 + 2 * 4] = val;
-	mat.mat[3 + 3 * 4] = val;
-	return mat;
+    return mk_m4x4(
+                    val, 000, 000, 000,
+                    000, val, 000, 000,
+                    000, 000, val, 000,
+                    000, 000, 000, val
+                  );
 }
 
 emp_t m4x4_add(m4x4_t * m1, m4x4_t * m2) {
-    for (i16_t i = 0; i < 16; i++) {
-        m1 -> mat[i] += m2 -> mat[i];
+    for (u16_t i = 0; i < 4; i++) {
+        for (u16_t j = 0; j < 4; j++) {
+            m1 -> elems[i][j] += m2 -> elems[i][j];
+        }
     }
 }
 
-
 emp_t m4x4_sub(m4x4_t * m1, m4x4_t * m2) {
-    for (i16_t i = 0; i < 16; i++) {
-        m2 -> mat[i] -= m1 -> mat[i];
+    for (u16_t i = 0; i < 4; i++) {
+        for (u16_t j = 0; j < 4; j++) {
+            m2 -> elems[i][j] -= m1 -> elems[i][j];
+        }
     }
 } 
-
 m4x4_t m4x4_mult(m4x4_t m1, m4x4_t m2) {
  	m4x4_t result = zero_m4x4(); 
 	for (u32_t y = 0; y < 4; ++y) {
 		for (u32_t x = 0; x < 4; ++x) {
 			f32_t sum = 0.0f;
 			for (u32_t e = 0; e < 4; ++e) {
-				sum += m1.mat[x + e * 4] * m2.mat[e + y * 4];
+				sum += m1.elems[e][x] * m2.elems[y][e];
 			}
-			result.mat[x + y * 4] = sum;
+			result.elems[y][x] = sum;
 		}
 	}
 
 	return result;
 } 
 
-emp_t scale_m4x4_by_v3(m4x4_t * mat, const v3_t vector) {
-    mat -> mat[0] *= vector.x;
-    mat -> mat[5] *= vector.y;
-    mat -> mat[10] *= vector.z;
+m4x4_t scale_m4x4_by_v3(m4x4_t mat, const v3_t vector) {
+    mat.elems[0][0] *= vector.x;
+    mat.elems[1][1] *= vector.y;
+    mat.elems[2][2] *= vector.z;
+    return mat;
 }
 
 // Takes in an identity matrix
 m4x4_t translate_m4x4(m4x4_t mat, const v3_t vector) {
-    mat.mat[12] += vector.x;
-    mat.mat[13] += vector.y;
-    mat.mat[14] += vector.z;
+    mat.elems[3][0] += vector.x;
+    mat.elems[3][1] += vector.y;
+    mat.elems[3][2] += vector.z;
     return mat;
 }
 
 m4x4_t m4x4_rotate(f32_t degrees, v3_t axis) {
-
     m4x4_t mat = identity_m4x4();
 
-    float a = degrees;
-    float c = (float)cos(a);
-    float s = (float)sin(a);
+    f32_t a = degrees;
+    f32_t c = (f32_t)cos(a);
+    f32_t s = (f32_t)sin(a);
 
     normal_v3(&axis);
-    float x = axis.x;
-    float y = axis.y;
-    float z = axis.z;
+    f32_t x = axis.x;
+    f32_t y = axis.y;
+    f32_t z = axis.z;
 
     //First column
-    mat.mat[0 + 0 * 4] = x * x * (1 - c) + c;    
-    mat.mat[1 + 0 * 4] = x * y * (1 - c) + z * s;    
-    mat.mat[2 + 0 * 4] = x * z * (1 - c) - y * s;    
+    mat.elems[0][0] = c + (x * x) * (1 - c);
+    mat.elems[0][1] = x * y * (1 - c) - (z * s);
+    mat.elems[0][2] = x * z * (1 - c) + (y * s);
 
     //Second column
-    mat.mat[0 + 1 * 4] = x * y * (1 - c) - z * s;    
-    mat.mat[1 + 1 * 4] = y * y * (1 - c) + c;    
-    mat.mat[2 + 1 * 4] = y * z * (1 - c) + x * s;    
+    mat.elems[1][0] = y * x * (1 - c) + z * s;
+    mat.elems[1][1] = c + y * y * (1 - c);
+    mat.elems[1][2] = y * z * (1 - c) - x * s;
 
     //Third column
-    mat.mat[0 + 2 * 4] = x * z * (1 - c) + y * s;    
-    mat.mat[1 + 2 * 4] = y * z * (1 - c) - x * s;    
-    mat.mat[2 + 2 * 4] = z * z * (1 - c) + c;    
+    mat.elems[2][0] = z * x * (1 - c) - y * s;
+    mat.elems[2][1] = z * y * (1 - c) + x * s;
+    mat.elems[2][2] = c + z * z * (1 - c);
 
     return mat;
 
 }
- 
+
+m4x4_t m4x4_mult_n(u32_t m4x4_count, ...) {
+    va_list matrices;
+    va_start(matrices, m4x4_count);
+        m4x4_t ident = identity_m4x4();
+        for (uint32_t i = 0; i < m4x4_count; ++i) {
+            ident = m4x4_mult(ident, va_arg(matrices, m4x4_t));
+        }
+
+    va_end(matrices);
+
+    return ident;
+}
+
+
+v4_t m4x4_mult_v4(m4x4_t m, v4_t v) {
+    return mk_v4(
+                m.elems[0][0] * v.x + m.elems[1][0] * v.y + m.elems[2][0] * v.z + m.elems[3][0] * v.w,  
+                m.elems[0][1] * v.x + m.elems[1][1] * v.y + m.elems[2][1] * v.z + m.elems[3][1] * v.w,  
+                m.elems[0][2] * v.x + m.elems[1][2] * v.y + m.elems[2][2] * v.z + m.elems[3][2] * v.w,  
+                m.elems[0][3] * v.x + m.elems[1][3] * v.y + m.elems[2][3] * v.z + m.elems[3][3] * v.w
+         );
+}
+
+
+v3_t m4x4_mult_v3(m4x4_t m, v3_t v) {
+    return v4_to_v3(m4x4_mult_v4(m, mk_v4(v.x, v.y, v.z, 1)));
+}
+
 
 m4x4_t mk_ortho_projection_m4x4(f32_t l, f32_t r, f32_t b, f32_t t, f32_t n, f32_t f) {
     return mk_m4x4
@@ -471,22 +506,56 @@ m4x4_t mk_ortho_projection_m4x4(f32_t l, f32_t r, f32_t b, f32_t t, f32_t n, f32
     );
 }
 
-emp_t get_gl_matrix(m4x4_t * m) {
-    m -> matrix[0][0] = m -> mat[0];
-    m -> matrix[0][1] = m -> mat[1];
-    m -> matrix[0][2] = m -> mat[2];
-    m -> matrix[0][3] = m -> mat[3];
-    m -> matrix[1][0] = m -> mat[4];
-    m -> matrix[1][1] = m -> mat[5];
-    m -> matrix[1][2] = m -> mat[6];
-    m -> matrix[1][3] = m -> mat[7];
-    m -> matrix[2][0] = m -> mat[8];
-    m -> matrix[2][1] = m -> mat[9];
-    m -> matrix[2][2] = m -> mat[10];
-    m -> matrix[2][3] = m -> mat[11];
-    m -> matrix[3][0] = m -> mat[12];
-    m -> matrix[3][1] = m -> mat[13];
-    m -> matrix[3][2] = m -> mat[14];
-    m -> matrix[3][3] = m -> mat[15];
+
+
+m4x4_t mk_perspective_projection_m4x4(f32_t fov, f32_t asp_ratio, f32_t n, f32_t f) {
+    m4x4_t result = zero_m4x4(); 
+
+    f32_t q = 1.0f / (f32_t)tan(deg_to_rad(0.5f * fov));
+    f32_t a = q / asp_ratio;
+    f32_t b = (n + f) / (n - f);
+    f32_t c = (2.0f * n * f) / (n - f);
+
+    result.elems[0][0] = a;
+    result.elems[1][1] = q;
+    result.elems[2][2] = b;
+    result.elems[3][2] = c;
+    result.elems[3][3] = -1.0f;
+
+    // a, 0, 0,  0,
+    // 0, q, 0,  0,
+    // 0, 0, b,  0,
+    // 0, 0, c, -1
+    return result;
 }
 
+
+m4x4_t m4x4_lookat(v3_t pos, v3_t target, v3_t up) {
+    sub_v3(&target, &pos);
+    normal_v3(&target);
+    v3_t f = target; 
+
+    v3_t s = v3_cross_prod(&f, &up);
+    normal_v3(&s);
+
+    v3_t u = v3_cross_prod(&s, &f);
+
+    m4x4_t result = identity_m4x4();
+    result.elems[0][0] = s.x;
+    result.elems[1][0] = s.y;
+    result.elems[2][0] = s.z;
+
+    result.elems[0][1] = u.x;
+    result.elems[1][1] = u.y;
+    result.elems[2][1] = u.z;
+
+    result.elems[0][2] = -f.x;
+    result.elems[1][2] = -f.y;
+    result.elems[2][2] = -f.z;
+
+    result.elems[3][0] = -v3_dot_prod(&s, &pos);;
+    result.elems[3][1] = -v3_dot_prod(&u, &pos);
+    result.elems[3][2] = v3_dot_prod(&f, &pos); 
+
+    return result;   
+}
