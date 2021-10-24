@@ -105,12 +105,6 @@
     v3_t v4_to_v3(const v4_t v);
     v2_t v3_to_v2(const v3_t v);
 
-    // m01 = m column 0, row 1
-    // m02 = m column 0, row 2
-    // m03 = m column 0, row 3
-    // m04 = m column 0, row 4
-    // indexed in elems with -1
-    // ...etc..
     typedef struct {
         f32_t elems[4][4];
     } m4x4_t;

@@ -1,39 +1,16 @@
 Library is mostly complete but these things could be 
 implemented and added:
 
-> must add docs
-
-file:
-    - better printing using util.h
-    - function declarations and stuff should be in same order
-
 structures:
-    - heaps
-    - tries
-    - suffix arrays
-    - sets
-    - segment trees
-    - decision trees
-    - matrices
-    - more linked list types
-    - red black trees
-    - avl trees 
     - bitmaps
-    - graphs
     - bitset
-    - pairs
-    - priority queues
     - bitmasks
-    - binary tree
-    - fenwick/binary indexed tree
 
 functions & algorithms:
     - math
-    - common graph algorithms
-    - searching algorithms
-    - sorting algorithms
+    - physics
+    - ecs
     - reg ex
-    - file io
     - json parsing
     - network file access
     - coroutines
@@ -43,6 +20,4 @@ functions & algorithms:
     - api interaction like requests lib from python
     - piping
 
-specific types instead of i32_t for all, use 
-specific types
 
