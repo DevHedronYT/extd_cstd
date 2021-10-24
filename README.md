@@ -1,5 +1,5 @@
 # c_std_lib
-This is a simple C standard library written using C99, lib includes implementations of:
+- This is a simple C standard library written using C99, lib includes implementations of:
     - [Custom Types](./include/types.h)
     - [File I/O](./include/file.h)
     - [List](./include/list.h)
@@ -10,12 +10,12 @@ This is a simple C standard library written using C99, lib includes implementati
     - [String Funtions](./include/str.h)
 
 ## Building
-Build the library using Make: 
+- Build the library using Make: 
 ```sh
 mkdir build
 make 
 ```
-This will output a file called libc_std_lib.a
+- This will output a file called `libc_std_lib.a`
 which you can use to run the programs and ..etc..
 I could maybe make this whole library header only 
 though
@@ -179,7 +179,8 @@ also much simpler than the previous API
 and allocates that much space and returns it
 
 - The `hash_id` function takes in a `const str_t` and hashes it using the algorithm used by
-Ben Hoyt in his hash table tutorials as well and it returns a 64-bit unsigned integer
+[Ben Hoyt in his hash table tutorial](https://benhoyt.com/writings/hash-table-in-c/) as well 
+and it returns a 64-bit unsigned integer
 
 - Then there is the `increase_ht_capacity` which takes in a pointer to the hash table and 
 then the new capacity as a 32-bit unsigned int and then reallocates that much space
@@ -262,11 +263,11 @@ typedef struct {
 
 ```c
     #define pi 3.14159265358979
-    #define deg_to_rad(deg) deg * (pi / 180)
-    #define rad_to_deg(rad) rad * (180 / pi)
-    #define sqr(e) e * e
-    #define dist1D(c1, c2) c2 - c1
-   
+    #define deg_to_rad(deg) 
+    #define rad_to_deg(rad) 
+    #define sqr(e) 
+    #define dist1D(c1, c2)    
+
     f64_t dist2D  (f64_t x1, f64_t y1, f64_t x2, f64_t y2);
     f64_t dir2D   (f64_t x1, f64_t y1, f64_t x2, f64_t y2);
     f64_t inv_sqrt(f64_t num);
@@ -277,9 +278,9 @@ typedef struct {
     // Note projection functions 
     // project v1 onto v2
 
-    #define mk_v2_zero() (v2_t) { .x = 0.0f, .y = 0.0f }
-    #define mk_v2_one () (v2_t) { .x = 1.0f, .y = 1.0f }
-    #define mk_v2(_x, _y) (v2_t) { _x, _y }
+    #define mk_v2_zero() 
+    #define mk_v2_one () 
+    #define mk_v2(_x, _y) 
 
     emp_t add_v2    (v2_t * v1, v2_t * v2);
     emp_t sub_v2    (v2_t * v1, v2_t * v2);
@@ -299,9 +300,9 @@ typedef struct {
 
     v2_t v2_projection(v2_t * v1, v2_t * v2);
 
-    #define mk_v3_zero() (v3_t) { .x = 0.0f, .y = 0.0f, .z = 0.0f }
-    #define mk_v3_one () (v3_t) { .x = 1.0f, .y = 1.0f, .z = 1.0f }
-    #define mk_v3(_x, _y, _z) (v3_t) { _x, _y, _z }
+    #define mk_v3_zero() 
+    #define mk_v3_one ()
+    #define mk_v3(_x, _y, _z) 
 
     emp_t add_v3    (v3_t * v1, v3_t * v2);
     emp_t sub_v3    (v3_t * v1, v3_t * v2);
@@ -319,9 +320,9 @@ typedef struct {
     v3_t  v3_projection  (v3_t * v1, v3_t * v2);
     f64_t angle_between_v3(v3_t * v1, v3_t * v2);
 
-    #define mk_v4_zero() (v4_t) { .x = 0.0f, .y = 0.0f, .z = 0.0f, .w = 0.0f }
-    #define mk_v4_one () (v4_t){ .x = 1.0f, .y = 1.0f, .z = 1.0f, .w = 1.0f }
-    #define mk_v4(_x, _y, _z, _w) (v4_t) { _x, _y, _z, _w }
+    #define mk_v4_zero() 
+    #define mk_v4_one () 
+    #define mk_v4(_x, _y, _z, _w) 
 
     emp_t add_v4    (v4_t * v1, v4_t * v2);
     emp_t sub_v4    (v4_t * v1, v4_t * v2);

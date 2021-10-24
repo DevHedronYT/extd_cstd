@@ -20,4 +20,4 @@ functions & algorithms:
     - api interaction like requests lib from python
     - piping
 
-
+Decrease use of pointers in some functions
