@@ -84,166 +84,167 @@ and `gs_vqs_relative_transform`:
 
 */
 
-/*========================
-// GS_MATH
-========================*/
-
-/** @defgroup gs_math Math
- *  Gunslinger Math
- *  @{
- */
-
-// Defines
-#define GS_EPSILON  (1e-6)
-#define GS_PI       3.1415926535897932
-#define GS_TAU      2.0 * GS_PI
-
-// Useful Utility
-#define gs_v2(...)  gs_vec2_ctor(__VA_ARGS__)
-#define gs_v3(...)  gs_vec3_ctor(__VA_ARGS__)
-#define gs_v4(...)  gs_vec4_ctor(__VA_ARGS__)
-#define gs_quat(...) gs_quat_ctor(__VA_ARGS__)
-
-#define gs_v2s(__S)  gs_vec2_ctor((__S), (__S))
-#define gs_v3s(__S)  gs_vec3_ctor((__S), (__S), (__S))
-#define gs_v4s(__S)  gs_vec4_ctor((__S), (__S), (__S), (__S))
-
-#define gs_v4_xy_v(__X, __Y, __V) gs_vec4_ctor((__X), (__Y), (__V).x, (__V).y)
-#define gs_v4_xyz_s(__XYZ, __S) gs_vec4_ctor((__XYZ).x, (__XYZ).y, (__XYZ).z, (__S))
-
-#define GS_XAXIS    gs_v3(1.f, 0.f, 0.f)
-#define GS_YAXIS    gs_v3(0.f, 1.f, 0.f)
-#define GS_ZAXIS    gs_v3(0.f, 0.f, 1.f)
-
-/*================================================================================
-// Useful Common Math Functions
-================================================================================*/
-// Interpolation
-// Source: https://codeplea.com/simple-interpolation
-// Easings from: https://github.com/raysan5/raylib/blob/ea0f6c7a26f3a61f3be542aa8f066ce033766a9f/examples/others/easings.h
-//
-/*================================================================================
-// Mat3x3
-================================================================================*/
-
-/*
-    Matrices are stored in linear, contiguous memory and assume a column-major ordering.
-*/
-
-typedef struct gs_mat3 {
-    f32 m[9];
-} gs_mat3;
-
-gs_inline gs_mat3 gs_mat3_diag(float val)
+gs_inline
+gs_mat4 gs_mat4_transpose(gs_mat4 m)
 {
-    gs_mat3 m = gs_default_val();
-    m.m[0 + 0 * 3] = val;
-    m.m[1 + 1 * 3] = val;
-    m.m[2 + 2 * 3] = val;
-    return m;
+    gs_mat4 t = gs_mat4_identity();
+
+    // First row
+    t.elements[0 * 4 + 0] = m.elements[0 * 4 + 0];
+    t.elements[1 * 4 + 0] = m.elements[0 * 4 + 1];
+    t.elements[2 * 4 + 0] = m.elements[0 * 4 + 2];
+    t.elements[3 * 4 + 0] = m.elements[0 * 4 + 3];
+
+    // Second row
+    t.elements[0 * 4 + 1] = m.elements[1 * 4 + 0];
+    t.elements[1 * 4 + 1] = m.elements[1 * 4 + 1];
+    t.elements[2 * 4 + 1] = m.elements[1 * 4 + 2];
+    t.elements[3 * 4 + 1] = m.elements[1 * 4 + 3];
+
+    // Third row
+    t.elements[0 * 4 + 2] = m.elements[2 * 4 + 0];
+    t.elements[1 * 4 + 2] = m.elements[2 * 4 + 1];
+    t.elements[2 * 4 + 2] = m.elements[2 * 4 + 2];
+    t.elements[3 * 4 + 2] = m.elements[2 * 4 + 3];
+
+    // Fourth row
+    t.elements[0 * 4 + 3] = m.elements[3 * 4 + 0];
+    t.elements[1 * 4 + 3] = m.elements[3 * 4 + 1];
+    t.elements[2 * 4 + 3] = m.elements[3 * 4 + 2];
+    t.elements[3 * 4 + 3] = m.elements[3 * 4 + 3];
+
+    return t;
 }
 
-#define gs_mat3_identity()\
-    gs_mat3_diag(1.f)
-
-gs_inline gs_mat3 
-gs_mat3_mul(gs_mat3 m0, gs_mat3 m1)
+gs_inline
+gs_mat4 gs_mat4_inverse(gs_mat4 m)
 {
-    gs_mat3 m = gs_default_val();
+    gs_mat4 res = gs_mat4_identity();
 
-    for (u32 y = 0; y < 3; ++y)
-    {
-        for (u32 x = 0; x < 3; ++x)
-        {
-            f32 sum = 0.0f;
-            for (u32 e = 0; e < 3; ++e)
-            {
-                sum += m0.m[x + e * 3] * m1.m[e + y * 3];
-            }
-            m.m[x + y * 3] = sum;
-        }
-    }
+    f32 temp[16];
 
-    return m;
+    temp[0] = m.elements[5] * m.elements[10] * m.elements[15] -
+        m.elements[5] * m.elements[11] * m.elements[14] -
+        m.elements[9] * m.elements[6] * m.elements[15] +
+        m.elements[9] * m.elements[7] * m.elements[14] +
+        m.elements[13] * m.elements[6] * m.elements[11] -
+        m.elements[13] * m.elements[7] * m.elements[10];
+
+    temp[4] = -m.elements[4] * m.elements[10] * m.elements[15] +
+        m.elements[4] * m.elements[11] * m.elements[14] +
+        m.elements[8] * m.elements[6] * m.elements[15] -
+        m.elements[8] * m.elements[7] * m.elements[14] -
+        m.elements[12] * m.elements[6] * m.elements[11] +
+        m.elements[12] * m.elements[7] * m.elements[10];
+
+    temp[8] = m.elements[4] * m.elements[9] * m.elements[15] -
+        m.elements[4] * m.elements[11] * m.elements[13] -
+        m.elements[8] * m.elements[5] * m.elements[15] +
+        m.elements[8] * m.elements[7] * m.elements[13] +
+        m.elements[12] * m.elements[5] * m.elements[11] -
+        m.elements[12] * m.elements[7] * m.elements[9];
+
+    temp[12] = -m.elements[4] * m.elements[9] * m.elements[14] +
+        m.elements[4] * m.elements[10] * m.elements[13] +
+        m.elements[8] * m.elements[5] * m.elements[14] -
+        m.elements[8] * m.elements[6] * m.elements[13] -
+        m.elements[12] * m.elements[5] * m.elements[10] +
+        m.elements[12] * m.elements[6] * m.elements[9];
+
+    temp[1] = -m.elements[1] * m.elements[10] * m.elements[15] +
+        m.elements[1] * m.elements[11] * m.elements[14] +
+        m.elements[9] * m.elements[2] * m.elements[15] -
+        m.elements[9] * m.elements[3] * m.elements[14] -
+        m.elements[13] * m.elements[2] * m.elements[11] +
+        m.elements[13] * m.elements[3] * m.elements[10];
+
+    temp[5] = m.elements[0] * m.elements[10] * m.elements[15] -
+        m.elements[0] * m.elements[11] * m.elements[14] -
+        m.elements[8] * m.elements[2] * m.elements[15] +
+        m.elements[8] * m.elements[3] * m.elements[14] +
+        m.elements[12] * m.elements[2] * m.elements[11] -
+        m.elements[12] * m.elements[3] * m.elements[10];
+
+    temp[9] = -m.elements[0] * m.elements[9] * m.elements[15] +
+        m.elements[0] * m.elements[11] * m.elements[13] +
+        m.elements[8] * m.elements[1] * m.elements[15] -
+        m.elements[8] * m.elements[3] * m.elements[13] -
+        m.elements[12] * m.elements[1] * m.elements[11] +
+        m.elements[12] * m.elements[3] * m.elements[9];
+
+    temp[13] = m.elements[0] * m.elements[9] * m.elements[14] -
+        m.elements[0] * m.elements[10] * m.elements[13] -
+        m.elements[8] * m.elements[1] * m.elements[14] +
+        m.elements[8] * m.elements[2] * m.elements[13] +
+        m.elements[12] * m.elements[1] * m.elements[10] -
+        m.elements[12] * m.elements[2] * m.elements[9];
+
+    temp[2] = m.elements[1] * m.elements[6] * m.elements[15] -
+        m.elements[1] * m.elements[7] * m.elements[14] -
+        m.elements[5] * m.elements[2] * m.elements[15] +
+        m.elements[5] * m.elements[3] * m.elements[14] +
+        m.elements[13] * m.elements[2] * m.elements[7] -
+        m.elements[13] * m.elements[3] * m.elements[6];
+
+    temp[6] = -m.elements[0] * m.elements[6] * m.elements[15] +
+        m.elements[0] * m.elements[7] * m.elements[14] +
+        m.elements[4] * m.elements[2] * m.elements[15] -
+        m.elements[4] * m.elements[3] * m.elements[14] -
+        m.elements[12] * m.elements[2] * m.elements[7] +
+        m.elements[12] * m.elements[3] * m.elements[6];
+
+    temp[10] = m.elements[0] * m.elements[5] * m.elements[15] -
+        m.elements[0] * m.elements[7] * m.elements[13] -
+        m.elements[4] * m.elements[1] * m.elements[15] +
+        m.elements[4] * m.elements[3] * m.elements[13] +
+        m.elements[12] * m.elements[1] * m.elements[7] -
+        m.elements[12] * m.elements[3] * m.elements[5];
+
+    temp[14] = -m.elements[0] * m.elements[5] * m.elements[14] +
+        m.elements[0] * m.elements[6] * m.elements[13] +
+        m.elements[4] * m.elements[1] * m.elements[14] -
+        m.elements[4] * m.elements[2] * m.elements[13] -
+        m.elements[12] * m.elements[1] * m.elements[6] +
+        m.elements[12] * m.elements[2] * m.elements[5];
+
+    temp[3] = -m.elements[1] * m.elements[6] * m.elements[11] +
+        m.elements[1] * m.elements[7] * m.elements[10] +
+        m.elements[5] * m.elements[2] * m.elements[11] -
+        m.elements[5] * m.elements[3] * m.elements[10] -
+        m.elements[9] * m.elements[2] * m.elements[7] +
+        m.elements[9] * m.elements[3] * m.elements[6];
+
+    temp[7] = m.elements[0] * m.elements[6] * m.elements[11] -
+        m.elements[0] * m.elements[7] * m.elements[10] -
+        m.elements[4] * m.elements[2] * m.elements[11] +
+        m.elements[4] * m.elements[3] * m.elements[10] +
+        m.elements[8] * m.elements[2] * m.elements[7] -
+        m.elements[8] * m.elements[3] * m.elements[6];
+
+    temp[11] = -m.elements[0] * m.elements[5] * m.elements[11] +
+        m.elements[0] * m.elements[7] * m.elements[9] +
+        m.elements[4] * m.elements[1] * m.elements[11] -
+        m.elements[4] * m.elements[3] * m.elements[9] -
+        m.elements[8] * m.elements[1] * m.elements[7] +
+        m.elements[8] * m.elements[3] * m.elements[5];
+
+    temp[15] = m.elements[0] * m.elements[5] * m.elements[10] -
+        m.elements[0] * m.elements[6] * m.elements[9] -
+        m.elements[4] * m.elements[1] * m.elements[10] +
+        m.elements[4] * m.elements[2] * m.elements[9] +
+        m.elements[8] * m.elements[1] * m.elements[6] -
+        m.elements[8] * m.elements[2] * m.elements[5];
+
+    float determinant = m.elements[0] * temp[0] + m.elements[1] * temp[4] + m.elements[2] * temp[8] + m.elements[3] * temp[12];
+    determinant = 1.0f / determinant;
+
+    for (int i = 0; i < 4 * 4; i++)
+        res.elements[i] = (float)(temp[i] * (float)determinant);
+
+    return res;
 }
 
-gs_inline gs_vec3 
-gs_mat3_mul_vec3(gs_mat3 m, gs_vec3 v)
-{
-    return gs_vec3_ctor(
-        m.m[0] * v.x + m.m[1] * v.y + m.m[2] * v.z,
-        m.m[3] * v.x + m.m[4] * v.y + m.m[5] * v.z,
-        m.m[6] * v.x + m.m[7] * v.y + m.m[8] * v.z
-    );
-}
 
-gs_inline gs_mat3 
-gs_mat3_rotate(float radians, float x, float y, float z)
-{
-    gs_mat3 m = gs_default_val();
-    float s = sinf(radians), c = cosf(radians), c1 = 1.f - c;
-    float xy = x * y;
-    float yz = y * z;
-    float zx = z * x;
-    float xs = x * s;
-    float ys = y * s;
-    float zs = z * s;
-    m.m[0] = c1 * x * x + c; m.m[1] = c1 * xy - zs;   m.m[2] = c1 * zx + ys; 
-    m.m[3] = c1 * xy + zs;   m.m[4] = c1 * y * y + c; m.m[5] = c1 * yz - xs;
-    m.m[6] = c1 * zx - ys;   m.m[7] = c1 * yz + xs;   m.m[8] = c1 * z * z + c;
-    return m;
-}
-
-gs_inline gs_mat3
-gs_mat3_rotatev(float radians, gs_vec3 axis)
-{
-    return gs_mat3_rotate(radians, axis.x, axis.y, axis.z);
-}
-
-// Turn quaternion into mat3
-gs_inline gs_mat3 
-gs_mat3_rotateq(gs_vec4 q)
-{
-    gs_mat3 m = gs_default_val();
-    float x2 = q.x * q.x, y2 = q.y * q.y, z2 = q.z * q.z, w2 = q.w * q.w;
-    float xz = q.x  *q.z, xy = q.x * q.y, yz = q.y * q.z, wz = q.w * q.z, wy = q.w * q.y, wx = q.w * q.x;
-    m.m[0] = 1 - 2 * (y2 + z2); m.m[1] = 2 * (xy + wz);     m.m[2] = 2 * (xz - wy);
-    m.m[3] = 2 * (xy - wz);     m.m[4] = 1 - 2 * (x2 + z2); m.m[5] = 2 * (yz + wx);
-    m.m[6] = 2 * (xz + wy);     m.m[7] = 2 * (yz - wx);     m.m[8] = 1 - 2 * (x2 + y2);
-    return m;
-}
-
-gs_inline gs_mat3 
-gs_mat3_rsq(gs_vec4 q, gs_vec3 s)
-{
-    gs_mat3 mr = gs_mat3_rotateq(q);
-    gs_mat3 ms = gs_mat3_scale(s.x, s.y, s.z);
-    return gs_mat3_mul(mr, ms);
-}
-
-gs_inline gs_mat3
-gs_mat3_inverse(gs_mat3 m)
-{
-    gs_mat3 r = gs_default_val();
-
-    double det = (double)(m.m[0 * 3 + 0] * (m.m[1 * 3 + 1] * m.m[2 * 3 + 2] - m.m[2 * 3 + 1] * m.m[1 * 3 + 2]) -
-                m.m[0 * 3 + 1] * (m.m[1 * 3 + 0] * m.m[2 * 3 + 2] - m.m[1 * 3 + 2] * m.m[2 * 3 + 0]) +
-                m.m[0 * 3 + 2] * (m.m[1 * 3 + 0] * m.m[2 * 3 + 1] - m.m[1 * 3 + 1] * m.m[2 * 3 + 0]));
-
-    double inv_det = det ? 1.0 / det : 0.0;
-
-    r.m[0 * 3 + 0] = (m.m[1 * 3 + 1] * m.m[2 * 3 + 2] - m.m[2 * 3 + 1] * m.m[1 * 3 + 2]) * inv_det;
-    r.m[0 * 3 + 1] = (m.m[0 * 3 + 2] * m.m[2 * 3 + 1] - m.m[0 * 3 + 1] * m.m[2 * 3 + 2]) * inv_det;
-    r.m[0 * 3 + 2] = (m.m[0 * 3 + 1] * m.m[1 * 3 + 2] - m.m[0 * 3 + 2] * m.m[1 * 3 + 1]) * inv_det;
-    r.m[1 * 3 + 0] = (m.m[1 * 3 + 2] * m.m[2 * 3 + 0] - m.m[1 * 3 + 0] * m.m[2 * 3 + 2]) * inv_det;
-    r.m[1 * 3 + 1] = (m.m[0 * 3 + 0] * m.m[2 * 3 + 2] - m.m[0 * 3 + 2] * m.m[2 * 3 + 0]) * inv_det;
-    r.m[1 * 3 + 2] = (m.m[1 * 3 + 0] * m.m[0 * 3 + 2] - m.m[0 * 3 + 0] * m.m[1 * 3 + 2]) * inv_det;
-    r.m[2 * 3 + 0] = (m.m[1 * 3 + 0] * m.m[2 * 3 + 1] - m.m[2 * 3 + 0] * m.m[1 * 3 + 1]) * inv_det;
-    r.m[2 * 3 + 1] = (m.m[2 * 3 + 0] * m.m[0 * 3 + 1] - m.m[0 * 3 + 0] * m.m[2 * 3 + 1]) * inv_det;
-    r.m[2 * 3 + 2] = (m.m[0 * 3 + 0] * m.m[1 * 3 + 1] - m.m[1 * 3 + 0] * m.m[0 * 3 + 1]) * inv_det;
-
-    return r;
-}
 
 /*================================================================================
 // Quaternion

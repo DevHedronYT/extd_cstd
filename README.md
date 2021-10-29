@@ -159,11 +159,11 @@ and it returns a list struct
 also much simpler than the previous API
 
 ```c
-    ht_t create_ht(u32_t capacity);
+    ht_t  create_ht(u32_t capacity);
     u64_t hash_id(const str_t id);
     emp_t increase_ht_capacity(ht_t * ht, u32_t capacity);
     emp_t __insert_to_ht(ht_t * ht, const str_t id, ret_t data);
-    ret_t __get_from_ht(ht_t * ht, const str_t id);
+    ret_t __get_from_ht(ht_t ht, const str_t id);
     u32_t rm_from_ht(ht_t * ht, const str_t id);
     emp_t rm_ht(ht_t * ht);
 
@@ -193,7 +193,7 @@ element.
 
 - The macros: 
     - The `insert_to_ht` macro takes in a hash table pointer and the id and the data of any type other than void * 
-    - The `get_from_ht` macro takes in a hash table pointer, the id and the type of the data you want to retrieve
+    - The `get_from_ht` macro takes in a hash table, the id and the type of the data you want to retrieve
     which returns the data casted to the type 
 
 
@@ -433,4 +433,4 @@ really be explaining everything althought I have left comments
     // Converts a 64-bit float to a string
     str_t f64_to_str     (f64_t num);
 ```
-
+- Fix possible issues with str.c, list.c, me.c & ht.c

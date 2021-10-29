@@ -6,8 +6,10 @@
 i08_t file_exists(str_t path) {
     FILE * f = fopen(path, "r");
     if (f) {
+        fclose(f);
         return 1;
     }
+    fclose(f);
     return 0;
 }
 
@@ -43,7 +45,5 @@ i08_t write_file(str_t content, str_t path) {
     fclose(f);
     return 1;
 }
-
-
 
 

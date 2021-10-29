@@ -1,5 +1,15 @@
-Library is mostly complete but these things could be 
-implemented and added:
+add tests
+add quaternions
+cache values and dont make it inefficient
+
+add matrices:
+    - transpose
+    - inverse
+    - determinant
+    - sum of diagonal values
+    - frustum
+    - invert
+
 
 structures:
     - bitmaps

@@ -1,4 +1,5 @@
 #include <ht.h>
+#include <str.h>
 #include <stdlib.h>
 
 // - Add collision handling -> linear probing 
@@ -11,7 +12,7 @@
 
 ht_t create_ht(u32_t capacity) {
     ht_t table;
-    table.data = (ht_item_t *) calloc(capacity, sizeof(ht_item_t)); 
+    table.data = (ht_item_t**) calloc(capacity, sizeof(ht_item_t*)); 
     table.len = 0;
     table.capacity = capacity;
     return table;
@@ -30,26 +31,30 @@ u64_t hash_id(const str_t id) {
 
 emp_t increase_ht_capacity(ht_t * ht, u32_t capacity) {
     ht_t new_ht;
-    new_ht.data = (ht_item_t *) calloc(capacity, sizeof(ht_item_t));
+    new_ht.data = (ht_item_t**) calloc(capacity, sizeof(ht_item_t*));
     new_ht.len = 0;
     new_ht.capacity = capacity;
     for (u64_t i = 0; i < ht -> capacity; i++) {
-        if (ht -> data[i].val != NULL) {
-            __insert_to_ht(&new_ht, ht -> data[i].id, ht -> data[i].val);
+        if (ht -> data[i] -> val != NULL) {
+            __insert_to_ht(&new_ht, ht -> data[i] -> id, ht -> data[i] -> val);
         }
     }
-    free(ht -> data);
+
+    rm_ht(ht);
     ht = &new_ht;
 }
 
 emp_t __insert_to_ht(ht_t * ht, const str_t id, ret_t data) {
-    ht_item_t item = { .id = id, .hash = hash_id(id), .val = data };
-    u64_t index = item.hash & (u64_t)(ht -> capacity - 1);
+    ht_item_t * item = calloc(1, sizeof(ht_item_t*));
+    item -> hash = hash_id(id);
+    item -> id = id;
+    item -> val = data;
+    u64_t index = item -> hash & (u64_t)(ht -> capacity - 1);
 
-    ret_t current = ht -> data[index].val;
+    ret_t current = ht -> data[index];
     while (current != NULL) {
         index++;
-        current = ht -> data[index].val;
+        current = ht -> data[index];
     }
 
     if (index > ht -> capacity) {
@@ -57,31 +62,32 @@ emp_t __insert_to_ht(ht_t * ht, const str_t id, ret_t data) {
         ht -> data[index] = item;
     }
 
-    if (ht -> data[index].val == NULL) {
+    if (ht -> data[index] == NULL) {
         ht -> data[index] = item;
     } 
-    else {
-        index++;
-    }
 
     ht -> len++;
 }
 
-ret_t __get_from_ht(ht_t * ht, const str_t id) {
-    u64_t index = hash_id(id) & (u64_t)(ht -> capacity - 1); 
-    ht_item_t data = ht -> data[index];
-    
-    if (data.val == NULL) {
+ret_t __get_from_ht(ht_t ht, const str_t id) {
+    u64_t index = hash_id(id) & (u64_t)(ht.capacity - 1); 
+    ht_item_t * data = ht.data[index];
+        
+    if (data == NULL) {
         return NULL;
     }
 
-    while (data.id != id) {
-        index++; 
-        data = ht -> data[index]; 
+    if (data -> val == NULL) {
+        return NULL;
     }
 
-    if (data.val != NULL && data.id == id) {
-        return data.val; 
+    while (str_compare(data -> id, id) != 1) {
+        index++; 
+        data = ht.data[index]; 
+    }
+
+    if (data -> val != NULL && str_compare(data -> id, id)) {
+        return data -> val; 
     }
 
     return NULL;
@@ -89,24 +95,28 @@ ret_t __get_from_ht(ht_t * ht, const str_t id) {
 
 u32_t rm_from_ht(ht_t * ht, const str_t id) {
     u64_t index = hash_id(id) & (u64_t)(ht -> capacity - 1); 
-    ht_item_t * data = &ht -> data[index];
+    ht_item_t * data = ht -> data[index];
     
     if (data -> val == NULL) {
         return 0;
     }
 
-    while (data -> id != id) {
+    while (str_compare(data -> id, id) != 1) {
         index++; 
-        data = &ht -> data[index]; 
+        data = ht -> data[index]; 
     }
 
-    if (data -> val != NULL && data -> id == id) {
-        data = (ht_item_t *) NULL;
+    if (data -> val != NULL && str_compare(data -> id, id)) {
+        data = NULL;
+        ht -> data[index] = NULL;
     }
     return index;
 }
 
 emp_t rm_ht(ht_t * ht) {
+    for (u32_t i = 0; i < ht -> capacity; i++) {
+        free(ht -> data[i]);
+    }
     free(ht -> data);
 }
 

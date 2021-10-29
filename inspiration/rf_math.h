@@ -6,36 +6,13 @@ typedef struct rf_vec4
     float w;
 } rf_vec4, rf_quaternion;
 
-// The matrix is OpenGL style 4x4 - right handed, column major
-typedef struct rf_mat
-{
-    float m0, m4, m8,  m12;
-    float m1, m5, m9,  m13;
-    float m2, m6, m10, m14;
-    float m3, m7, m11, m15;
-} rf_mat;
-
 rf_public float rf_mat_determinant(rf_mat mat); // Compute matrix determinant
 rf_public float rf_mat_trace(rf_mat mat); // Returns the trace of the matrix (sum of the values along the diagonal)
 rf_public rf_mat rf_mat_transpose(rf_mat mat); // Transposes provided matrix
 rf_public rf_mat rf_mat_invert(rf_mat mat); // Invert provided matrix
 rf_public rf_mat rf_mat_normalize(rf_mat mat); // Normalize provided matrix
-rf_public rf_mat rf_mat_identity(void); // Returns identity matrix
-rf_public rf_mat rf_mat_add(rf_mat left, rf_mat right); // Add two matrices
-rf_public rf_mat rf_mat_sub(rf_mat left, rf_mat right); // Subtract two matrices (left - right)
 rf_public rf_mat rf_mat_translate(float x, float y, float z); // Returns translation matrix
-rf_public rf_mat rf_mat_rotate(rf_vec3 axis, float angle); // Create rotation matrix from axis and angle. NOTE: Angle should be provided in radians
-rf_public rf_mat rf_mat_rotate_xyz(rf_vec3 ang); // Returns xyz-rotation matrix (angles in radians)
-rf_public rf_mat rf_mat_rotate_x(float angle); // Returns x-rotation matrix (angle in radians)
-rf_public rf_mat rf_mat_rotate_y(float angle); // Returns y-rotation matrix (angle in radians)
-rf_public rf_mat rf_mat_rotate_z(float angle); // Returns z-rotation matrix (angle in radians)
-rf_public rf_mat rf_mat_scale(float x, float y, float z); // Returns scaling matrix
-rf_public rf_mat rf_mat_mul(rf_mat left, rf_mat right); // Returns two matrix multiplication. NOTE: When multiplying matrices... the order matters!
 rf_public rf_mat rf_mat_frustum(double left, double right, double bottom, double top, double near_val, double far_val); // Returns perspective GL_PROJECTION matrix
-rf_public rf_mat rf_mat_perspective(double fovy, double aspect, double near_val, double far_val); // Returns perspective GL_PROJECTION matrix. NOTE: Angle should be provided in radians
-rf_public rf_mat rf_mat_ortho(double left, double right, double bottom, double top, double near_val, double far_val); // Returns orthographic GL_PROJECTION matrix
-rf_public rf_mat rf_mat_look_at(rf_vec3 eye, rf_vec3 target, rf_vec3 up); // Returns camera look-at matrix (view matrix)
-rf_public rf_float16 rf_mat_to_float16(rf_mat mat); // Returns the matrix as an array of 16 floats
 
 rf_public rf_quaternion rf_quaternion_identity(void); // Returns identity quaternion
 rf_public float rf_quaternion_len(rf_quaternion q); // Computes the length of a quaternion
