@@ -31,3 +31,5 @@ functions & algorithms:
     - piping
 
 Decrease use of pointers in some functions
+Fix possible issues with str.c, me.c 
+Make me.c more generic-ish

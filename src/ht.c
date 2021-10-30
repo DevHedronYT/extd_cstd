@@ -10,6 +10,7 @@
 //  - Expand       O(n)
 // - Good hash function
 
+// Capacity MUST BE power of 2
 ht_t create_ht(u32_t capacity) {
     ht_t table;
     table.data = (ht_item_t**) calloc(capacity, sizeof(ht_item_t*)); 
@@ -29,6 +30,7 @@ u64_t hash_id(const str_t id) {
     return hash;
 }
 
+// Capacity MUST BE power of 2
 emp_t increase_ht_capacity(ht_t * ht, u32_t capacity) {
     ht_t new_ht;
     new_ht.data = (ht_item_t**) calloc(capacity, sizeof(ht_item_t*));
@@ -45,20 +47,20 @@ emp_t increase_ht_capacity(ht_t * ht, u32_t capacity) {
 }
 
 emp_t __insert_to_ht(ht_t * ht, const str_t id, ret_t data) {
-    ht_item_t * item = calloc(1, sizeof(ht_item_t*));
+    ht_item_t * item = (ht_item_t *) calloc(1, sizeof(ht_item_t));
     item -> hash = hash_id(id);
     item -> id = id;
     item -> val = data;
     u64_t index = item -> hash & (u64_t)(ht -> capacity - 1);
 
-    ret_t current = ht -> data[index];
+    ht_item_t * current = ht -> data[index];
     while (current != NULL) {
         index++;
         current = ht -> data[index];
     }
 
     if (index > ht -> capacity) {
-        increase_ht_capacity(ht, ht -> capacity * 4);
+        increase_ht_capacity(ht, ht -> capacity * 2);
         ht -> data[index] = item;
     }
 

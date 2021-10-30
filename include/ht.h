@@ -23,7 +23,7 @@
     emp_t rm_ht(ht_t * ht);
 
     #define insert_to_ht(ht, id, data) \
-        __insert_to_ht(ht, id, (void *) data)
+        __insert_to_ht(ht, id, (ret_t) data)
 
     #define get_from_ht(ht, id, type) \
         (type)__get_from_ht(ht, id)

@@ -150,17 +150,19 @@ and it returns a list struct
     } ht_item_t;
 
     typedef struct {
-        ht_item_t * data;
-        u32_t       len;
-        u32_t       capacity;
+        ht_item_t ** data;
+        u32_t        len;
+        u32_t        capacity;
     } ht_t; 
 ```
 - These are the structs used for the hash table implementation, nothing complicated,
 also much simpler than the previous API
 
 ```c
+    // Capacity must be a power of 2
     ht_t  create_ht(u32_t capacity);
     u64_t hash_id(const str_t id);
+    // Capacity must be a power of 2
     emp_t increase_ht_capacity(ht_t * ht, u32_t capacity);
     emp_t __insert_to_ht(ht_t * ht, const str_t id, ret_t data);
     ret_t __get_from_ht(ht_t ht, const str_t id);
@@ -176,14 +178,15 @@ also much simpler than the previous API
 
 
 - The `create_ht` works similar to the list function and takes in a `capacity` argument
-and allocates that much space and returns it
+and allocates that much space and returns it. `capacity` must be a power of 2
 
 - The `hash_id` function takes in a `const str_t` and hashes it using the algorithm used by
 [Ben Hoyt in his hash table tutorial](https://benhoyt.com/writings/hash-table-in-c/) as well 
 and it returns a 64-bit unsigned integer
 
 - Then there is the `increase_ht_capacity` which takes in a pointer to the hash table and 
-then the new capacity as a 32-bit unsigned int and then reallocates that much space
+then the new capacity as a 32-bit unsigned int and then reallocates that much space.
+`capacity` must be a power of 2
 
 - Then there is the `rm_from_ht` function which takes in the pointer to the hash table
 and the ID of the value that you want to delete and it returns the index of the deleted
@@ -433,4 +436,3 @@ really be explaining everything althought I have left comments
     // Converts a 64-bit float to a string
     str_t f64_to_str     (f64_t num);
 ```
-- Fix possible issues with str.c, list.c, me.c & ht.c
