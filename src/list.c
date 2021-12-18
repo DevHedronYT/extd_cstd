@@ -43,7 +43,7 @@ i32_t __get_in_list_t(list_t * list, ret_t data,
         
         }
         else {
-            if (compare_func(data, &data[i])) {
+            if (compare_func(data, list -> data[i])) {
                 return i;
             }
         }

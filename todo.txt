@@ -32,4 +32,5 @@ functions & algorithms:
 
 Decrease use of pointers in some functions
 Fix possible issues with str.c, me.c 
+fix list.c and make it of T like gs
 Make me.c more generic-ish

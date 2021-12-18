@@ -22,13 +22,14 @@
     #define push_to_list(list, data) \
         __push_to_list(list, (ret_t) data)
 
-    #define get_at_list_t(list, index, type) \
-        (type) list.data[index]
-    #define get_data(list, data, func, type) \
-        get_at_list_t(list, __get_in_list_t(&list, (ret_t)data, func), type)
+    #define get_at_list_t(list, index) \
+        list.data[index]
+
+    #define get_data(list, data, func) \
+        get_at_list_t(list, __get_in_list_t(&list, (ret_t)data, func))
 
     #define remove_from_list(list, data, compare_func) \
-        __remove_from_list(list, (ret_t *) data, compare_func)
+        __remove_from_list(list, (ret_t) data, compare_func)
 
 
 

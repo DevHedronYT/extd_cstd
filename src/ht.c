@@ -19,12 +19,12 @@ ht_t create_ht(u32_t capacity) {
     return table;
 }
 
-#define FNV_OFFSET 14695981039346656037UL
-#define FNV_PRIME 1099511628211UL
+#define FNV_OFFSET 14695981039346656037
+#define FNV_PRIME 1099511628211
 u64_t hash_id(const str_t id) {
-    uint64_t hash = FNV_OFFSET;
+    u64_t hash = FNV_OFFSET;
     for (const char * p = id; *p; p++) {
-        hash ^= (uint64_t)(unsigned char)(*p);
+        hash ^= (u64_t)(unsigned char)(*p);
         hash *= FNV_PRIME;
     }
     return hash;
