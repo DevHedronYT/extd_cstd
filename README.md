@@ -104,16 +104,15 @@ as well.
     list_t create_list(u32_t capacity);
     emp_t __push_to_list(list_t * list, ret_t data);
     emp_t remove_from_list_at(list_t * list, u32_t idx);
-    emp_t __remove_from_list(list_t * list, ret_t data,
-                          i08_t (* compare_func)(ret_t x, ret_t y));
-    i32_t __get_in_list_t(list_t * list, ret_t data, 
-                          i08_t (* compare_func)(ret_t x, ret_t y));
+    emp_t __remove_from_list(list_t * list, ret_t data);
+    i32_t __get_in_list_t(list_t * list, ret_t data);
     emp_t free_list(list_t * list);
 
+
     #define push_to_list(list, data)
-    #define get_at_list_t(list, index, type)
-    #define get_data(list, data, func, type)
-    #define remove_from_list(list, data, compare_func)
+    #define get_at_list_t(list, index)
+    #define get_data(list, data)
+    #define remove_from_list(list, data)
 ```
 - These are all the functions used for the list data structure and the API
 is much better than the previous one in my honest opinion.  
@@ -127,19 +126,12 @@ and it returns a list struct
 
 - The macros:
     - The `push_to_list` macro takes in a pointer to list along with data of any type other than void *
-    - The `get_at_list_t` macro takes in a list and index and type and returns the data at that
-    index casted to the type
-    - The `get_data` macro does something very similar to `get_at_list_t`, it takes in a list (no pointer),
-    the data you want to look for, the compare function, which if you want can be null unless
-    you are using custom types in which case a custom compare function like this would work:
-        ```c
-            i08_t compare_func(ret_t data_one, ret_t data_two) { // Comparison  };
-        ```
-    After the compare function, it takes in a type as well and then returns the data casted
-    to that type
+    - The `get_at_list_t` macro takes in a list and index and returns the data at that
+    index as void *
+    - The `get_data` macro does something very similar to `get_at_list_t`, it takes in a list
+    (no pointer), and the data you want to look for
     - The `remove_from_list` macro takes in the list pointer and the data you want to remove
-    and a compare function which can be NULL but as I said above, if you are using custom types,
-    make a custom compare function.
+   
 
 ### [Hash Table](./include/ht.h)
 ```c
@@ -170,7 +162,7 @@ also much simpler than the previous API
     emp_t rm_ht(ht_t * ht);
 
     #define insert_to_ht(ht, id, data)
-    #define get_from_ht(ht, id, type) 
+    #define get_from_ht(ht, id) 
 ```
 - All the functions for my hash table API implementation
 
@@ -196,14 +188,14 @@ element.
 
 - The macros: 
     - The `insert_to_ht` macro takes in a hash table pointer and the id and the data of any type other than void * 
-    - The `get_from_ht` macro takes in a hash table, the id and the type of the data you want to retrieve
-    which returns the data casted to the type 
+    - The `get_from_ht` macro takes in a hash table, the id and the type of the data you want
+    to retrieve which returns the data casted to void *
 
 
 ### [Custom Print Functions With ANSI Colors & Time](./include/util.h)
 
-- The functions in this header are also self-explanatory although I have left comments and the colors in whic
-each function prints in
+- The functions in this header are also self-explanatory although I have left comments and the 
+colors in which each function prints in
 ```c
     // Sets output background color
     #define set_output_bg_color(x) 
@@ -374,8 +366,8 @@ typedef struct {
     m4x4_t m4x4_lookat(v3_t pos, v3_t target, v3_t up);
 
 ```
-- The code has been written in the most easiest way to understand and if you are making an OpenGL program
-then definitely use this and tell me how it goes
+- The code has been written in the most easiest way to understand and if you are making an 
+OpenGL program then definitely use this and tell me how it goes
 
 
 ### [Profiler](./include/prof.h)

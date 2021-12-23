@@ -25,8 +25,8 @@
     #define insert_to_ht(ht, id, data) \
         __insert_to_ht(ht, id, (ret_t) data)
 
-    #define get_from_ht(ht, id, type) \
-        (type)__get_from_ht(ht, id)
+    #define get_from_ht(ht, id) \
+        __get_from_ht(ht, id)
 
 
 #endif

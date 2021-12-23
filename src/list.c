@@ -27,25 +27,15 @@ emp_t remove_from_list_at(list_t * list, u32_t idx) {
     }      
 }
 
-emp_t __remove_from_list(list_t * list, ret_t data,
-                      i08_t (* compare_func)(ret_t x, ret_t y)) {
-    u32_t idx = __get_in_list_t(list, data, compare_func);
+emp_t __remove_from_list(list_t * list, ret_t data) {
+    u32_t idx = __get_in_list_t(list, data);
     remove_from_list_at(list, idx);
 }
 
-i32_t __get_in_list_t(list_t * list, ret_t data, 
-                     i08_t (* compare_func)(ret_t x, ret_t y)) {
+i32_t __get_in_list_t(list_t * list, ret_t data) {
     for (int i = 0; i < list -> len - 1; i++) {
-        if (compare_func == NULL) {
-            if (list -> data[i] == data) {
-                return i;
-            }
-        
-        }
-        else {
-            if (compare_func(data, list -> data[i])) {
-                return i;
-            }
+        if (list -> data[i] == data) {
+            return i;
         }
     }
 
