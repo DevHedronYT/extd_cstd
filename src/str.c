@@ -45,6 +45,7 @@ str_t str_concat(const str_t str_one, const str_t str_two) {
     for (i32_t i = 0; i < size_str_two; i++) {
         new_char[i + size_str_one] = str_two[i];
     }
+    new_char[size_str_one + size_str_two] = '\0';
 
     return new_char;
 }
