@@ -1,5 +1,5 @@
 # c_std_lib
-- This is a simple C standard library written using C99, lib includes implementations of:
+- This is a multi-platform simple C standard library written using C99, including implementations of:
     - [Custom Types](./include/types.h)
     - [File I/O](./include/file.h)
     - [List](./include/list.h)
