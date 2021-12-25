@@ -7,7 +7,7 @@
     - [Custom Print Functions With ANSI Colors & Time](./include/util.h)
     - [Maths Engine [OpenGL Compliant]](./include/me.h)
     - [Profiler](./include/prof.h)
-    - [String Funtions](./include/str.h)
+    - [String Functions](./include/str.h)
 
 ## Building
 - Build the library using Make: 
@@ -400,7 +400,7 @@ converted to a string
 ```
 - Literally the most simple functions, you can figure out how to use them
 
-### [String Funtions](./include/str.h)
+### [String Functions](./include/str.h)
 
 - This is a very self-explanatory implementation of most of the string functions so I won't
 really be explaining everything althought I have left comments
