@@ -4,7 +4,7 @@
 #include <prof.h>
 #include <me.h>
 
-i32_t main() {
+i32 main() {
     prof_t profiler;
     start_profiling(&profiler, "hash table test"); 
 
@@ -12,15 +12,15 @@ i32_t main() {
 
     insert_to_ht(&table, "player_pos", "100;100");
     insert_to_ht(&table, "enemy_pos", "99;99");
-    m4x4_t identity = identity_m4x4();
+    m4x4_t identity = mk_identity_m4x4();
     insert_to_ht(&table, "m4x4", &identity);
 
     print_n("%s", get_from_ht(table, "player_pos"));
     print_n("%s", get_from_ht(table, "enemy_pos"));
 
     m4x4_t * identity_ptr = get_from_ht(table, "m4x4");
-    for (i32_t x = 0; x < 4; x++) {
-        for (i32_t y = 0; y < 4; y++) {
+    for (i32 x = 0; x < 4; x++) {
+        for (i32 y = 0; y < 4; y++) {
             print("%f ", identity_ptr -> elems[y][x]);
         }
         print("\n");

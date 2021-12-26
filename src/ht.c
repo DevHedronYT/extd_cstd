@@ -11,9 +11,10 @@
 // - Good hash function
 
 // Capacity MUST BE power of 2
-ht_t create_ht(u32_t capacity) {
+
+ht_t create_ht(u32 capacity) {
     ht_t table;
-    table.data = (ht_item_t**) calloc(capacity, sizeof(ht_item_t*)); 
+    table.data = calloc(capacity, sizeof(ht_item_t*));
     table.len = 0;
     table.capacity = capacity;
     return table;
@@ -21,24 +22,24 @@ ht_t create_ht(u32_t capacity) {
 
 #define FNV_OFFSET 14695981039346656037
 #define FNV_PRIME 1099511628211
-u64_t hash_id(const str_t id) {
-    u64_t hash = FNV_OFFSET;
+u64 hash_id(const char * id) {
+    u64 hash = FNV_OFFSET;
     for (const char * p = id; *p; p++) {
-        hash ^= (u64_t)(unsigned char)(*p);
+        hash ^= (u64)(u08)(*p);
         hash *= FNV_PRIME;
     }
     return hash;
 }
 
 // Capacity MUST BE power of 2
-emp_t increase_ht_capacity(ht_t * ht, u32_t capacity) {
+void increase_ht_capacity(ht_t * ht, u32 capacity) {
     ht_t new_ht;
-    new_ht.data = (ht_item_t**) calloc(capacity, sizeof(ht_item_t*));
+    new_ht.data = calloc(capacity, sizeof(ht_item_t*));
     new_ht.len = 0;
     new_ht.capacity = capacity;
-    for (u64_t i = 0; i < ht -> capacity; i++) {
+    for (u64 i = 0; i < ht -> capacity; i++) {
         if (ht -> data[i] -> val != NULL) {
-            __insert_to_ht(&new_ht, ht -> data[i] -> id, ht -> data[i] -> val);
+            insert_to_ht(&new_ht, ht -> data[i] -> id, ht -> data[i] -> val);
         }
     }
 
@@ -46,12 +47,13 @@ emp_t increase_ht_capacity(ht_t * ht, u32_t capacity) {
     ht = &new_ht;
 }
 
-emp_t __insert_to_ht(ht_t * ht, const str_t id, ret_t data) {
-    ht_item_t * item = (ht_item_t *) calloc(1, sizeof(ht_item_t));
+
+void insert_to_ht(ht_t * ht, const char * id, void * data) {
+    ht_item_t * item = calloc(1, sizeof(ht_item_t));
     item -> hash = hash_id(id);
     item -> id = id;
     item -> val = data;
-    u64_t index = item -> hash & (u64_t)(ht -> capacity - 1);
+    u64 index = item -> hash & (u64)(ht -> capacity - 1);
 
     ht_item_t * current = ht -> data[index];
     while (current != NULL) {
@@ -68,11 +70,11 @@ emp_t __insert_to_ht(ht_t * ht, const str_t id, ret_t data) {
         ht -> data[index] = item;
     } 
 
-    ht -> len++;
-}
+    ht -> len++;   
+} 
 
-ret_t __get_from_ht(ht_t ht, const str_t id) {
-    u64_t index = hash_id(id) & (u64_t)(ht.capacity - 1); 
+void * get_from_ht(ht_t ht, const char * id) {
+    u64 index = hash_id(id) & (u64)(ht.capacity - 1); 
     ht_item_t * data = ht.data[index];
         
     if (data == NULL) {
@@ -95,8 +97,9 @@ ret_t __get_from_ht(ht_t ht, const str_t id) {
     return NULL;
 }
 
-u32_t rm_from_ht(ht_t * ht, const str_t id) {
-    u64_t index = hash_id(id) & (u64_t)(ht -> capacity - 1); 
+
+u64 rm_from_ht(ht_t * ht, const char * id) {
+    u64 index = hash_id(id) & (u64)(ht -> capacity - 1); 
     ht_item_t * data = ht -> data[index];
     
     if (data -> val == NULL) {
@@ -115,11 +118,13 @@ u32_t rm_from_ht(ht_t * ht, const str_t id) {
     return index;
 }
 
-emp_t rm_ht(ht_t * ht) {
-    for (u32_t i = 0; i < ht -> capacity; i++) {
+
+void rm_ht(ht_t * ht) {
+    for (u32 i = 0; i < ht -> capacity; i++) {
         free(ht -> data[i]);
     }
-    free(ht -> data);
+    free(ht -> data);   
 }
+
 
 

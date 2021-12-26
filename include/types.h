@@ -1,21 +1,19 @@
-#ifndef _TYPES_H 
+#ifndef _TYPES_H_ 
+    #define _TYPES_H_
 
-    #define _TYPES_H
+    #include <stdint.h>
+    typedef uint8_t  u08;
+    typedef uint16_t u16;
+    typedef uint32_t u32; 
+    typedef uint64_t u64;
 
-    #define i08_t signed char 
-    #define i16_t short 
-    #define i32_t int 
-    #define i64_t long long 
-    #define f32_t float 
-    #define f64_t double
-    #define u08_t unsigned char 
-    #define u16_t unsigned short 
-    #define u32_t unsigned 
-    #define u64_t unsigned long long 
-    #define emp_t void
-    #define ret_t void *
-    #define str_t char *
-    #define chr_t char
+    typedef int8_t  i08;
+    typedef int16_t i16; 
+    typedef int32_t i32;
+    typedef int64_t i64;
+
+    typedef float f32;
+    typedef double f64;
 
     #define i08_min -128
     #define i16_min -32768

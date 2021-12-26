@@ -1,34 +1,28 @@
-#ifndef _LIST_H
-
-    #define _LIST_H
-   
+#ifndef _LIST_H_
+    #define _LIST_H_
     #include <types.h>
 
     typedef struct {
-        ret_t * data;
-        u32_t   len;
-        u32_t   idx;
+        void ** data;
+        u32     len;
+        u32     idx;
     } list_t;
 
-    list_t create_list(u32_t capacity);
-    emp_t __push_to_list(list_t * list, ret_t data);
-    emp_t remove_from_list_at(list_t * list, u32_t idx);
-    emp_t __remove_from_list(list_t * list, ret_t data);
-    i32_t __get_in_list_t(list_t * list, ret_t data);
-    emp_t free_list(list_t * list);
+    list_t create_list(u32 capacity);
+    void   insert_to_list(list_t * list, void * data);
+    i32    get_list_idx(list_t list, void * data);
+    void   rm_from_list_at(list_t * list, u32 idx);
+    void   rm_from_list(list_t * list, void * data);
+    void   free_list(list_t * list);
 
-    #define push_to_list(list, data) \
-        __push_to_list(list, (ret_t) data)
-
-    #define get_at_list_t(list, index) \
+    #define get_at_list(list, index) \
         list.data[index]
 
-    #define get_data(list, data) \
-        get_at_list_t(list, __get_in_list_t(&list, (ret_t)data))
+    #define get_data_in_list(list, data) \
+        get_at_list(list, get_list_idx(&list, (void *)data))
 
     #define remove_from_list(list, data) \
-        __remove_from_list(list, (ret_t) data)
-
+        rm_from_list(list, (void *) data)
 
 
 #endif

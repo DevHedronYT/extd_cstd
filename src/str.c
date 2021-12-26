@@ -2,22 +2,22 @@
 #include <str.h>
 #include <stdio.h>
 
-i32_t str_length(const str_t str_one) {
-    i32_t len;
+i32 str_length(const char * str_one) {
+    i32 len;
     for (len = 0; str_one[len] != '\0'; len++);
     return len;
 }
 
-i32_t str_compare(const str_t str_one, const str_t str_two) {
-    if (str_length(str_one) != str_length(str_two)) {
+i32 str_compare(const char * str_one, const char * str_second) {
+    if (str_length(str_one) != str_length(str_second)) {
         return 0;
     }
     
-    i32_t i = 0;
-    i32_t flag = 0;
+    i32 i = 0;
+    i32 flag = 0;
 
-    while (str_one[i] != '\0' && str_two[i] != '\0') {
-        if (str_one[i] != str_two[i]) {
+    while (str_one[i] != '\0' && str_second[i] != '\0') {
+        if (str_one[i] != str_second[i]) {
             flag = 1;
             break;
         }
@@ -25,7 +25,7 @@ i32_t str_compare(const str_t str_one, const str_t str_two) {
         i++;
     }
 
-    if (flag == 0 && str_one[i] == '\0' && str_two[i] == '\0') {
+    if (flag == 0 && str_one[i] == '\0' && str_second[i] == '\0') {
         return 1;
     }
 
@@ -33,28 +33,28 @@ i32_t str_compare(const str_t str_one, const str_t str_two) {
         return 0;
     }
 } 
-str_t str_concat(const str_t str_one, const str_t str_two) {    
-    i32_t size_str_one = str_length(str_one);
-    i32_t size_str_two = str_length(str_two);
-    str_t new_char = (str_t) malloc(size_str_one + size_str_two + 1);
+char * str_concat(const char * str_one, const char * str_second) {    
+    i32 size_str_one = str_length(str_one);
+    i32 size_str_second = str_length(str_second);
+    char * new_char = malloc(size_str_one + size_str_second + 1);
     
-    for (i32_t i = 0; i < size_str_one; i++) {
+    for (i32 i = 0; i < size_str_one; i++) {
         new_char[i] = str_one[i];
     }
 
-    for (i32_t i = 0; i < size_str_two; i++) {
-        new_char[i + size_str_one] = str_two[i];
+    for (i32 i = 0; i < size_str_second; i++) {
+        new_char[i + size_str_one] = str_second[i];
     }
-    new_char[size_str_one + size_str_two] = '\0';
+    new_char[size_str_one + size_str_second] = '\0';
 
     return new_char;
 }
-i32_t str_starts_with(const str_t str_one, const str_t str_two) {
-    i32_t len = str_length(str_two);
-    i32_t flag = 0;
+i32 str_starts_with(const char * str_one, const char * str_second) {
+    i32 len = str_length(str_second);
+    i32 flag = 0;
 
-    for (i32_t i = 0; i < len; i++) {
-        if (str_one[i] != str_two[i]) {
+    for (i32 i = 0; i < len; i++) {
+        if (str_one[i] != str_second[i]) {
             flag = 0;
             break;
         }
@@ -63,28 +63,28 @@ i32_t str_starts_with(const str_t str_one, const str_t str_two) {
     if (flag == 0) return 1;
     return 0;
 }
-str_t str_reverse(str_t str_one) {
-    i32_t len = str_length(str_one) - 1;
-    str_t new_char = (str_t) malloc(len + 1); 
+char * str_reverse(char * str_one) {
+    i32 len = str_length(str_one) - 1;
+    char * new_char = malloc(len + 1); 
     
-    for (i32_t i = 0; i < str_length(str_one); i++) {
+    for (i32 i = 0; i < str_length(str_one); i++) {
         new_char[i] = str_one[len - i];
     }
 
     return new_char;
 }
-i32_t str_ends_with(str_t str_one, str_t str_two) {
-    str_t new_str = str_reverse(str_one);
-    str_t new_str_o = str_reverse(str_two);
+i32 str_ends_with(char * str_one, char * str_second) {
+    char * new_str = str_reverse(str_one);
+    char * new_str_o = str_reverse(str_second);
 
     return str_starts_with(new_str, new_str_o);
 }
-i32_t str_substring(const str_t str_one, const str_t str_two) {
-    i32_t i = 0;
-    i32_t j = 0;
+i32 str_substring(const char * str_one, const char * str_second) {
+    i32 i = 0;
+    i32 j = 0;
 
-    while (str_one[j] != '\0' && str_two[i] != '\0') {
-        if (str_two[i] != str_one[j]) {
+    while (str_one[j] != '\0' && str_second[i] != '\0') {
+        if (str_second[i] != str_one[j]) {
             j++;
             i = 0;
         }
@@ -95,7 +95,7 @@ i32_t str_substring(const str_t str_one, const str_t str_two) {
         }
     }
 
-    if (str_two[i] == '\0') {
+    if (str_second[i] == '\0') {
         return 1;
     }
 
@@ -103,10 +103,10 @@ i32_t str_substring(const str_t str_one, const str_t str_two) {
         return 0;
     }
 }
-str_t str_split(const str_t str_one, chr_t c) {
-    str_t new_char = (str_t) malloc(str_length(str_one));
+char * str_split(const char * str_one, char c) {
+    char * new_char = malloc(str_length(str_one));
 
-    for (i32_t i = 0; i < str_length(str_one); i++) {
+    for (i32 i = 0; i < str_length(str_one); i++) {
         if (str_one[i] == c) {
             break;
         }
@@ -116,14 +116,14 @@ str_t str_split(const str_t str_one, chr_t c) {
 
     return new_char;
 }
-str_t i32_to_str(i32_t num) {
-    str_t string = (str_t) malloc(41); 
+char * i32_to_str(i32 num) {
+    char * string = malloc(41); 
     snprintf(string, 39, "%d", num); 
     string[40] = '\0';
     return string;
 }
 // From: https://github.com/TheAlgorithms/C
-i32_t str_to_i32(str_t string) {
+i32 str_to_i32(char * string) {
     int i;
     int sign;
     long value;
@@ -158,8 +158,8 @@ i32_t str_to_i32(str_t string) {
     }
     return (value); 
 }
-str_t f64_to_str(f64_t num) {
-    str_t string = (str_t) malloc(40); 
+char * f64_to_str(f64 num) {
+    char * string = malloc(40); 
     snprintf(string, 39, "%f", num); 
     string[40] = '\0';
     return string;   

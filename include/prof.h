@@ -1,17 +1,16 @@
-#ifndef _PROF_H 
-    
-    #define _PROF_H
+#ifndef _PROF_H_ 
+    #define _PROF_H_
 
-    #include "./types.h"
+    #include <types.h>
 
     typedef struct {
-        str_t name;
-        f64_t elapsed;
-        str_t elapsed_string;
+        char * name;
+        f64 elapsed;
+        char * elapsed_string;
     } prof_t;
     
-    emp_t start_profiling(prof_t * profiler, str_t name);
-    emp_t end_profiling  (prof_t * profiler);
+    void start_profiling(prof_t * profiler, char * name);
+    void end_profiling  (prof_t * profiler);
 
 
 #endif

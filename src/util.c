@@ -6,14 +6,14 @@
 time_t current_time;
 struct tm * m_time; 
 
-emp_t print(const str_t fmt, ...) {
+void print(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         vfprintf(stdout, fmt, args);
     va_end(args);
 }
 
-emp_t print_n(const str_t fmt, ...) {
+void print_n(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         vfprintf(stdout, fmt, args);
@@ -22,7 +22,7 @@ emp_t print_n(const str_t fmt, ...) {
 }
 
 
-emp_t print_t(const str_t fmt, ...) {
+void print_t(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -36,7 +36,7 @@ emp_t print_t(const str_t fmt, ...) {
     va_end(args);
 }
 
-emp_t print_i(const str_t fmt, ...) {
+void print_i(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -56,7 +56,7 @@ emp_t print_i(const str_t fmt, ...) {
 } 
 
 
-emp_t print_e(const str_t fmt, ...) {
+void print_e(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -75,7 +75,7 @@ emp_t print_e(const str_t fmt, ...) {
     va_end(args);
 } 
 
-emp_t print_w(const str_t fmt, ...) {
+void print_w(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -94,7 +94,7 @@ emp_t print_w(const str_t fmt, ...) {
     va_end(args);
 }
 
-emp_t print_fe(const str_t fmt, ...) {
+void print_fe(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -114,7 +114,7 @@ emp_t print_fe(const str_t fmt, ...) {
     va_end(args);   
 }
 
-emp_t print_s(const str_t fmt, ...) {
+void print_s(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);

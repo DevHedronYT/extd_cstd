@@ -1,110 +1,101 @@
-#ifndef _C_STD_ME
+#ifndef _ME_H_ 
 
-    #define _C_STD_ME
+    #define _ME_H_
     
     #include <types.h>
-   
-    #define pi 3.14159265358979
+
+    #define pi 3.141592653589793238462643383279
     #define deg_to_rad(deg) deg * (pi / 180)
     #define rad_to_deg(rad) rad * (180 / pi)
-    #define sqr(e) e * e
-    #define dist1D(c1, c2) c2 - c1
+    #define sq(e) e * e
    
-    f32_t dist2D  (f32_t x1, f32_t y1, f32_t x2, f32_t y2);
-    f32_t dir2D   (f32_t x1, f32_t y1, f32_t x2, f32_t y2);
-    f32_t inv_sqrt(f32_t num);
-    f32_t ilerp   (f32_t start, f32_t stop, f32_t amt);
-   
-    i64_t randnum_gen(i64_t lower, i64_t upper);
+    f32 dist2D     (f32 x1, f32 y1, f32 x2, f32 y2);
+    f32 dir2D      (f32 x1, f32 y1, f32 x2, f32 y2);
+    f32 ilerp      (f32 start, f32 stop, f32 amt);
+    i64 randnum_gen(i64 lower, i64 upper);
 
     // Note projection functions 
     // project v1 onto v2
 
     typedef struct {
-        f32_t x;
-        f32_t y;
+        f32 x;
+        f32 y;
     } v2_t;
 
     #define mk_v2_zero() (v2_t)  { 0.0f, 0.0f }
     #define mk_v2_one () (v2_t)  { 1.0f, 1.0f }
     #define mk_v2(_x, _y) (v2_t) { _x, _y }
 
-    v2_t * mk_v2_ptr(f32_t x, f32_t y);
+    v2_t v2_add      (v2_t v1, v2_t v2);
+    v2_t v2_sub      (v2_t v1, v2_t v2);
+    v2_t v2_lerp     (v2_t v1, v2_t v2, f32 amt);
+    void v2_scale    (v2_t * v, f32 scalar);
+    void v2_normalize(v2_t * v);
+    void v2_limit    (v2_t * v, f32 scalar);
+    void v2_rotate   (v2_t * v, f32 theta);
+    void v2_mag_set  (v2_t * v, f32 scalar);
+    void v2_negate   (v2_t * v);
 
-    emp_t add_v2    (v2_t * v1, v2_t * v2);
-    emp_t sub_v2    (v2_t * v1, v2_t * v2);
-    emp_t lerp_v2   (v2_t * v1, v2_t * v2, f32_t amt);
-    emp_t limit_v2  (v2_t * v, f32_t scalar);
-    emp_t scale_v2  (v2_t * v, f32_t scalar);
-    emp_t normal_v2 (v2_t * v);
-    emp_t rotate_v2 (v2_t * v, f32_t theta);
-    emp_t set_v2_mag(v2_t * v, f32_t scalar);
-    emp_t negate_v2 (v2_t * v);
+    f32 v2_mag          (v2_t v);
+    f32 v2_angle        (v2_t v);
+    f32 v2_dot_prod     (v2_t v1, v2_t v2);
+    f32 v2_dist_between (v2_t v1, v2_t v2);
+    f32 v2_angle_between(v2_t v1, v2_t v2);
+    v2_t v2_projection(v2_t v1, v2_t v2);
 
-    f32_t v2_mag         (v2_t * v);
-    f32_t v2_angle       (v2_t * v);
-    f32_t v2_dot_prod    (v2_t * v1, v2_t * v2);
-    f32_t dist_between_v2(v2_t * v1, v2_t * v2);
-    f32_t angle_between_v2(v2_t * v1, v2_t * v2);
-
-    v2_t v2_projection(v2_t * v1, v2_t * v2);
 
     typedef struct {
-        f32_t x;
-        f32_t y;
-        f32_t z;
+        f32 x;
+        f32 y;
+        f32 z;
     } v3_t;
 
-    #define mk_v3_zero() (v3_t) { 0.0f, 0.0f, 0.0f }
-    #define mk_v3_one () (v3_t) { 1.0f, 1.0f, 1.0f }
+    #define mk_v3_zero()      (v3_t) { 0.0f, 0.0f, 0.0f }
+    #define mk_v3_one ()      (v3_t) { 1.0f, 1.0f, 1.0f }
     #define mk_v3(_x, _y, _z) (v3_t) { _x, _y, _z }
 
-    v3_t * mk_v3_ptr(f32_t x, f32_t y, f32_t z);
+    v3_t v3_add      (v3_t v1, v3_t v2);
+    v3_t v3_sub      (v3_t v1, v3_t v2);
+    v3_t v3_lerp     (v3_t v1, v3_t v2, f32 amt);
+    void v3_limit    (v3_t * v, f32 scalar);
+    void v3_scale    (v3_t * v, f32 scalar);
+    void v3_normalize(v3_t * v);
+    void v3_mag_set  (v3_t * v, f32 scalar);
+    void v3_negate   (v3_t * v);
 
-    emp_t add_v3    (v3_t * v1, v3_t * v2);
-    emp_t sub_v3    (v3_t * v1, v3_t * v2);
-    emp_t lerp_v3   (v3_t * v1, v3_t * v2, f32_t amt);
-    emp_t limit_v3  (v3_t * v, f32_t scalar);
-    emp_t scale_v3  (v3_t * v, f32_t scalar);
-    emp_t normal_v3 (v3_t * v);
-    emp_t set_v3_mag(v3_t * v, f32_t scalar);
-    emp_t negate_v3 (v3_t * v);
-    
-    f32_t v3_mag         (v3_t * v);
-    f32_t v3_dot_prod    (v3_t * v1, v3_t * v2);
-    f32_t dist_between_v3(v3_t * v1, v3_t * v2); 
-    v3_t  v3_cross_prod  (v3_t * v1, v3_t * v2);
-    v3_t  v3_projection  (v3_t * v1, v3_t * v2);
-    f32_t angle_between_v3(v3_t * v1, v3_t * v2);
-
+    f32   v3_mag         (v3_t v);
+    f32   v3_dot_prod    (v3_t v1, v3_t v2);
+    v3_t  v3_cross_prod  (v3_t v1, v3_t v2);
+    f32   v3_dist_between(v3_t v1, v3_t v2); 
+    f32 v3_angle_between (v3_t v1, v3_t v2);
+    v3_t  v3_projection  (v3_t v1, v3_t v2);
 
     typedef struct {
-        f32_t x;
-        f32_t y;
-        f32_t z;
-        f32_t w;
+        f32 x;
+        f32 y;
+        f32 z;
+        f32 w;
     } v4_t;
 
-    #define mk_v4_zero() (v4_t) { 0.0f, 0.0f, 0.0f, 0.0f }
-    #define mk_v4_one () (v4_t) { 1.0f, 1.0f, 1.0f, 1.0f }
+    #define mk_v4_zero()          (v4_t) { 0.0f, 0.0f, 0.0f, 0.0f }
+    #define mk_v4_one ()          (v4_t) { 1.0f, 1.0f, 1.0f, 1.0f }
     #define mk_v4(_x, _y, _z, _w) (v4_t) { _x, _y, _z, _w }
 
-    v4_t * mk_v4_ptr(f32_t x, f32_t y, f32_t z, f32_t w);
 
-    emp_t add_v4    (v4_t * v1, v4_t * v2);
-    emp_t sub_v4    (v4_t * v1, v4_t * v2);
-    emp_t lerp_v4   (v4_t * v1, v4_t * v2, f32_t amt);
-    emp_t limit_v4  (v4_t * v, f32_t scalar);
-    emp_t scale_v4  (v4_t * v, f32_t scalar);
-    emp_t normal_v4 (v4_t * v);
-    emp_t set_v4_mag(v4_t * v, f32_t scalar);
-    emp_t negate_v4 (v4_t * v);
-    
-    f32_t v4_mag         (v4_t * vec);
-    f32_t v4_dot_prod    (v4_t * v1, v4_t * v2);
-    f32_t dist_between_v4(v4_t * v1, v4_t * v2); 
+    v4_t v4_add      (v4_t v1, v4_t v2);
+    v4_t v4_sub      (v4_t v1, v4_t v2);
+    v4_t v4_lerp     (v4_t v1, v4_t v2, f32 amt);
+    void v4_limit    (v4_t * v, f32 scalar);
+    void v4_scale    (v4_t * v, f32 scalar);
+    void v4_normalize(v4_t * v);
+    void v4_mag_set  (v4_t * v, f32 scalar);
+    void v4_negate   (v4_t * v);
 
-    v4_t v4_projection(v4_t * v1, v4_t * v2);
+    f32  v4_mag         (v4_t v);
+    f32  v4_dot_prod    (v4_t v1, v4_t v2);
+    f32  v4_dist_between(v4_t v1, v4_t v2); 
+    v4_t v4_projection  (v4_t v1, v4_t v2);
+
 
     v3_t v2_to_v3(const v2_t v);
     v4_t v3_to_v4(const v3_t v);
@@ -112,36 +103,36 @@
     v2_t v3_to_v2(const v3_t v);
 
     typedef struct {
-        f32_t elems[4][4];
+        f32 elems[4][4];
     } m4x4_t;
 
-    m4x4_t mk_m4x4(f32_t m00, f32_t m01, f32_t m02, f32_t m03,
-                   f32_t m04, f32_t m05, f32_t m06, f32_t m07,
-                   f32_t m08, f32_t m09, f32_t m10, f32_t m11,
-                   f32_t m12, f32_t m13, f32_t m14, f32_t m15);
+    m4x4_t mk_m4x4(f32 m00, f32 m01, f32 m02, f32 m03,
+                   f32 m04, f32 m05, f32 m06, f32 m07,
+                   f32 m08, f32 m09, f32 m10, f32 m11,
+                   f32 m12, f32 m13, f32 m14, f32 m15);
     // Some of the code has been took from
     // https://github.com/MrFrenik/gunslinger/blob/v0.02-alpha/include/math/gs_math.h
     // https://github.com/arkanis/single-header-file-c-libs/blob/master/math_3d.h
     // learnopengl.com/Getting-started/Transformations
-    m4x4_t zero_m4x4();
-    m4x4_t identity_m4x4();
-    m4x4_t diag_m4x4(f32_t val);
+    m4x4_t mk_zero_m4x4    ();
+    m4x4_t mk_identity_m4x4();
+    m4x4_t mk_diag_m4x4    (f32 val);
 
-    m4x4_t scale_m4x4_by_v3(m4x4_t mat, const v3_t vector);
-    emp_t m4x4_add(m4x4_t * m1, m4x4_t * m2); 
-    // Subtracts m1 from m2
-    emp_t m4x4_sub(m4x4_t * m1, m4x4_t * m2); 
-    m4x4_t m4x4_mult(m4x4_t m1, m4x4_t m2); 
-    v4_t m4x4_mult_v4(m4x4_t m, v4_t v);
-    v3_t m4x4_mult_v3(m4x4_t m, v3_t v);
-    m4x4_t scale_m4x4_by_v3(m4x4_t mat, const v3_t vector);
-    m4x4_t m4x4_rotate(f32_t degrees, v3_t axis);
-    m4x4_t translate_m4x4(m4x4_t mat, const v3_t vector);
-    m4x4_t mk_ortho_projection_m4x4(f32_t l, f32_t r, f32_t b, 
-                                    f32_t t, f32_t n, f32_t f);
+    m4x4_t m4x4_add    (m4x4_t m1, m4x4_t m2); 
+    m4x4_t m4x4_sub    (m4x4_t m1, m4x4_t m2); 
+    m4x4_t m4x4_mult   (m4x4_t m1, m4x4_t m2); 
+    m4x4_t m4x4_mult_n (u32 m4x4_count, ...);
+    v3_t   m4x4_mult_v3(m4x4_t m, v3_t v);
+    v4_t   m4x4_mult_v4(m4x4_t m, v4_t v);
+
+    m4x4_t m4x4_scale_by_v3(m4x4_t mat, const v3_t vector);
+    m4x4_t m4x4_translate_by_v3(m4x4_t mat, const v3_t vector);
+    m4x4_t m4x4_rotate_by_v3(f32 degrees, v3_t axis);
+
+    m4x4_t m4x4_orthographic_projection(f32 l, f32 r, f32 b, 
+                                        f32 t, f32 n, f32 f);
     
-    m4x4_t mk_perspective_projection_m4x4(f32_t fov, f32_t asp_ratio, f32_t n, f32_t f);
-    m4x4_t m4x4_mult_n(u32_t m4x4_count, ...);
+    m4x4_t m4x4_perspective_projection(f32 fov, f32 asp_ratio, f32 n, f32 f);
     m4x4_t m4x4_lookat(v3_t pos, v3_t target, v3_t up);
 
     // Add:

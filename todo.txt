@@ -1,0 +1,55 @@
+- handle allocation errors 
+- write more tests
+- use more static_assert and assert
+- ninja build system
+- learn more actual C standard library 
+- networking and threading
+- In your code, you do not handle null pointer arguments in the implementations 
+for your utility functions, which is a bad practice as it can lead to user's 
+programs crashing with no understanding to why if they decide to pass in a 
+null value. It would be better to return a error result rather than just letting
+ the code read/write to invalid memory.
+
+- prof.h encourages the use of less useful metrics. It's always preferable
+ to run a benchmark multiple times and output the average, deviation and 
+ other useful metrics, over just outputting the time of a single run. You 
+ should also consider adding compiler specific DoNotOptimize macros, that help 
+ the programmer from stopping the compiler the code that is supposed to be 
+ benchmarked. (check out https://youtu.be/nXaxk27zwlk)
+
+
+- file.c:
+- Always check the result of fseek. It can fail, such as if it's a FIFO. If it fails, 
+this function behaves as though the file is empty. You should also check the result
+ of rewind by using fseek instead.
+- The discovered file size is mistakenly multiplied by the size of a pointer, resulting 
+in an allocation 8x or 4x larger than needed when reading, and a large buffer overread 
+when writing.
+- malloc isn't checked. Even with overcommit, it can return NULL for especially large files.
+- Without the mistaken multiplication, the allocated buffer doesn't leave enough space 
+for that extra terminating null byte. It's only by that accident that it currently works at all.
+- Always check the result of fread. It might have failed to read the entire file, and so 
+load_file returns garbage, perhaps even something sensitive from a previous allocation.
+- ftell returns a long, which limits the file size to 2GB on many platforms.
+- There's no way to distinguish between an error and a file that's 4GB in length containing
+NULL followed by zeros.
+- It's not possible to write binary data, or more than 2GB, using write_file.
+- Always check the result of fwrite, and fclose (or fflush) when closing an output file.
+- For load_file, skip the fseek and ftell. Just keep freading and doubling the buffer size 
+after each read until you're done reading. That way you're not limited by the broken stdio
+ ftell interface, and it automatically works with things that aren't normal files like FIFOs.
+- IMHO, since every stdio implementation is, at best, crummy, and downright awful in many cases,
+if you're going to provide an alternative file I/O interface it's better to wrap the underlying 
+OS API than stdio so that you don't inherit stdio's crumminess.
+
+- str.c:
+All these functions have signed integer overflow when a string is longer than 2GB.
+malloc is never checked.
+str_compare makes two passes over each string when it's easy to do just one.
+str_substring is incorrect for some inputs. For instance, it fails to find "aab" in "aaab".
+str_split is O(n2) when it should be O(n).
+str_split doesn't null-terminate its result.
+str_to_i32 has signed overflow for large inputs.
+- None of these functions improve on string.h — they're all objectively worse — so they don't
+ really need to exist. If you're going to provide an alternative, it should be better, which 
+ is very easy to do since the functions in string.h are pretty bad.

@@ -1,6 +1,6 @@
-#ifndef _C_STD_UTIL
+#ifndef _UTIL_H_
 
-    #define _C_STD_UTIL
+    #define _UTIL_H_ 
     #include <types.h>
 
 
@@ -43,13 +43,13 @@
     #define set_output_bg_color(x) printf(x)
 
     
-    emp_t print(const str_t fmt, ...);
-    emp_t print_n(const str_t fmt, ...);
-    emp_t print_t(const str_t fmt, ...);
-    emp_t print_i(const str_t fmt, ...);
-    emp_t print_e(const str_t fmt, ...);
-    emp_t print_w(const str_t fmt, ...);
-    emp_t print_fe(const str_t fmt, ...);
-    emp_t print_s(const str_t fmt, ...);
+    void print(const char * fmt, ...);
+    void print_n(const char * fmt, ...);
+    void print_t(const char * fmt, ...);
+    void print_i(const char * fmt, ...);
+    void print_e(const char * fmt, ...);
+    void print_w(const char * fmt, ...);
+    void print_fe(const char * fmt, ...);
+    void print_s(const char * fmt, ...);
 
 #endif 
