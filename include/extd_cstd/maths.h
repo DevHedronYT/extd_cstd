@@ -1,8 +1,8 @@
-#ifndef _ME_H_ 
+#ifndef ME_H 
 
-    #define _ME_H_
+    #define ME_H
     
-    #include <types.h>
+    #include "./types.h"
 
     #define pi 3.141592653589793238462643383279
     #define deg_to_rad(deg) deg * (pi / 180)
@@ -36,12 +36,12 @@
     void v2_mag_set  (v2_t * v, f32 scalar);
     void v2_negate   (v2_t * v);
 
-    f32 v2_mag          (v2_t v);
-    f32 v2_angle        (v2_t v);
-    f32 v2_dot_prod     (v2_t v1, v2_t v2);
-    f32 v2_dist_between (v2_t v1, v2_t v2);
-    f32 v2_angle_between(v2_t v1, v2_t v2);
-    v2_t v2_projection(v2_t v1, v2_t v2);
+    f32  v2_mag          (v2_t v);
+    f32  v2_angle        (v2_t v);
+    f32  v2_dot_prod     (v2_t v1, v2_t v2);
+    f32  v2_dist_between (v2_t v1, v2_t v2);
+    f32  v2_angle_between(v2_t v1, v2_t v2);
+    v2_t v2_projection   (v2_t v1, v2_t v2);
 
 
     typedef struct {
@@ -63,12 +63,12 @@
     void v3_mag_set  (v3_t * v, f32 scalar);
     void v3_negate   (v3_t * v);
 
-    f32   v3_mag         (v3_t v);
-    f32   v3_dot_prod    (v3_t v1, v3_t v2);
-    v3_t  v3_cross_prod  (v3_t v1, v3_t v2);
-    f32   v3_dist_between(v3_t v1, v3_t v2); 
-    f32 v3_angle_between (v3_t v1, v3_t v2);
-    v3_t  v3_projection  (v3_t v1, v3_t v2);
+    f32   v3_mag          (v3_t v);
+    f32   v3_dot_prod     (v3_t v1, v3_t v2);
+    v3_t  v3_cross_prod   (v3_t v1, v3_t v2);
+    f32   v3_dist_between (v3_t v1, v3_t v2); 
+    f32   v3_angle_between(v3_t v1, v3_t v2);
+    v3_t  v3_projection   (v3_t v1, v3_t v2);
 
     typedef struct {
         f32 x;
@@ -125,15 +125,15 @@
     v3_t   m4x4_mult_v3(m4x4_t m, v3_t v);
     v4_t   m4x4_mult_v4(m4x4_t m, v4_t v);
 
-    m4x4_t m4x4_scale_by_v3(m4x4_t mat, const v3_t vector);
+    m4x4_t m4x4_scale_by_v3    (m4x4_t mat, const v3_t vector);
     m4x4_t m4x4_translate_by_v3(m4x4_t mat, const v3_t vector);
-    m4x4_t m4x4_rotate_by_v3(f32 degrees, v3_t axis);
+    m4x4_t m4x4_rotate_by_v3   (f32 degrees, v3_t axis);
 
     m4x4_t m4x4_orthographic_projection(f32 l, f32 r, f32 b, 
                                         f32 t, f32 n, f32 f);
     
     m4x4_t m4x4_perspective_projection(f32 fov, f32 asp_ratio, f32 n, f32 f);
-    m4x4_t m4x4_lookat(v3_t pos, v3_t target, v3_t up);
+    m4x4_t m4x4_lookat                (v3_t pos, v3_t target, v3_t up);
 
     // Add:
     //  m3x3_t 

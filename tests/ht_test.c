@@ -1,33 +1,23 @@
-#include <types.h>
-#include <util.h>
-#include <ht.h>
-#include <prof.h>
-#include <me.h>
+#include <extd_cstd/lib.h>
 
 i32 main() {
-    prof_t profiler;
-    start_profiling(&profiler, "hash table test"); 
+    ht_t table = ht_create(100);
 
-    ht_t table = create_ht(100);
-
-    insert_to_ht(&table, "player_pos", "100;100");
-    insert_to_ht(&table, "enemy_pos", "99;99");
+    ht_insert(NULL, "player_pos", "100;100");
+    ht_insert(&table, "enemy_pos", "99;99");
     m4x4_t identity = mk_identity_m4x4();
-    insert_to_ht(&table, "m4x4", &identity);
+    ht_insert(&table, "m4x4", &identity);
 
-    print_n("%s", get_from_ht(table, "player_pos"));
-    print_n("%s", get_from_ht(table, "enemy_pos"));
+    log_msg("%s", ht_get(&table, "player_pos"));
+    log_msg("%s", ht_get(&table, "enemy_pos"));
 
-    m4x4_t * identity_ptr = get_from_ht(table, "m4x4");
+    m4x4_t * identity_ptr = ht_get(&table, "m4x4");
     for (i32 x = 0; x < 4; x++) {
         for (i32 y = 0; y < 4; y++) {
-            print("%f ", identity_ptr -> elems[y][x]);
+            printf("%f ", identity_ptr -> elems[y][x]);
         }
-        print("\n");
+        printf("\n");
     }
-    end_profiling(&profiler);
-    print_n("%s", profiler.elapsed_string);    
-
 }
 
 

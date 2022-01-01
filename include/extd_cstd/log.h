@@ -1,7 +1,7 @@
-#ifndef _UTIL_H_
+#ifndef UTIL_H
 
-    #define _UTIL_H_ 
-    #include <types.h>
+    #define UTIL_H
+    #include "./types.h"
 
 
     #define DEFAULT       "\x1b[0m"
@@ -41,15 +41,33 @@
     #define BGCCYAN      "\x1b[46m"
 
     #define set_output_bg_color(x) printf(x)
-
     
-    void print(const char * fmt, ...);
-    void print_n(const char * fmt, ...);
-    void print_t(const char * fmt, ...);
-    void print_i(const char * fmt, ...);
-    void print_e(const char * fmt, ...);
-    void print_w(const char * fmt, ...);
-    void print_fe(const char * fmt, ...);
-    void print_s(const char * fmt, ...);
+    // Prints with newline at the end always 
+    // Useful for normal printing
+    void log_msg(const char * fmt, ...);
+
+    // Prints with the time
+    // Useful for logging
+    void log_time(const char * fmt, ...);
+    
+    // Prints in ANSI color green
+    // Useful for printing information 
+    void log_info(const char * fmt, ...);
+
+    // Prints in ANSI color red
+    // Useful for informing about an error to the user
+    void log_err(const char * fmt, ...);
+
+    // Prints in ANSI color yellow
+    // Useful for warning the user of something
+    void log_warn(const char * fmt, ...);
+
+    // Prints in ANSI color red and bold 
+    // Useful for informing the user about a fatal error
+    void log_fatal_err(const char * fmt, ...);
+
+    // Prints in ANSI color blue and underline
+    // Useful for an important message to the user or anything
+    void log_blue(const char * fmt, ...);
 
 #endif 

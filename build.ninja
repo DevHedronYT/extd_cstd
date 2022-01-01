@@ -1,0 +1,49 @@
+include ./config.ninja
+
+CFLAGS = ${MODE} ${VERSION} ${INCLUDES}
+
+rule CC_obj
+    command = ${CC} ${CFLAGS} -o ${out} -c ${in}
+    description = Compiling ${out}
+
+rule LINK
+    command = ${CC} -o ${out} ${in}
+    description = Linking ${out}
+
+rule AR
+    command = ${LINKER} ${out} ${in}
+    description = Linking as well ${out}
+
+
+build ${OBJ_PATH}/file.obj:  CC_obj ${SRC}/file.c
+build ${OBJ_PATH}/ht.obj:    CC_obj ${SRC}/ht.c
+build ${OBJ_PATH}/list.obj:  CC_obj ${SRC}/list.c
+build ${OBJ_PATH}/log.obj:   CC_obj ${SRC}/log.c
+build ${OBJ_PATH}/maths.obj: CC_obj ${SRC}/maths.c
+build ${OBJ_PATH}/prof.obj:  CC_obj ${SRC}/prof.c
+build ${OBJ_PATH}/str.obj:   CC_obj ${SRC}/str.c
+
+
+build ${OUT_PATH}/libextd_cstd.a: AR ${OBJ_PATH}/file.obj  $
+                                     ${OBJ_PATH}/ht.obj    $
+                                     ${OBJ_PATH}/list.obj  $
+                                     ${OBJ_PATH}/log.obj   $
+                                     ${OBJ_PATH}/maths.obj $
+                                     ${OBJ_PATH}/prof.obj  $
+                                     ${OBJ_PATH}/str.obj
+
+
+build ${OBJ_PATH}/file_test.obj: CC_obj ${TESTS}/file_test.c
+build ${OBJ_PATH}/ht_test.obj:   CC_obj ${TESTS}/ht_test.c
+build ${OBJ_PATH}/list_test.obj: CC_obj ${TESTS}/list_test.c
+build ${OBJ_PATH}/log_test.obj:  CC_obj ${TESTS}/log_test.c
+
+build ${TEST_A_PATH}/file_test.a: AR ${OBJ_PATH}/file_test.obj
+build ${TEST_A_PATH}/ht_test.a:   AR ${OBJ_PATH}/ht_test.obj
+build ${TEST_A_PATH}/list_test.a: AR ${OBJ_PATH}/list_test.obj
+build ${TEST_A_PATH}/log_test.a:  AR ${OBJ_PATH}/log_test.obj
+
+build ${OUT_PATH}/file_test.${EXT}: LINK ${TEST_A_PATH}/file_test.a ${OUT_PATH}/libextd_cstd.a
+build ${OUT_PATH}/ht_test.${EXT}:   LINK ${TEST_A_PATH}/ht_test.a   ${OUT_PATH}/libextd_cstd.a
+build ${OUT_PATH}/list_test.${EXT}: LINK ${TEST_A_PATH}/list_test.a ${OUT_PATH}/libextd_cstd.a
+build ${OUT_PATH}/log_test.${EXT}:  LINK ${TEST_A_PATH}/log_test.a  ${OUT_PATH}/libextd_cstd.a

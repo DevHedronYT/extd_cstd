@@ -1,19 +1,9 @@
-#include <stdio.h>
-#include <util.h>
-#include <stdarg.h>
-#include <time.h>
+#include <extd_cstd/lib.h>
 
 time_t current_time;
 struct tm * m_time; 
 
-void print(const char * fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-        vfprintf(stdout, fmt, args);
-    va_end(args);
-}
-
-void print_n(const char * fmt, ...) {
+void log_msg(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         vfprintf(stdout, fmt, args);
@@ -22,7 +12,7 @@ void print_n(const char * fmt, ...) {
 }
 
 
-void print_t(const char * fmt, ...) {
+void log_time(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -32,11 +22,11 @@ void print_t(const char * fmt, ...) {
                                         m_time -> tm_year + 1900,
                                         m_time -> tm_hour, 
                                         m_time -> tm_min); 
-        print_n(fmt, args); 
+        log_msg(fmt, args); 
     va_end(args);
 }
 
-void print_i(const char * fmt, ...) {
+void log_info(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -48,7 +38,7 @@ void print_i(const char * fmt, ...) {
                                         m_time -> tm_hour, 
                                         m_time -> tm_min); 
         printf("[INFO]: ");
-        print(fmt, args);
+        printf(fmt, args);
         printf("%s", DEFAULT); 
         printf("\n"); 
     
@@ -56,7 +46,7 @@ void print_i(const char * fmt, ...) {
 } 
 
 
-void print_e(const char * fmt, ...) {
+void log_err(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -68,14 +58,14 @@ void print_e(const char * fmt, ...) {
                                         m_time -> tm_hour, 
                                         m_time -> tm_min); 
         printf("[ERROR]: ");
-        print(fmt, args);
+        printf(fmt, args);
         printf("%s", DEFAULT); 
         printf("\n"); 
     
     va_end(args);
 } 
 
-void print_w(const char * fmt, ...) {
+void log_warn(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -87,14 +77,14 @@ void print_w(const char * fmt, ...) {
                                         m_time -> tm_hour, 
                                         m_time -> tm_min); 
         printf("[WARNING]: ");
-        print(fmt, args);
+        printf(fmt, args);
         printf("%s", DEFAULT); 
         printf("\n"); 
     
     va_end(args);
 }
 
-void print_fe(const char * fmt, ...) {
+void log_fatal_err(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -107,14 +97,14 @@ void print_fe(const char * fmt, ...) {
                                         m_time -> tm_hour, 
                                         m_time -> tm_min); 
         printf("[FATAL ERROR]: ");
-        print(fmt, args);
+        printf(fmt, args);
         printf("%s", DEFAULT); 
         printf("\n"); 
     
     va_end(args);   
 }
 
-void print_s(const char * fmt, ...) {
+void log_blue(const char * fmt, ...) {
     va_list args;
     va_start(args, fmt);
         time(&current_time);
@@ -127,7 +117,7 @@ void print_s(const char * fmt, ...) {
                                         m_time -> tm_hour, 
                                         m_time -> tm_min); 
         printf("[IMPORTANT]: ");
-        print(fmt, args);
+        printf(fmt, args);
         printf("%s", DEFAULT); 
         printf("\n"); 
     

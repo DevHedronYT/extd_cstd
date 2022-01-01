@@ -1,28 +1,10 @@
-#include <ht.h>
-#include <str.h>
-#include <stdlib.h>
+#include <extd_cstd/lib.h>
 
-// - Add collision handling -> linear probing 
-// - More functionality:
-//  - Add          O(1)
-//  - Remove       O(1) 
-//  - Get          O(1)
-//  - Expand       O(n)
-// - Good hash function
 
-// Capacity MUST BE power of 2
-
-ht_t create_ht(u32 capacity) {
-    ht_t table;
-    table.data = calloc(capacity, sizeof(ht_item_t*));
-    table.len = 0;
-    table.capacity = capacity;
-    return table;
-}
-
-#define FNV_OFFSET 14695981039346656037
-#define FNV_PRIME 1099511628211
+#define FNV_OFFSET 14695981039346656037UL
+#define FNV_PRIME 1099511628211UL
 u64 hash_id(const char * id) {
+    assert(id != NULL);
     u64 hash = FNV_OFFSET;
     for (const char * p = id; *p; p++) {
         hash ^= (u64)(u08)(*p);
@@ -33,23 +15,45 @@ u64 hash_id(const char * id) {
 
 // Capacity MUST BE power of 2
 void increase_ht_capacity(ht_t * ht, u32 capacity) {
+    assert(ht != NULL && capacity % 2 == 0);
     ht_t new_ht;
     new_ht.data = calloc(capacity, sizeof(ht_item_t*));
+    assert(new_ht.data != NULL);
     new_ht.len = 0;
     new_ht.capacity = capacity;
     for (u64 i = 0; i < ht -> capacity; i++) {
         if (ht -> data[i] -> val != NULL) {
-            insert_to_ht(&new_ht, ht -> data[i] -> id, ht -> data[i] -> val);
+            ht_insert(&new_ht, ht -> data[i] -> id, ht -> data[i] -> val);
         }
     }
 
-    rm_ht(ht);
+    ht_rm(ht);
     ht = &new_ht;
 }
 
+// - Add collision handling -> linear probing 
+// - More functionality:
+//  - Add          O(1)
+//  - Remove       O(1) 
+//  - Get          O(1)
+//  - Expand       O(n)
+// - Good hash function
 
-void insert_to_ht(ht_t * ht, const char * id, void * data) {
+// Capacity MUST BE power of 2
+ht_t ht_create(u32 capacity) {
+    assert(capacity % 2 == 0);
+    ht_t table;
+    table.data = calloc(capacity, sizeof(ht_item_t*));
+    assert(table.data != NULL); 
+    table.len = 0;
+    table.capacity = capacity;
+    return table;
+}
+
+void ht_insert(ht_t * ht, const char * id, void * data) {
+    assert(ht != NULL && id != NULL && data != NULL);
     ht_item_t * item = calloc(1, sizeof(ht_item_t));
+    assert(item != NULL);
     item -> hash = hash_id(id);
     item -> id = id;
     item -> val = data;
@@ -73,10 +77,11 @@ void insert_to_ht(ht_t * ht, const char * id, void * data) {
     ht -> len++;   
 } 
 
-void * get_from_ht(ht_t ht, const char * id) {
-    u64 index = hash_id(id) & (u64)(ht.capacity - 1); 
-    ht_item_t * data = ht.data[index];
-        
+void * ht_get(ht_t * ht, const char * id) {
+    assert(ht != NULL && id != NULL);
+    u64 index = hash_id(id) & (u64)(ht -> capacity - 1); 
+    ht_item_t * data = ht -> data[index];
+     
     if (data == NULL) {
         return NULL;
     }
@@ -85,12 +90,12 @@ void * get_from_ht(ht_t ht, const char * id) {
         return NULL;
     }
 
-    while (str_compare(data -> id, id) != 1) {
+    while (strcmp(data -> id, id) != 0) {
         index++; 
-        data = ht.data[index]; 
+        data = ht -> data[index]; 
     }
 
-    if (data -> val != NULL && str_compare(data -> id, id)) {
+    if (data -> val != NULL && strcmp(data -> id, id) == 0) {
         return data -> val; 
     }
 
@@ -98,7 +103,8 @@ void * get_from_ht(ht_t ht, const char * id) {
 }
 
 
-u64 rm_from_ht(ht_t * ht, const char * id) {
+u64 ht_rm_data(ht_t * ht, const char * id) {
+    assert(ht != NULL && id != NULL);
     u64 index = hash_id(id) & (u64)(ht -> capacity - 1); 
     ht_item_t * data = ht -> data[index];
     
@@ -106,12 +112,12 @@ u64 rm_from_ht(ht_t * ht, const char * id) {
         return 0;
     }
 
-    while (str_compare(data -> id, id) != 1) {
+    while (strcmp(data -> id, id) != 0) {
         index++; 
         data = ht -> data[index]; 
     }
 
-    if (data -> val != NULL && str_compare(data -> id, id)) {
+    if (data -> val != NULL && strcmp(data -> id, id) == 0) {
         data = NULL;
         ht -> data[index] = NULL;
     }
@@ -119,7 +125,8 @@ u64 rm_from_ht(ht_t * ht, const char * id) {
 }
 
 
-void rm_ht(ht_t * ht) {
+void ht_rm(ht_t * ht) {
+    assert(ht != NULL);
     for (u32 i = 0; i < ht -> capacity; i++) {
         free(ht -> data[i]);
     }

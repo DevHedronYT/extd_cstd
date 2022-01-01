@@ -1,5 +1,6 @@
-# c_std_lib
-- This is a multi-platform simple C standard library written using C99, including implementations of:
+# extd_cstd 
+- This is a multi-platform simple C library written using C99 meant to build on top of the C 
+library or improve it, including implementations of:
     - [Custom Types](./include/types.h)
     - [File I/O](./include/file.h)
     - [List](./include/list.h)
@@ -15,7 +16,7 @@
 mkdir build
 make 
 ```
-- This will output a file called `libc_std_lib.a`
+- This will output a file called `libextd_cstd.a`
 which you can use to run the programs and ..etc..
 I could maybe make this whole library header only 
 though

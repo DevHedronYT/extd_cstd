@@ -1,49 +1,46 @@
-#include <file.h>
-#include <stdlib.h>
-#include <str.h>
+#include <extd_cstd/lib.h>
 
 i08 file_exists(char * path) {
+    assert(path != NULL);
     FILE * f = fopen(path, "r");
-    if (f) {
-        fclose(f);
-        return 1;
-    }
-
-    return 0;
+    assert(f != NULL);
+    assert(fclose(f) == 0);
+    return 1;
 }
 
-file_t load_file(char * path) {
+// Maximum readable size is 2 GB
+file_info_t txt_file_query(char * path) {
+    assert(path != NULL);
     FILE * f = fopen(path, "r");
-    file_t file;
+    assert(f != NULL);
 
-    file.file = f;
+    file_info_t file;
+    file.path = path;
 
-    if (f) {
-        fseek(f, 0, SEEK_END);
-        file.len = ftell(f);
-        file.content = calloc(file.len, sizeof(char *));
-        rewind(f);
-        fread(file.content, sizeof(char), file.len, f);
-        file.content[file.len] = '\0';
-        fclose(f);
+    assert(fseek(f, 0, SEEK_END) == 0);
 
-        file.path = path;
+    file.len = ftell(f);
+    assert(file.len > -1);
 
-        return file;
-    }
-
-    else {
-        return (file_t){NULL, path, NULL, -1};
-    }
-}
-
-i08 write_file(char * content, char * path) { 
-    FILE * f = fopen(path, "wb");
+    file.content = calloc(file.len + 1, sizeof(char));
+    assert(file.content != NULL);
     
-    if (!f) { return 0;  }
-    i32 len = str_length(content);
-    fwrite(content, sizeof(char), len, f);
-    fclose(f);
+    rewind(f);
+    
+    assert(fread(file.content, sizeof(char), file.len, f) == file.len);
+    file.content[file.len + 1] = '\0';
+    
+    assert(fclose(f) == 0);
+    return file;
+}
+
+// It's not possible to write binary data, or more than 2GB, using write_file.
+i08 txt_file_write(char * content, char * path, size_t len) { 
+    assert(content != NULL && path != NULL && len > 0);
+    FILE * f = fopen(path, "wb");
+    assert(f != NULL);
+    assert(fwrite(content, sizeof(char), len, f) == len);
+    assert(fclose(f) == 0);
     return 1;
 }
 

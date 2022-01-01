@@ -1,6 +1,4 @@
-#include <types.h>
-#include <util.h>
-
-i32_t main() {
-    print_e("Error loading, just testing");
+#include <extd_cstd/lib.h>
+i32 main() {
+    log_err("lol");
 }

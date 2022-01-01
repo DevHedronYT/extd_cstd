@@ -1,19 +1,18 @@
-#include <types.h>
-#include <util.h>
-#include <file.h>
+#include <extd_cstd/lib.h>
 
-i32_t main() {
-	str_t string = "hello, world, testing write to file";
-	str_t file_name = "./file.test";
-	if (write_file(string, file_name)) {
-		print("Successfully wrote to: %s\n", file_name);
+i32 main() {
+	char * string = "hello, world, testing write to file\0";
+	char * file_name = "./file.test";
+	if (txt_file_write(string, file_name, strlen(string))) {
+		printf("Successfully wrote to: %s\n", file_name);
 	}
 	else {
-		print("Failed to write to: %s\n", file_name);	
+		printf("Failed to write to: %s\n", file_name);	
 	}
 
-	str_t file_n = "../tests/file_test.c";
-	file_t file_r = load_file(file_n);
-	print("Loaded: %s\n", file_n);
-	print("%s\n", file_r.content);
+	char * file_n = "../tests/file_test.c";
+	file_info_t file_r = txt_file_query(file_n);
+	printf("Loaded: %s\n", file_n);
+	printf("%s\n\n\n\n", file_r.content);
+	printf("%d", file_r.len);
 }

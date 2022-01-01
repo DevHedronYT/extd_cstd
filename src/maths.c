@@ -1,7 +1,4 @@
-#include <me.h>
-#include <stdarg.h>
-#include <math.h>
-#include <stdlib.h>
+#include <extd_cstd/lib.h>
 
 f32 dist2D(f32 x1, f32 y1, f32 x2, f32 y2) {
     return sqrt(sq(x2 - x1) + sq(y2 - y1));
@@ -36,11 +33,13 @@ v2_t v2_lerp(v2_t v1, v2_t v2, f32 amt) {
 
 
 void v2_scale(v2_t * v, f32 scalar) {
+    assert(v != NULL);
     v -> x *= scalar;
     v -> y *= scalar;
 }
 
 void v2_normalize(v2_t * v) {
+    assert(v != NULL);
     f32 mag = v2_mag(*v);
 
     if (mag != 1.0f) {
@@ -51,6 +50,7 @@ void v2_normalize(v2_t * v) {
 
 
 void v2_limit(v2_t * v, f32 scalar) {
+    assert(v != NULL);
     f32 len = v -> x * v -> x + v -> y * v -> y;
     f32 len_t = scalar * scalar;
     if (len > len_t) {
@@ -60,17 +60,20 @@ void v2_limit(v2_t * v, f32 scalar) {
 }
 
 void v2_rotate(v2_t * v, f32 theta) {
+    assert(v != NULL);
     f32 temp = v -> x;
     v -> x = temp * cosf(theta) - v -> y * sinf(theta);
     v -> y = temp * sinf(theta) + v -> y * cosf(theta);
 }
 
 void v2_mag_set(v2_t * v, f32 scalar) {
+    assert(v != NULL);
     v2_normalize(v);
     v2_scale(v, scalar);
 }
 
 void v2_negate(v2_t * v) {
+    assert(v != NULL);
     v -> x = -v -> x;
     v -> y = -v -> y;   
 }
@@ -140,6 +143,7 @@ v3_t v3_lerp(v3_t v1, v3_t v2, f32 amt) {
 }
 
 void v3_limit(v3_t * v, f32 scalar) {
+    assert(v != NULL);
     f32 len = sq(v -> x) + sq(v -> y);
     f32 len_t = sq(scalar);
     if (len > len_t) {
@@ -149,12 +153,14 @@ void v3_limit(v3_t * v, f32 scalar) {
 }
 
 void v3_scale(v3_t * v, f32 scalar) {
+    assert(v != NULL);
     v -> x *= scalar;
     v -> y *= scalar;
     v -> z *= scalar;
 }
 
 void v3_normalize(v3_t * v) {
+    assert(v != NULL);
     f32 mag = v3_mag(*v);
 
 
@@ -166,11 +172,13 @@ void v3_normalize(v3_t * v) {
 }
 
 void v3_mag_set(v3_t * v, f32 scalar) {
+    assert(v != NULL);
     v3_normalize(v);
     v3_scale(v, scalar);
 }
 
 void v3_negate(v3_t * v) {
+    assert(v != NULL);
     v -> x = -v -> x;
     v -> y = -v -> y;
     v -> z = -v -> z;
@@ -253,6 +261,7 @@ v4_t v4_lerp(v4_t v1, v4_t v2, f32 amt) {
 }
 
 void v4_limit(v4_t * v, f32 scalar) {
+    assert(v != NULL);
     f32 len = sq(v -> x) + sq(v -> y);
     f32 len_t = sq(scalar);
     if (len > len_t) {
@@ -262,6 +271,7 @@ void v4_limit(v4_t * v, f32 scalar) {
 }
 
 void v4_scale(v4_t * v, f32 scalar) {
+    assert(v != NULL);
     v -> x *= scalar;
     v -> y *= scalar;  
     v -> z *= scalar;
@@ -269,6 +279,7 @@ void v4_scale(v4_t * v, f32 scalar) {
 }
 
 void v4_normalize(v4_t * v) {
+    assert(v != NULL);
     f32 mag = v4_mag(*v);
     if (mag != 1.0f) {
         v -> x = v -> x / mag;
@@ -279,11 +290,13 @@ void v4_normalize(v4_t * v) {
 }
 
 void v4_mag_set(v4_t * v, f32 scalar) {
+    assert(v != NULL);
     v4_normalize(v);
     v4_scale(v, scalar); 
 }
 
 void v4_negate(v4_t * v) {
+    assert(v != NULL);
     v -> x = -v -> x;
     v -> y = -v -> y;
     v -> z = -v -> z;
