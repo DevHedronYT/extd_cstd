@@ -239,17 +239,17 @@ v3_t v3_projection(v3_t v1, v3_t v2) {
 }
 
 v4_t v4_add(v4_t v1, v4_t v2) {
-    mk_v4(v1.x + v2.x,
-          v1.y + v2.y,
-          v1.z + v2.z,
-          v1.w + v2.w);  
+    return mk_v4((v1.x + v2.x),
+          (v1.y + v2.y),
+          (v1.z + v2.z),
+          (v1.w + v2.w));  
 }
 
 v4_t v4_sub(v4_t v1, v4_t v2) {
-    mk_v4(v2.x - v1.x,
-          v2.y - v1.y,
-          v2.z - v1.z,
-          v2.w - v1.w);    
+    return mk_v4((v2.x - v1.x),
+          (v2.y - v1.y),
+          (v2.z - v1.z),
+          (v2.w - v1.w));    
 }
 
 v4_t v4_lerp(v4_t v1, v4_t v2, f32 amt) {
@@ -258,6 +258,7 @@ v4_t v4_lerp(v4_t v1, v4_t v2, f32 amt) {
     vec.y = ilerp(v1.y, v2.y, amt);   
     vec.z = ilerp(v1.z, v2.z, amt);
     vec.w = ilerp(v1.w, v2.w, amt);
+    return vec;
 }
 
 void v4_limit(v4_t * v, f32 scalar) {

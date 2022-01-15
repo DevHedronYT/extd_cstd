@@ -4,15 +4,12 @@
 
     typedef struct {
         char * content;
-        char * path;
+        const char * path;
         u32 len;
     } file_info_t;
 
-    i08         file_exists(char * path);
-    // Maximum size you can read is 2gb
-    file_info_t txt_file_query (char * path);
-    i08         txt_file_write (char * content, char * path, size_t len); 
-
-    // Implement writing binary data
+    i08         file_exists   (const char * path);
+    file_info_t txt_file_query(const char * path);
+    i08         txt_file_write(const char * content, const char * path, const size_t len); 
 
 #endif

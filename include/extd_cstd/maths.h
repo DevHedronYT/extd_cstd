@@ -143,6 +143,29 @@
     // objects
     // rays
 
+    typedef struct {
+        v2_t pos;
+        v2_t vel;
+        f32 w;
+        f32 h;
+        u08 coll_l;
+        u08 coll_r;
+        u08 coll_b;
+        u08 coll_t;
+    } phys_obj_t;
 
+    /* 
+     * Best detection using SAT 
+     * Separating Axis Theorem
+     * Add x velocity then check 
+     * horizontal collisions. Then
+     * do the same thing for vertical
+     * collisions
+    */ 
+    #define phys_obj_coll_detect(m, l) \
+        ((((m.pos.x + m.w >= l.pos.x)  && \
+           (l.pos.x + l.w >= m.pos.x)) && \
+           (m.pos.y + m.h >= l.pos.y)) && \
+           (l.pos.y + l.h >= m.pos.y))    \
 
 #endif

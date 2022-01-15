@@ -4,7 +4,7 @@ include ./tools/flags.ninja
 #   GCC
 #   CLANG
 #   TCC [not sure but you can try]
-CC = GCC
+CC = CLANG
 
 # Same for all platforms
 # except if you are using
@@ -24,4 +24,4 @@ MODE = ${DEBUG}
 
 # Choose a file extension
 # for the output
-EXT = exe 
+EXT = out 

@@ -1,6 +1,6 @@
 #include <extd_cstd/lib.h>
 
-i08 file_exists(char * path) {
+i08 file_exists(const char * path) {
     assert(path != NULL);
     FILE * f = fopen(path, "r");
     assert(f != NULL);
@@ -9,7 +9,7 @@ i08 file_exists(char * path) {
 }
 
 // Maximum readable size is 2 GB
-file_info_t txt_file_query(char * path) {
+file_info_t txt_file_query(const char * path) {
     assert(path != NULL);
     FILE * f = fopen(path, "r");
     assert(f != NULL);
@@ -35,7 +35,7 @@ file_info_t txt_file_query(char * path) {
 }
 
 // It's not possible to write binary data, or more than 2GB, using write_file.
-i08 txt_file_write(char * content, char * path, size_t len) { 
+i08 txt_file_write(const char * content, const char * path, const size_t len) { 
     assert(content != NULL && path != NULL && len > 0);
     FILE * f = fopen(path, "wb");
     assert(f != NULL);
@@ -43,5 +43,3 @@ i08 txt_file_write(char * content, char * path, size_t len) {
     assert(fclose(f) == 0);
     return 1;
 }
-
-

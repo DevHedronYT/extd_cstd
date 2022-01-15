@@ -40,7 +40,7 @@ void increase_ht_capacity(ht_t * ht, u32 capacity) {
 // - Good hash function
 
 // Capacity MUST BE power of 2
-ht_t ht_create(u32 capacity) {
+ht_t ht_create(const u32 capacity) {
     assert(capacity % 2 == 0);
     ht_t table;
     table.data = calloc(capacity, sizeof(ht_item_t*));
@@ -77,7 +77,7 @@ void ht_insert(ht_t * ht, const char * id, void * data) {
     ht -> len++;   
 } 
 
-void * ht_get(ht_t * ht, const char * id) {
+void * ht_get(const ht_t * ht, const char * id) {
     assert(ht != NULL && id != NULL);
     u64 index = hash_id(id) & (u64)(ht -> capacity - 1); 
     ht_item_t * data = ht -> data[index];

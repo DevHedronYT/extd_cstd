@@ -3,7 +3,7 @@
 i32 main() {
     ht_t table = ht_create(100);
 
-    ht_insert(NULL, "player_pos", "100;100");
+    ht_insert(&table, "player_pos", "100;100");
     ht_insert(&table, "enemy_pos", "99;99");
     m4x4_t identity = mk_identity_m4x4();
     ht_insert(&table, "m4x4", &identity);
@@ -19,5 +19,3 @@ i32 main() {
         printf("\n");
     }
 }
-
-
