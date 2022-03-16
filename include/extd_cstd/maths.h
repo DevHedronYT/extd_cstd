@@ -24,7 +24,7 @@
 
     #define mk_v2_zero() (v2_t)  { 0.0f, 0.0f }
     #define mk_v2_one () (v2_t)  { 1.0f, 1.0f }
-    #define mk_v2(_x, _y) (v2_t) { _x, _y }
+    #define mk_v2(_x, _y) (v2_t) { (_x), (_y) }
 
     v2_t v2_add      (v2_t v1, v2_t v2);
     v2_t v2_sub      (v2_t v1, v2_t v2);
@@ -45,14 +45,21 @@
 
 
     typedef struct {
-        f32 x;
-        f32 y;
-        f32 z;
+        f32 elements[3];
+        union {
+            f32 x, r;
+        };
+        union {
+            f32 y, g;
+        };
+        union {
+            f32 z, b;
+        };
     } v3_t;
 
     #define mk_v3_zero()      (v3_t) { 0.0f, 0.0f, 0.0f }
     #define mk_v3_one ()      (v3_t) { 1.0f, 1.0f, 1.0f }
-    #define mk_v3(_x, _y, _z) (v3_t) { _x, _y, _z }
+    #define mk_v3(_x, _y, _z) (v3_t) { (_x), (_y), (_z) }
 
     v3_t v3_add      (v3_t v1, v3_t v2);
     v3_t v3_sub      (v3_t v1, v3_t v2);
@@ -71,15 +78,26 @@
     v3_t  v3_projection   (v3_t v1, v3_t v2);
 
     typedef struct {
-        f32 x;
-        f32 y;
-        f32 z;
-        f32 w;
+        f32 elements[4];
+        union {
+            f32 x, r;
+        };
+        union {
+            f32 y, g;
+        };
+        union {
+            f32 z, b;
+        };
+        union {
+            f32 w, a;
+        }; 
     } v4_t;
+
+
 
     #define mk_v4_zero()          (v4_t) { 0.0f, 0.0f, 0.0f, 0.0f }
     #define mk_v4_one ()          (v4_t) { 1.0f, 1.0f, 1.0f, 1.0f }
-    #define mk_v4(_x, _y, _z, _w) (v4_t) { _x, _y, _z, _w }
+    #define mk_v4(_x, _y, _z, _w) (v4_t) { (_x), (_y), (_z), (_w) }
 
 
     v4_t v4_add      (v4_t v1, v4_t v2);
@@ -142,30 +160,5 @@
         //  
     // objects
     // rays
-
-    typedef struct {
-        v2_t pos;
-        v2_t vel;
-        f32 w;
-        f32 h;
-        u08 coll_l;
-        u08 coll_r;
-        u08 coll_b;
-        u08 coll_t;
-    } phys_obj_t;
-
-    /* 
-     * Best detection using SAT 
-     * Separating Axis Theorem
-     * Add x velocity then check 
-     * horizontal collisions. Then
-     * do the same thing for vertical
-     * collisions
-    */ 
-    #define phys_obj_coll_detect(m, l) \
-        ((((m.pos.x + m.w >= l.pos.x)  && \
-           (l.pos.x + l.w >= m.pos.x)) && \
-           (m.pos.y + m.h >= l.pos.y)) && \
-           (l.pos.y + l.h >= m.pos.y))    \
 
 #endif

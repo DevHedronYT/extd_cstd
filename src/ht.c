@@ -50,7 +50,7 @@ ht_t ht_create(const u32 capacity) {
     return table;
 }
 
-void ht_insert(ht_t * ht, const char * id, void * data) {
+u64 ht_insert(ht_t * ht, const char * id, void * data) {
     assert(ht != NULL && id != NULL && data != NULL);
     ht_item_t * item = calloc(1, sizeof(ht_item_t));
     assert(item != NULL);
@@ -75,6 +75,7 @@ void ht_insert(ht_t * ht, const char * id, void * data) {
     } 
 
     ht -> len++;   
+    return index;
 } 
 
 void * ht_get(const ht_t * ht, const char * id) {

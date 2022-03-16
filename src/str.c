@@ -3,16 +3,14 @@
 char * i32_to_str(i32 num) {
     char * string = calloc(64, sizeof(char)); 
     assert(string != NULL);
-    snprintf(string, 63, "%d", num); 
-    string[64] = '\0';
+    snprintf(string, 64, "%d", num); 
     return string;
 }
 
 char * f64_to_str(f64 num) {
     char * string = malloc(64); 
     assert(string != NULL);
-    snprintf(string, 39, "%f", num); 
-    string[40] = '\0';
+    snprintf(string, 64, "%f", num); 
     return string;   
 }
 

@@ -15,7 +15,7 @@
     } ht_t; 
 
     ht_t   ht_create (const u32 capacity);
-    void   ht_insert (ht_t * ht, const char * id, void * data); 
+    u64    ht_insert (ht_t * ht, const char * id, void * data); 
     void * ht_get    (const ht_t * ht, const char * id);
     u64    ht_rm_data(ht_t * ht, const char * id);
     void   ht_rm     (ht_t * ht);

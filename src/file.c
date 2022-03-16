@@ -3,9 +3,10 @@
 i08 file_exists(const char * path) {
     assert(path != NULL);
     FILE * f = fopen(path, "r");
-    assert(f != NULL);
-    assert(fclose(f) == 0);
-    return 1;
+    if (f) {
+        return 1;
+    }
+    return 0;
 }
 
 // Maximum readable size is 2 GB
@@ -20,7 +21,7 @@ file_info_t txt_file_query(const char * path) {
     assert(fseek(f, 0, SEEK_END) == 0);
 
     file.len = ftell(f);
-    assert(file.len > -1);
+    assert(!(file.len > -1));
 
     file.content = calloc(file.len + 1, sizeof(char));
     assert(file.content != NULL);
