@@ -8,7 +8,7 @@ char * i32_to_str(i32 num) {
 }
 
 char * f64_to_str(f64 num) {
-    char * string = malloc(64); 
+    char * string = calloc(64, sizeof(char)); 
     assert(string != NULL);
     snprintf(string, 64, "%f", num); 
     return string;   
